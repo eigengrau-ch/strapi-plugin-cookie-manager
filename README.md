@@ -1,1 +1,3 @@
-# strapi-plugin-cookie-manager
+# Strapi plugin cookie-manager
+
+A quick description of cookie-manager.
