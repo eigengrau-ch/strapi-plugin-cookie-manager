@@ -1,0 +1,26 @@
+[
+  {
+    "method": "GET",
+    "path": "/config",
+    "handler": "plugin.config",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "PUT",
+    "path": "/config/update",
+    "handler": "plugin.updateConfig",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/locales",
+    "handler": "plugin.locales",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  }
+]

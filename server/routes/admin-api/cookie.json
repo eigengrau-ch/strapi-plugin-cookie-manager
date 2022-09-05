@@ -1,0 +1,34 @@
+[
+  {
+    "method": "POST",
+    "path": "/cookie/create",
+    "handler": "cookie.create",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/cookie/find",
+    "handler": "cookie.find",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "PUT",
+    "path": "/cookie/update/:id",
+    "handler": "cookie.update",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "DELETE",
+    "path": "/cookie/delete/:id",
+    "handler": "cookie.delete",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  }
+]

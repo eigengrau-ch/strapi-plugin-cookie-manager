@@ -1,0 +1,12 @@
+[
+  {
+    "method": "GET",
+    "path": "/category/:id",
+    "handler": "cookie-category.findOne"
+  },
+  {
+    "method": "GET",
+    "path": "/categories",
+    "handler": "cookie-category.find"
+  }
+]

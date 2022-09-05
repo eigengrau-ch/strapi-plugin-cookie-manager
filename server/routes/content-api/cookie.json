@@ -1,0 +1,12 @@
+[
+  {
+    "method": "GET",
+    "path": "/cookie/:id",
+    "handler": "cookie.findOne"
+  },
+  {
+    "method": "GET",
+    "path": "/cookies",
+    "handler": "cookie.find"
+  }
+]
