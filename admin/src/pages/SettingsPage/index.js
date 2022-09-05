@@ -28,127 +28,127 @@ import cookieManagerRequests from "../../api/cookie-manager"
 import schema from "./form-validation";
 
 const SettingsPage = () => {
-	const [config, setConfig] = useState({})
-	const [configIsLoading, setConfigIsLoading] = useState(true)
+  const [config, setConfig] = useState({})
+  const [configIsLoading, setConfigIsLoading] = useState(true)
 
-	const { formatMessage } = useIntl();
-	const { lockApp, unlockApp } = useOverlayBlocker();
-	const toggleNotification = useNotification();
+  const { formatMessage } = useIntl();
+  const { lockApp, unlockApp } = useOverlayBlocker();
+  const toggleNotification = useNotification();
 
-	const getConfigData = async () => {
-		const config = await cookieManagerRequests.getConfig()
+  const getConfigData = async () => {
+    const config = await cookieManagerRequests.getConfig()
 
-		setConfig(config)
-		setConfigIsLoading(false)
-	}
+    setConfig(config)
+    setConfigIsLoading(false)
+  }
 
-	const updateConfig = async (data) => {
-		await cookieManagerRequests.updateConfig(data);
-	}
+  const updateConfig = async (data) => {
+    await cookieManagerRequests.updateConfig(data);
+  }
 
-	const handleSubmit = (body, form) => {
-		try {
-			lockApp()
-			updateConfig(body)
-		} catch {
-			toggleNotification({
-				type: "warning",
-				message: { id: "Error on save", defaultMessage: "An error occured" },
-			});
-			unlockApp()
-			form.setSubmitting(false)
-		} finally {
-			toggleNotification({
-				type: "success",
-				message: { id: "Successfully saved configuration", defaultMessage: "Saved" },
-			});
-			unlockApp()
-			form.setSubmitting(false)
-		}
-	}
+  const handleSubmit = (body, form) => {
+    try {
+      lockApp()
+      updateConfig(body)
+    } catch {
+      toggleNotification({
+        type: "warning",
+        message: { id: "Error on save", defaultMessage: "An error occured" },
+      });
+      unlockApp()
+      form.setSubmitting(false)
+    } finally {
+      toggleNotification({
+        type: "success",
+        message: { id: "Successfully saved configuration", defaultMessage: "Saved" },
+      });
+      unlockApp()
+      form.setSubmitting(false)
+    }
+  }
 
-	useEffect(async () => {
-		await getConfigData()
-	}, [])
+  useEffect(async () => {
+    await getConfigData()
+  }, [])
 
-	return (
-		<Main>
-			<Formik
-				onSubmit={handleSubmit}
-				initialValues={config}
-				validateOnChange={false}
-				validation={schema}
-				enableReinitialize
-			>
-				{({
-					values,
-					handleChange,
-					isSubmitting
-				}) => (
-					<Form>
-						<HeaderLayout
-							title={formatMessage({
-								id: getTrad("settings.header.title"),
-								defaultMessage: pluginName
-							})}
-							subtitle={formatMessage({
-								id: getTrad("settings.header.description"),
-								defaultMessage: "Configure the settings for the Cookie Manager plugin"
-							})}
-							as="h2"
-							primaryAction={
-								<Button
-									loading={isSubmitting}
-									type="submit"
-									startIcon={<Check />}
-									size="L"
-								>
-									{formatMessage({ id: "global.save", defaultMessage: "Save" })}
-								</Button>
-							}
-						/>
-						<ContentLayout>
-							<Box background="neutral0" hasRadius shadow="filterShadow" padding={6}>
-								{
-									(configIsLoading)
-										? <LoadingIndicatorPage />
-										: <Stack spacing={6} alignItems="flex-start">
-											<Typography variant="beta" as="h2">
-												{formatMessage({
-													id: getTrad("settings.form.title"),
-													defaultMessage: "Settings"
-												})}
-											</Typography>
-											<ToggleInput
-												hint={formatMessage({
-													id: getTrad("settings.form.field.localization.hint"),
-													defaultMessage: "Enable localization for this plugin"
-												})}
-												label={formatMessage({
-													id: getTrad("settings.form.field.localization.label"),
-													defaultMessage: "Internationalization"
-												})}
-												name="localization"
-												onLabel={formatMessage({
-													id: getTrad("settings.form.field.localization.option.a"),
-													defaultMessage: "True"
-												})}
-												offLabel={formatMessage({
-													id: getTrad("settings.form.field.localization.option.b"),
-													defaultMessage: "False"
-												})}
-												checked={values.localization}
-												onChange={handleChange}
-											/>
-										</Stack>
-								}
-							</Box>
-						</ContentLayout>
-					</Form>
-				)}
-			</Formik>
-		</Main>
-	);
+  return (
+    <Main>
+      <Formik
+        onSubmit={handleSubmit}
+        initialValues={config}
+        validateOnChange={false}
+        validation={schema}
+        enableReinitialize
+      >
+        {({
+          values,
+          handleChange,
+          isSubmitting
+        }) => (
+          <Form>
+            <HeaderLayout
+              title={formatMessage({
+                id: getTrad("settings.header.title"),
+                defaultMessage: pluginName
+              })}
+              subtitle={formatMessage({
+                id: getTrad("settings.header.description"),
+                defaultMessage: "Configure the settings for the Cookie Manager plugin"
+              })}
+              as="h2"
+              primaryAction={
+                <Button
+                  loading={isSubmitting}
+                  type="submit"
+                  startIcon={<Check />}
+                  size="L"
+                >
+                  {formatMessage({ id: "global.save", defaultMessage: "Save" })}
+                </Button>
+              }
+            />
+            <ContentLayout>
+              <Box background="neutral0" hasRadius shadow="filterShadow" padding={6}>
+                {
+                  (configIsLoading)
+                    ? <LoadingIndicatorPage />
+                    : <Stack spacing={6} alignItems="flex-start">
+                      <Typography variant="beta" as="h2">
+                        {formatMessage({
+                          id: getTrad("settings.form.title"),
+                          defaultMessage: "Settings"
+                        })}
+                      </Typography>
+                      <ToggleInput
+                        hint={formatMessage({
+                          id: getTrad("settings.form.field.localization.hint"),
+                          defaultMessage: "Enable localization for this plugin"
+                        })}
+                        label={formatMessage({
+                          id: getTrad("settings.form.field.localization.label"),
+                          defaultMessage: "Internationalization"
+                        })}
+                        name="localization"
+                        onLabel={formatMessage({
+                          id: getTrad("settings.form.field.localization.option.a"),
+                          defaultMessage: "True"
+                        })}
+                        offLabel={formatMessage({
+                          id: getTrad("settings.form.field.localization.option.b"),
+                          defaultMessage: "False"
+                        })}
+                        checked={values.localization}
+                        onChange={handleChange}
+                      />
+                    </Stack>
+                }
+              </Box>
+            </ContentLayout>
+          </Form>
+        )}
+      </Formik>
+    </Main>
+  );
 };
 
 export default SettingsPage;

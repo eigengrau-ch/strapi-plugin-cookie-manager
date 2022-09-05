@@ -13,14 +13,14 @@ const policies = require("./policies");
 const services = require("./services");
 
 module.exports = {
-	register,
-	bootstrap,
-	destroy,
-	config,
-	controllers,
-	routes,
-	services,
-	contentTypes,
-	policies,
-	middlewares,
+  register,
+  bootstrap,
+  destroy,
+  config,
+  controllers,
+  routes,
+  services,
+  contentTypes,
+  policies,
+  middlewares,
 };

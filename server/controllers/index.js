@@ -6,7 +6,7 @@ const cookie = require("./cookie");
 const cookieCategory = require("./cookie-category");
 
 module.exports = {
-	"plugin": plugin,
-	"cookie": cookie,
-	"cookie-category": cookieCategory,
+  "plugin": plugin,
+  "cookie": cookie,
+  "cookie-category": cookieCategory,
 };

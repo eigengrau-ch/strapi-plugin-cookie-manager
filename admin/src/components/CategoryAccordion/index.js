@@ -19,67 +19,67 @@ import { getTrad } from "../../utils";
 
 const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expandedStates, setExpandedStates, setShowCreateCookieModal, setShowUpdateCategoryModal, setShowDeleteCategoryModal, children }) => {
 
-	const { formatMessage } = useIntl();
-	const isExpanded = first(expandedStates.filter(state => state.id === category.id)).isExpanded
+  const { formatMessage } = useIntl();
+  const isExpanded = first(expandedStates.filter(state => state.id === category.id)).isExpanded
 
-	return (
-		<Accordion
-			expanded={isExpanded}
-			onToggle={() => setExpandedStates([...expandedStates.map(state => {
-				if (state.id === category.id) state.isExpanded = (!isExpanded)
-				return state
-			})])}
-			id={`acc-${category.id}`}
-		>
-			<AccordionToggle
-				variant="secondary"
-				action={
-					<Stack horizontal spacing={4}>
-						<IconButton
-							onClick={() => {
-								setCategory(category)
-								setShowCreateCookieModal(true)
-							}}
-							label={formatMessage({
-								id: getTrad("popup.cookie.form.header.title.create"),
-								defaultMessage: "Create new Cookie"
-							})}
-							icon={<Plus />}
-						/>
-						<IconButton
-							onClick={() => {
-								setCategory(category)
-								setShowUpdateCategoryModal(true)
-							}}
-							label={formatMessage({
-								id: getTrad("popup.cookie.form.header.title.update"),
-								defaultMessage: "Update Category"
-							})}
-							icon={<Pencil />}
-						/>
-						<IconButton
-							onClick={() => {
-								setCategory(category)
-								setCookies(cookies)
-								setShowDeleteCategoryModal(true)
-							}}
-							label={formatMessage({
-								id: getTrad("popup.cookie.form.header.title.delete"),
-								defaultMessage: "Delete Category"
-							})}
-							icon={<Trash />}
-						/>
-					</Stack>
-				}
-				title={category.name}
-				description={category.description}
-				togglePosition="left"
-			/>
-			<AccordionContent>
-				{children}
-			</AccordionContent>
-		</Accordion>
-	)
+  return (
+    <Accordion
+      expanded={isExpanded}
+      onToggle={() => setExpandedStates([...expandedStates.map(state => {
+        if (state.id === category.id) state.isExpanded = (!isExpanded)
+        return state
+      })])}
+      id={`acc-${category.id}`}
+    >
+      <AccordionToggle
+        variant="secondary"
+        action={
+          <Stack horizontal spacing={4}>
+            <IconButton
+              onClick={() => {
+                setCategory(category)
+                setShowCreateCookieModal(true)
+              }}
+              label={formatMessage({
+                id: getTrad("popup.cookie.form.header.title.create"),
+                defaultMessage: "Create new Cookie"
+              })}
+              icon={<Plus />}
+            />
+            <IconButton
+              onClick={() => {
+                setCategory(category)
+                setShowUpdateCategoryModal(true)
+              }}
+              label={formatMessage({
+                id: getTrad("popup.cookie.form.header.title.update"),
+                defaultMessage: "Update Category"
+              })}
+              icon={<Pencil />}
+            />
+            <IconButton
+              onClick={() => {
+                setCategory(category)
+                setCookies(cookies)
+                setShowDeleteCategoryModal(true)
+              }}
+              label={formatMessage({
+                id: getTrad("popup.cookie.form.header.title.delete"),
+                defaultMessage: "Delete Category"
+              })}
+              icon={<Trash />}
+            />
+          </Stack>
+        }
+        title={category.name}
+        description={category.description}
+        togglePosition="left"
+      />
+      <AccordionContent>
+        {children}
+      </AccordionContent>
+    </Accordion>
+  )
 }
 
 export default CategoryAccordion
