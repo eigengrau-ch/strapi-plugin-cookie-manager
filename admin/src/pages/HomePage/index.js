@@ -28,7 +28,7 @@ import { getTrad } from "../../utils";
 import cookieManagerRequests from "../../api/cookie-manager"
 
 const HomePage = () => {
-	
+
 	const { formatMessage } = useIntl();
 
 	const [cookieData, setCookieData] = useState([])
@@ -45,7 +45,7 @@ const HomePage = () => {
 	const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false)
 	const [showUpdateCategoryModal, setShowUpdateCategoryModal] = useState(false)
 	const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false)
-	
+
 	const [cookieIsLoading, setCookieIsLoading] = useState(true)
 	const [categoryIsLoading, setCategoryIsLoading] = useState(true)
 	const [configIsLoading, setConfigIsLoading] = useState(true)
@@ -56,7 +56,7 @@ const HomePage = () => {
 	const [currentCookies, setCurrentCookies] = useState([])
 	const [currentLocale, setCurrentLocale] = useState(null)
 
-    const [expandedStates, setExpandedStates] = useState([]);
+	const [expandedStates, setExpandedStates] = useState([]);
 
 	const setCookies = async () => {
 		setCookieIsLoading(true)
@@ -138,7 +138,7 @@ const HomePage = () => {
 	useEffect(async () => {
 		await setCategories()
 		await setCookies()
-	 }, [currentLocale]);
+	}, [currentLocale]);
 
 	const isLoading = !(!cookieIsLoading && !categoryIsLoading && !configIsLoading && !localeIsLoading)
 
@@ -158,19 +158,20 @@ const HomePage = () => {
 					primaryAction={
 						<Stack horizontal spacing={4}>
 							{(categoryData.length > 0) && (
-									<Button
-										startIcon={<Plus />}
-										onClick={() => {
-											setCurrentCategory(null)
-											setShowCreateCookieModal(true)}
-										}
-									>
-										{formatMessage({
-											id: getTrad("header.cta.create"),
-											defaultMessage: "Create new cookie"
-										})}
-										
-									</Button>
+								<Button
+									startIcon={<Plus />}
+									onClick={() => {
+										setCurrentCategory(null)
+										setShowCreateCookieModal(true)
+									}
+									}
+								>
+									{formatMessage({
+										id: getTrad("header.cta.create"),
+										defaultMessage: "Create new cookie"
+									})}
+
+								</Button>
 							)}
 							{(configData.localization) && (
 								<Select
@@ -274,7 +275,8 @@ const HomePage = () => {
 														variant="secondary"
 														onClick={() => {
 															setCurrentCategory(category)
-															setShowCreateCookieModal(true)}
+															setShowCreateCookieModal(true)
+														}
 														}
 													>{formatMessage({
 														id: getTrad("empty.cookie.cta"),

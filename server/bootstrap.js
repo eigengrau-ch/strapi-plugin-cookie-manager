@@ -59,8 +59,8 @@ module.exports = ({ strapi }) => {
 			const uid = `api::${name}.${name}`
 			const withEmptyAttributes = { ...contentType, ...{ "attributes": {} } }
 
-			isLastIndex = ((contentTypes.length-1) === index)
-			
+			isLastIndex = ((contentTypes.length - 1) === index)
+
 			if (!isExistent) {
 				await createContentType(withEmptyAttributes)
 			} else {
