@@ -120,6 +120,32 @@ module.exports = ({ env }) => ({
 | ---------------- | ---------------- | ------- |
 | localization     | Boolean          | true    |
 
+### API Fields
+
+**Category**
+```json
+{
+  "name": "Necessary Cookies",
+  "description": "These cookies are required to enable the basic features of this site, such as adjusting your consent preferences. These cookies do not share any personally identifiable data.",
+  "locale": "de"
+}
+```
+**Cookie**
+```json
+{
+  "name": "Cookies Necessary",
+  "description": "We set this cookie to remember the consent of users for the use of cookies in the \"Necessary\" category.",
+  "host": "mydomain.com",
+  "party": "First-party",
+  "isVisible": true,
+  "duration": {
+    "days": 365,
+    "hours": 0,
+    "minutes": 0
+  },
+  "locale": "de"
+}
+```
 
 ## 👉 Good to know
 
