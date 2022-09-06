@@ -169,4 +169,4 @@ If this plugin was helpful, dont hesitate giving this plugin a ⭐️.
 
 ## 📝 Licence
 
-[MIT Licence](https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/LICENSE) copyright (c) 2022 [eigengrau GmbH](https://eigengrau.ch) & [Strapi Inc](https://strapi.io/)
+[MIT Licence](https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/LICENSE) copyright (c) 2022 [eigengrau GmbH](https://eigengrau.ch) & [Strapi Solutions](https://strapi.io/)
