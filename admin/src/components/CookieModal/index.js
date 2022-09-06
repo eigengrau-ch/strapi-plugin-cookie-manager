@@ -117,7 +117,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       setNameValidation(await validateField({ name: fields.name }, "name"))
       setDescriptionValidation(await validateField({ description: fields.description }, "description"))
       setHostValidation(await validateField({ host: fields.host }, "host"))
-      setCategoryValidation(await validateField({ category: fields.category.name }, "category"))
+      setCategoryValidation(await validateField({ category: fields.category }, "category"))
       setPartyValidation(await validateField({ party: fields.party }, "party"))
       setDurationDaysValidation(await validateField({ durationDays: fields.durationDays }, "durationDays"))
       setDurationHoursValidation(await validateField({ durationHours: fields.durationHours }, "durationHours"))
