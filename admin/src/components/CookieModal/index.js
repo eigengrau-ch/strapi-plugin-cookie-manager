@@ -103,7 +103,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       name: name,
       description: description,
       host: host,
-      category: category,
+      category: category.name,
       party: party,
       isVisible: isVisible,
       duration: duration,
