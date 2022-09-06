@@ -93,9 +93,9 @@ Now the Cookie Manager should appear inside the Plugins section on the left hand
 
 ## 🔧 Configuration
 
-Currently there is only one option for the plugin settings.
+Currently there is only one option for the plugin settings. You can change the plugin settings inside the Strapi admin panel under:
 
-You can change the plugin settings inside the Strapi admin panel under `Strapi Settings -> Cookie Manager -> Configuration`.
+`Strapi Settings -> Cookie Manager -> Configuration`
 
 <img style="margin-bottom: 20px;" src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-settings.jpg" alt="Screenshot of the Cookie Manager settings pahe" />
 
@@ -120,7 +120,7 @@ module.exports = ({ env }) => ({
 | ---------------- | ---------------- | ------- |
 | localization     | Boolean          | true    |
 
-### API Fields
+## 🔌 API Fields
 
 **Category**
 ```json
@@ -151,6 +151,8 @@ module.exports = ({ env }) => ({
 
 Internationalization is enabled per default, even if `disabled`! Disabling it just hides the possibility to edit multiple locales.
 
+This plugin generates content types `cookies` and `cookie-categories` in your content manager (not plugin content type). Those will be hidden the content manager per default.
+
 
 ## 🤝 Contributing
 
@@ -159,8 +161,11 @@ If you like to enhance, fix or just helping improving the quality or security of
 
 ## ❤️ Support the plugin
 
-If this plugin was helpful, dont hesitate giving this plugin a ⭐️.
+If this plugin was helpful, dont hesitate giving a ⭐️.
 
+## ✨ Special Thanks
+
+@Daedalus, @Eventyret
 
 ## 🔗 Links
 - [NPM Package](https://www.npmjs.com/package/strapi-plugin-cookie-manager)
