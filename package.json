@@ -29,6 +29,9 @@
     "node": ">=12.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
+  "bugs": {
+    "url": "https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/issues"
+  },
   "maintainers": [
     {
       "name": "Sascha Kycia",
@@ -40,7 +43,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eigengrau/strapi-plugin-cookie-manager.git"
+    "url": "git+https://github.com/eigengrau-ch/strapi-plugin-cookie-manager.git"
   },
   "keywords": [
     "strapi",
