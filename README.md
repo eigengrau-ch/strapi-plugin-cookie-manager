@@ -1,5 +1,5 @@
 <div align="center" width="150px">
-  <img style="width: 150px; height: auto;" src="public/plugin-icon.png" alt="Logo - Strapi Cookie Manager" />
+  <img style="width: 150px; height: auto;" src="public/plugin-cookie-icon.png" alt="Cookie Manager Icon" />
 </div>
 
 <div align="center">
