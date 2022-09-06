@@ -2,7 +2,7 @@
   "kind": "collectionType",
   "singularName": "cookie-category",
   "pluralName": "cookie-categories",
-  "displayName": "Cookie Category",
+  "displayName": "Cookie Categories",
   "draftAndPublish": false,
   "pluginOptions": {
     "i18n": {
