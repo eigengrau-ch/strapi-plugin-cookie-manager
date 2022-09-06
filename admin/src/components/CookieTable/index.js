@@ -107,8 +107,8 @@ const CookieTable = ({
 
   const createRowCheckboxState = (cookie) => {
     const stateExists = (selectedRowCheckboxes.filter(obj => (obj.id === cookie.id)).length > 0)
-    if(!stateExists) {
-       setSelectedRowCheckboxes([{ id: cookie.id, isSelected: false, cookie: cookie }, ...selectedRowCheckboxes])
+    if (!stateExists) {
+      setSelectedRowCheckboxes([{ id: cookie.id, isSelected: false, cookie: cookie }, ...selectedRowCheckboxes])
     } else {
       updateRowState(selectedRowCheckboxes, setSelectedRowCheckboxes)
     }
@@ -116,17 +116,17 @@ const CookieTable = ({
 
   const createRowSwitchState = (cookie) => {
     const stateExists = (checkedRowSwitch.filter(obj => (obj.id === cookie.id)).length > 0)
-    if(!stateExists) {
+    if (!stateExists) {
       setCheckedRowSwitch([{ id: cookie.id, isChecked: cookie.isVisible, cookie: cookie }, ...checkedRowSwitch])
     } else {
       updateRowState(checkedRowSwitch, setCheckedRowSwitch)
     }
   }
 
-    let cookieTable = {
-        columns: <>
-            <Th>
-                <BaseCheckbox
+  let cookieTable = {
+    columns: <>
+      <Th>
+        <BaseCheckbox
           onValueChange={isSelected => handleHeadCheckboxToggle(isSelected)}
           value={headCheckboxBoolean}
           indeterminate={isIndeterminated}
@@ -135,51 +135,51 @@ const CookieTable = ({
             defaultMessage: "Select all entries"
           })}
         />
-            </Th>
-            <Th>
-                <Typography variant="sigma">
+      </Th>
+      <Th>
+        <Typography variant="sigma">
           {formatMessage({
             id: getTrad("popup.cookie.form.field.name.label"),
             defaultMessage: "Name"
           })}
         </Typography>
-            </Th>
-            <Th>
-                <Typography variant="sigma">
+      </Th>
+      <Th>
+        <Typography variant="sigma">
           {formatMessage({
             id: getTrad("popup.cookie.form.field.description.label"),
             defaultMessage: "Description"
           })}
         </Typography>
-            </Th>
-            <Th>
-                <Typography variant="sigma">
+      </Th>
+      <Th>
+        <Typography variant="sigma">
           {formatMessage({
             id: getTrad("popup.cookie.form.field.host.label"),
             defaultMessage: "Host"
           })}
         </Typography>
-            </Th>
-            <Th>
-                <Typography variant="sigma">
+      </Th>
+      <Th>
+        <Typography variant="sigma">
           {formatMessage({
             id: getTrad("popup.cookie.form.field.isVisible.label"),
             defaultMessage: "Is Visible"
           })}
         </Typography>
-            </Th>
-            <Th>
-                <VisuallyHidden>{formatMessage({
-            id: getTrad("table.actions"),
-            defaultMessage: "Actions"
-          })}
+      </Th>
+      <Th>
+        <VisuallyHidden>{formatMessage({
+          id: getTrad("table.actions"),
+          defaultMessage: "Actions"
+        })}
         </VisuallyHidden>
-            </Th>
-        </>,
-        rows: cookies.map((cookie) => {
+      </Th>
+    </>,
+    rows: cookies.map((cookie) => {
       createRowCheckboxState(cookie)
       createRowSwitchState(cookie)
-      
+
       return (
         <Tr key={cookie.id}>
           <Td>
@@ -213,7 +213,8 @@ const CookieTable = ({
               selected={getCurrentSwitchValue(cookie.id)}
               onChange={() => {
                 setCookie(cookie)
-                handleRowSwitchToggle(cookie)}
+                handleRowSwitchToggle(cookie)
+              }
               }
             />
           </Td>
@@ -257,9 +258,9 @@ const CookieTable = ({
         </Tr>
       )
     })
-    }
-    
-    return (
+  }
+
+  return (
     <>
       <Box paddingLeft={7} paddingRight={7} paddingTop={7} paddingBottom={7}>
         <Box paddingBottom={4}>
@@ -286,7 +287,7 @@ const CookieTable = ({
                 </Typography>
               </Flex>
             </Box>
-            {!isNoneSelected() && 
+            {!isNoneSelected() &&
               <Box paddingLeft={4} paddingRight={4}>
                 <Flex gap={2} justifyContent="flex-end">
                   <Button
@@ -326,7 +327,7 @@ const CookieTable = ({
             setCategory(category)
             setShowCreateCookieModal(true)
           }}
-          icon={<Plus />}>
+            icon={<Plus />}>
             {formatMessage({
               id: getTrad("table.actions.create"),
               defaultMessage: "Create new Cookie"
@@ -344,7 +345,7 @@ const CookieTable = ({
         </Table>
       </Box>
     </>
-    )
+  )
 }
 
 export default CookieTable

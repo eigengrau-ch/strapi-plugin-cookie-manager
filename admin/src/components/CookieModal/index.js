@@ -34,7 +34,7 @@ import { getTrad } from "../../utils";
 import validationSchema from "./validation"
 
 const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedCategory = null, cookie = {} }) => {
-  
+
   const { formatMessage } = useIntl();
   const hasPreservedCategory = (preservedCategory !== null)
   const isUpdate = (cookie["id"] !== undefined)
@@ -46,7 +46,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
   const [host, setHost] = useState(cookie.host || "");
   const [party, setParty] = useState(cookie.party || "");
   const [category, setCategory] = useState(cookie.category || (hasPreservedCategory ? preservedCategory : {}));
-  const [duration, setDuration] = useState(cookie.duration || {days: 0, hours: 0, minutes: 0});
+  const [duration, setDuration] = useState(cookie.duration || { days: 0, hours: 0, minutes: 0 });
 
   const [nameValidation, setNameValidation] = useState([]);
   const [descriptionValidation, setDescriptionValidation] = useState([]);
@@ -75,7 +75,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       }
 
       try {
-        await crudAction((id) ? { id: id, ...fields} : {...fields});
+        await crudAction((id) ? { id: id, ...fields } : { ...fields });
         setShowModal(false);
       } catch (e) {
         console.log("error", e);
@@ -103,10 +103,12 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       name: name,
       description: description,
       host: host,
-      category: category,
+      category: category.name,
       party: party,
       isVisible: isVisible,
-      duration: duration,
+      durationDays: duration.days,
+      durationHours: duration.hours,
+      durationMinutes: duration.minutes,
     }
 
     const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
@@ -115,11 +117,11 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       setNameValidation(await validateField({ name: fields.name }, "name"))
       setDescriptionValidation(await validateField({ description: fields.description }, "description"))
       setHostValidation(await validateField({ host: fields.host }, "host"))
-      setCategoryValidation(await validateField({ category: fields.category.name }, "category"))
+      setCategoryValidation(await validateField({ category: fields.category }, "category"))
       setPartyValidation(await validateField({ party: fields.party }, "party"))
-      setDurationDaysValidation(await validateField({ durationDays: fields.duration.days }, "durationDays"))
-      setDurationHoursValidation(await validateField({ durationHours: fields.duration.days }, "durationHours"))
-      setDurationMinutesValidation(await validateField({ durationMinutes: fields.duration.days }, "durationMinutes"))
+      setDurationDaysValidation(await validateField({ durationDays: fields.durationDays }, "durationDays"))
+      setDurationHoursValidation(await validateField({ durationHours: fields.durationHours }, "durationHours"))
+      setDurationMinutesValidation(await validateField({ durationMinutes: fields.durationMinutes }, "durationMinutes"))
     }
 
     return validationSuccess
@@ -140,8 +142,8 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
   }
 
   const handleDurationChange = (value, timeType) => {
-    if(value === undefined) value = null
-    switch(timeType) {
+    if (value === undefined) value = null
+    switch (timeType) {
       case "d": setDuration({ ...duration, days: value }); break
       case "h": setDuration({ ...duration, hours: value }); break
       case "m": setDuration({ ...duration, minutes: value }); break
@@ -165,14 +167,14 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
             })
           ) : (
             (isUpdate)
-            ? formatMessage({
-              id: getTrad("popup.cookie.form.header.title.update"),
-              defaultMessage: "Update Cookie"
-            })
-            : formatMessage({
-              id: getTrad("popup.cookie.form.header.title.create"),
-              defaultMessage: "Create new Cookie"
-            })
+              ? formatMessage({
+                id: getTrad("popup.cookie.form.header.title.update"),
+                defaultMessage: "Update Cookie"
+              })
+              : formatMessage({
+                id: getTrad("popup.cookie.form.header.title.create"),
+                defaultMessage: "Create new Cookie"
+              })
           )}
         </Typography>
       </ModalHeader>
@@ -375,18 +377,18 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
             </Button>
           ) : (
             (isUpdate)
-            ? <Button type="submit">
-              {formatMessage({
-                id: getTrad("popup.cookie.form.cta.update"),
-                defaultMessage: "Update Cookie"
-              })}
-            </Button>
-            : <Button type="submit">
-              {formatMessage({
-                id: getTrad("popup.cookie.form.cta.create"),
-                defaultMessage: "Add new Cookie"
-              })}
-            </Button>
+              ? <Button type="submit">
+                {formatMessage({
+                  id: getTrad("popup.cookie.form.cta.update"),
+                  defaultMessage: "Update Cookie"
+                })}
+              </Button>
+              : <Button type="submit">
+                {formatMessage({
+                  id: getTrad("popup.cookie.form.cta.create"),
+                  defaultMessage: "Add new Cookie"
+                })}
+              </Button>
           )
         }
       />
@@ -400,92 +402,103 @@ const UpdateCookieModal = ({ setShowModal, updateCookie, cookie, categories }) =
 
 const DuplicateCookieModal = ({ setShowModal, createCookie, cookie, categories, locale }) => <Modal setShowModal={setShowModal} crudAction={createCookie} categories={categories} cookie={omit(cookie, "id")} locale={locale} />
 
-const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = false}) =>
-<Dialog
-  onClose={() => setShowModal(false)}
-  title={formatMessage({
-    id: getTrad("popup.cookie.form.header.title.delete"),
-    defaultMessage: "Delete Cookie"
-  })}
-  isOpen={showModal}
->
-  <DialogBody icon={<ExclamationMarkCircle />}>
-    <Stack spacing={2}>
-      <Flex justifyContent="center">
-        <Typography id="confirm-description">
-          {formatMessage({
-            id: getTrad("popup.cookie.form.info.delete"),
-            defaultMessage: "Are you sure you want to delete this?"
-          })}
-        </Typography>
-      </Flex>
-    </Stack>
-  </DialogBody>
-  <DialogFooter
-    startAction={
-      <Button onClick={() => setShowModal(false)} variant="tertiary">
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.cancel"),
-          defaultMessage: "Cancel"
-        })}
-      </Button>
-    }
-    endAction={
-      <Button
-        onClick={() => {
-          deleteCookie(cookie)
-          setShowModal(false)
-        }}
-        variant="danger-light"
-        startIcon={<Trash />}
-      >
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.delete"),
-          defaultMessage: "Delete Cookie"
-        })}
-      </Button>
-    }
-  />
-</Dialog>
+const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = false }) => {
+  const { formatMessage } = useIntl();
 
-const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModal = false}) => <Dialog onClose={() => setShowModal(false)} title="Confirmation" isOpen={showModal}>
-  <DialogBody icon={<ExclamationMarkCircle />}>
-    <Stack spacing={2}>
-      <Flex justifyContent="center">
-        <Typography id="confirm-description">
-          {formatMessage({
-            id: getTrad("popup.cookie.form.info.delete"),
-            defaultMessage: "Are you sure you want to delete this?"
-          })}
-        </Typography>
-      </Flex>
-    </Stack>
-  </DialogBody>
-  <DialogFooter
-    startAction={
-      <Button onClick={() => setShowModal(false)} variant="tertiary">
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.cancel"),
-          defaultMessage: "Cancel"
-        })}
-      </Button>
-    }
-    endAction={
-      <Button
-        onClick={() => {
-          deleteAllCookie(cookies)
-          setShowModal(false)
-        }}
-        variant="danger-light"
-        startIcon={<Trash />}
-      >
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.deleteAll"),
-          defaultMessage: "Delete Cookie"
-        })}
-      </Button>
-    }
-  />
-</Dialog>
+  return (
+    <Dialog
+      onClose={() => setShowModal(false)}
+      title={formatMessage({
+        id: getTrad("popup.cookie.form.header.title.delete"),
+        defaultMessage: "Delete Cookie"
+      })}
+      isOpen={showModal}
+    >
+      <DialogBody icon={<ExclamationMarkCircle />}>
+        <Stack spacing={2}>
+          <Flex justifyContent="center">
+            <Typography id="confirm-description">
+              {formatMessage({
+                id: getTrad("popup.cookie.form.info.delete"),
+                defaultMessage: "Are you sure you want to delete this?"
+              })}
+            </Typography>
+          </Flex>
+        </Stack>
+      </DialogBody>
+      <DialogFooter
+        startAction={
+          <Button onClick={() => setShowModal(false)} variant="tertiary">
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.cancel"),
+              defaultMessage: "Cancel"
+            })}
+          </Button>
+        }
+        endAction={
+          <Button
+            onClick={() => {
+              deleteCookie(cookie)
+              setShowModal(false)
+            }}
+            variant="danger-light"
+            startIcon={<Trash />}
+          >
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.delete"),
+              defaultMessage: "Delete Cookie"
+            })}
+          </Button>
+        }
+      />
+    </Dialog>
+  )
+}
+
+const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModal = false }) => {
+  const { formatMessage } = useIntl();
+
+  return (
+    <Dialog onClose={() => setShowModal(false)} title="Confirmation" isOpen={showModal}>
+      <DialogBody icon={<ExclamationMarkCircle />}>
+        <Stack spacing={2}>
+          <Flex justifyContent="center">
+            <Typography id="confirm-description">
+              {formatMessage({
+                id: getTrad("popup.cookie.form.info.delete"),
+                defaultMessage: "Are you sure you want to delete this?"
+              })}
+            </Typography>
+          </Flex>
+        </Stack>
+      </DialogBody>
+      <DialogFooter
+        startAction={
+          <Button onClick={() => setShowModal(false)} variant="tertiary">
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.cancel"),
+              defaultMessage: "Cancel"
+            })}
+          </Button>
+        }
+        endAction={
+          <Button
+            onClick={() => {
+              deleteAllCookie(cookies)
+              setShowModal(false)
+            }}
+            variant="danger-light"
+            startIcon={<Trash />}
+          >
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.deleteAll"),
+              defaultMessage: "Delete Cookie"
+            })}
+          </Button>
+        }
+      />
+    </Dialog>
+  )
+}
 
 export { CreateCookieModal, UpdateCookieModal, DeleteCookieModal, DeleteAllCookieModal, DuplicateCookieModal }

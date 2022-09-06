@@ -17,7 +17,7 @@
   "popup.category.form.cta.update": "Update Category",
   "popup.category.form.cta.delete": "Delete{ count }",
   "popup.category.form.cta.showCookies": "Show Cookies ({ count })",
-  
+
   "popup.cookie.form.header.title.create": "Create new Cookie",
   "popup.cookie.form.header.title.update": "Update Cookie",
   "popup.cookie.form.header.title.duplicate": "Duplicate Cookie",
