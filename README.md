@@ -1,5 +1,5 @@
 <div align="center" width="150px">
-  <img style="width: 150px; height: auto;" src="public/plugin-cookie-icon.png" alt="Cookie Manager Icon" />
+  <img style="width: 150px; height: auto;" src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-cookie-icon.png" alt="Cookie Manager Icon" />
 </div>
 
 <div align="center">
@@ -32,7 +32,7 @@
 
   Manage categorized cookies directly within the [Strapi CMS](https://github.com/strapi/strapi) admin panel at one place and use the predefined plugin API to provide GDPR consent cookies.
 
-  <img src="public/plugin-usage.png" alt="Screenshot of Cookie Manager usage" />
+  <img src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-usage.png" alt="Screenshot of Cookie Manager usage" />
 
 </div>
 
@@ -88,7 +88,7 @@ npm run develop --watch-admin
 
 Now the Cookie Manager should appear inside the Plugins section on the left hand sidebar like so:
 
-<img src="public/plugin-sidebar.png" alt="Screenshot of sidebar with Cookie Manager installed" />
+<img src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-sidebar.png" alt="Screenshot of sidebar with Cookie Manager installed" />
 
 
 ## 🔧 Configuration
@@ -97,7 +97,7 @@ Currently there is only one option for the plugin settings.
 
 You can change the plugin settings inside the Strapi admin panel under `Strapi Settings -> Cookie Manager -> Configuration`.
 
-<img style="margin-bottom: 20px;" src="public/plugin-settings.png" alt="Screenshot of the Cookie Manager settings pahe" />
+<img style="margin-bottom: 20px;" src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-settings.png" alt="Screenshot of the Cookie Manager settings pahe" />
 
 Or you change it manually in your `./config/plugins.js`
 
