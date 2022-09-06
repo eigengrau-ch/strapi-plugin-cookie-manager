@@ -402,92 +402,103 @@ const UpdateCookieModal = ({ setShowModal, updateCookie, cookie, categories }) =
 
 const DuplicateCookieModal = ({ setShowModal, createCookie, cookie, categories, locale }) => <Modal setShowModal={setShowModal} crudAction={createCookie} categories={categories} cookie={omit(cookie, "id")} locale={locale} />
 
-const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = false}) =>
-<Dialog
-  onClose={() => setShowModal(false)}
-  title={formatMessage({
-    id: getTrad("popup.cookie.form.header.title.delete"),
-    defaultMessage: "Delete Cookie"
-  })}
-  isOpen={showModal}
->
-  <DialogBody icon={<ExclamationMarkCircle />}>
-    <Stack spacing={2}>
-      <Flex justifyContent="center">
-        <Typography id="confirm-description">
-          {formatMessage({
-            id: getTrad("popup.cookie.form.info.delete"),
-            defaultMessage: "Are you sure you want to delete this?"
-          })}
-        </Typography>
-      </Flex>
-    </Stack>
-  </DialogBody>
-  <DialogFooter
-    startAction={
-      <Button onClick={() => setShowModal(false)} variant="tertiary">
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.cancel"),
-          defaultMessage: "Cancel"
-        })}
-      </Button>
-    }
-    endAction={
-      <Button
-        onClick={() => {
-          deleteCookie(cookie)
-          setShowModal(false)
-        }}
-        variant="danger-light"
-        startIcon={<Trash />}
-      >
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.delete"),
-          defaultMessage: "Delete Cookie"
-        })}
-      </Button>
-    }
-  />
-</Dialog>
+const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = false }) => {
+  const { formatMessage } = useIntl();
 
-const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModal = false}) => <Dialog onClose={() => setShowModal(false)} title="Confirmation" isOpen={showModal}>
-  <DialogBody icon={<ExclamationMarkCircle />}>
-    <Stack spacing={2}>
-      <Flex justifyContent="center">
-        <Typography id="confirm-description">
-          {formatMessage({
-            id: getTrad("popup.cookie.form.info.delete"),
-            defaultMessage: "Are you sure you want to delete this?"
-          })}
-        </Typography>
-      </Flex>
-    </Stack>
-  </DialogBody>
-  <DialogFooter
-    startAction={
-      <Button onClick={() => setShowModal(false)} variant="tertiary">
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.cancel"),
-          defaultMessage: "Cancel"
-        })}
-      </Button>
-    }
-    endAction={
-      <Button
-        onClick={() => {
-          deleteAllCookie(cookies)
-          setShowModal(false)
-        }}
-        variant="danger-light"
-        startIcon={<Trash />}
-      >
-        {formatMessage({
-          id: getTrad("popup.cookie.form.cta.deleteAll"),
-          defaultMessage: "Delete Cookie"
-        })}
-      </Button>
-    }
-  />
-</Dialog>
+  return (
+    <Dialog
+      onClose={() => setShowModal(false)}
+      title={formatMessage({
+        id: getTrad("popup.cookie.form.header.title.delete"),
+        defaultMessage: "Delete Cookie"
+      })}
+      isOpen={showModal}
+    >
+      <DialogBody icon={<ExclamationMarkCircle />}>
+        <Stack spacing={2}>
+          <Flex justifyContent="center">
+            <Typography id="confirm-description">
+              {formatMessage({
+                id: getTrad("popup.cookie.form.info.delete"),
+                defaultMessage: "Are you sure you want to delete this?"
+              })}
+            </Typography>
+          </Flex>
+        </Stack>
+      </DialogBody>
+      <DialogFooter
+        startAction={
+          <Button onClick={() => setShowModal(false)} variant="tertiary">
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.cancel"),
+              defaultMessage: "Cancel"
+            })}
+          </Button>
+        }
+        endAction={
+          <Button
+            onClick={() => {
+              deleteCookie(cookie)
+              setShowModal(false)
+            }}
+            variant="danger-light"
+            startIcon={<Trash />}
+          >
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.delete"),
+              defaultMessage: "Delete Cookie"
+            })}
+          </Button>
+        }
+      />
+    </Dialog>
+  )
+}
+
+const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModal = false }) => {
+  const { formatMessage } = useIntl();
+
+  return (
+    <Dialog onClose={() => setShowModal(false)} title="Confirmation" isOpen={showModal}>
+      <DialogBody icon={<ExclamationMarkCircle />}>
+        <Stack spacing={2}>
+          <Flex justifyContent="center">
+            <Typography id="confirm-description">
+              {formatMessage({
+                id: getTrad("popup.cookie.form.info.delete"),
+                defaultMessage: "Are you sure you want to delete this?"
+              })}
+            </Typography>
+          </Flex>
+        </Stack>
+      </DialogBody>
+      <DialogFooter
+        startAction={
+          <Button onClick={() => setShowModal(false)} variant="tertiary">
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.cancel"),
+              defaultMessage: "Cancel"
+            })}
+          </Button>
+        }
+        endAction={
+          <Button
+            onClick={() => {
+              deleteAllCookie(cookies)
+              setShowModal(false)
+            }}
+            variant="danger-light"
+            startIcon={<Trash />}
+          >
+            {formatMessage({
+              id: getTrad("popup.cookie.form.cta.deleteAll"),
+              defaultMessage: "Delete Cookie"
+            })}
+          </Button>
+        }
+      />
+    </Dialog>
+  )
+}
 
 export { CreateCookieModal, UpdateCookieModal, DeleteCookieModal, DeleteAllCookieModal, DuplicateCookieModal }
