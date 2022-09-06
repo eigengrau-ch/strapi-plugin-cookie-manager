@@ -106,7 +106,9 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       category: category.name,
       party: party,
       isVisible: isVisible,
-      duration: duration,
+      durationDays: duration.days,
+      durationHours: duration.hours,
+      durationMinutes: duration.minutes,
     }
 
     const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
@@ -117,9 +119,9 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       setHostValidation(await validateField({ host: fields.host }, "host"))
       setCategoryValidation(await validateField({ category: fields.category.name }, "category"))
       setPartyValidation(await validateField({ party: fields.party }, "party"))
-      setDurationDaysValidation(await validateField({ durationDays: fields.duration.days }, "durationDays"))
-      setDurationHoursValidation(await validateField({ durationHours: fields.duration.days }, "durationHours"))
-      setDurationMinutesValidation(await validateField({ durationMinutes: fields.duration.days }, "durationMinutes"))
+      setDurationDaysValidation(await validateField({ durationDays: fields.durationDays }, "durationDays"))
+      setDurationHoursValidation(await validateField({ durationHours: fields.durationHours }, "durationHours"))
+      setDurationMinutesValidation(await validateField({ durationMinutes: fields.durationMinutes }, "durationMinutes"))
     }
 
     return validationSuccess
