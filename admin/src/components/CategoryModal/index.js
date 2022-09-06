@@ -95,7 +95,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
 
     return validationSuccess
   }
-  
+
 
   return (
     <ModalLayout
@@ -107,14 +107,14 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
       <ModalHeader>
         <Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
           {(isUpdate)
-          ? formatMessage({
-            id: getTrad("popup.category.form.header.title.update"),
-            defaultMessage: "Update Category"
-          })
-          : formatMessage({
-            id: getTrad("popup.category.form.header.title.create"),
-            defaultMessage: "Create new Category"
-          })}
+            ? formatMessage({
+              id: getTrad("popup.category.form.header.title.update"),
+              defaultMessage: "Update Category"
+            })
+            : formatMessage({
+              id: getTrad("popup.category.form.header.title.create"),
+              defaultMessage: "Create new Category"
+            })}
         </Typography>
       </ModalHeader>
 
@@ -209,7 +209,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
                   defaultMessage: "Are you sure you want to delete { name }{ moreThanOne, select, true { and all containing cookies} other {} }?"
                 },
                 {
-                  name: <b style={{ fontWeight: "bold"}}>{category.name}</b>,
+                  name: <b style={{ fontWeight: "bold" }}>{category.name}</b>,
                   moreThanOne: categoryHasCookies
                 }
               )}
@@ -230,7 +230,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
                     )}
                   />
                   <AccordionContent>
-    
+
                     <Table colCount={6} rowCount={10}>
                       <Thead>
                         <Tr>
@@ -240,7 +240,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
                                 id: getTrad("popup.cookie.form.field.name.label"),
                                 defaultMessage: "Name"
                               })
-                            }</Typography>
+                              }</Typography>
                           </Th>
                           <Th>
                             <Typography variant="sigma">
@@ -296,7 +296,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
           <Button
             onClick={() => {
               deleteCategory(category)
-              if(categoryHasCookies) deleteAllCookie(cookies)
+              if (categoryHasCookies) deleteAllCookie(cookies)
               setShowModal(false)
             }}
             variant="danger-light"
