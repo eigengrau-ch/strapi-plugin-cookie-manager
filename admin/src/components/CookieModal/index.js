@@ -34,7 +34,7 @@ import { getTrad } from "../../utils";
 import validationSchema from "./validation"
 
 const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedCategory = null, cookie = {} }) => {
-  
+
   const { formatMessage } = useIntl();
   const hasPreservedCategory = (preservedCategory !== null)
   const isUpdate = (cookie["id"] !== undefined)
@@ -46,7 +46,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
   const [host, setHost] = useState(cookie.host || "");
   const [party, setParty] = useState(cookie.party || "");
   const [category, setCategory] = useState(cookie.category || (hasPreservedCategory ? preservedCategory : {}));
-  const [duration, setDuration] = useState(cookie.duration || {days: 0, hours: 0, minutes: 0});
+  const [duration, setDuration] = useState(cookie.duration || { days: 0, hours: 0, minutes: 0 });
 
   const [nameValidation, setNameValidation] = useState([]);
   const [descriptionValidation, setDescriptionValidation] = useState([]);
@@ -75,7 +75,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       }
 
       try {
-        await crudAction((id) ? { id: id, ...fields} : {...fields});
+        await crudAction((id) ? { id: id, ...fields } : { ...fields });
         setShowModal(false);
       } catch (e) {
         console.log("error", e);
@@ -142,8 +142,8 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
   }
 
   const handleDurationChange = (value, timeType) => {
-    if(value === undefined) value = null
-    switch(timeType) {
+    if (value === undefined) value = null
+    switch (timeType) {
       case "d": setDuration({ ...duration, days: value }); break
       case "h": setDuration({ ...duration, hours: value }); break
       case "m": setDuration({ ...duration, minutes: value }); break
@@ -167,14 +167,14 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
             })
           ) : (
             (isUpdate)
-            ? formatMessage({
-              id: getTrad("popup.cookie.form.header.title.update"),
-              defaultMessage: "Update Cookie"
-            })
-            : formatMessage({
-              id: getTrad("popup.cookie.form.header.title.create"),
-              defaultMessage: "Create new Cookie"
-            })
+              ? formatMessage({
+                id: getTrad("popup.cookie.form.header.title.update"),
+                defaultMessage: "Update Cookie"
+              })
+              : formatMessage({
+                id: getTrad("popup.cookie.form.header.title.create"),
+                defaultMessage: "Create new Cookie"
+              })
           )}
         </Typography>
       </ModalHeader>
@@ -377,18 +377,18 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
             </Button>
           ) : (
             (isUpdate)
-            ? <Button type="submit">
-              {formatMessage({
-                id: getTrad("popup.cookie.form.cta.update"),
-                defaultMessage: "Update Cookie"
-              })}
-            </Button>
-            : <Button type="submit">
-              {formatMessage({
-                id: getTrad("popup.cookie.form.cta.create"),
-                defaultMessage: "Add new Cookie"
-              })}
-            </Button>
+              ? <Button type="submit">
+                {formatMessage({
+                  id: getTrad("popup.cookie.form.cta.update"),
+                  defaultMessage: "Update Cookie"
+                })}
+              </Button>
+              : <Button type="submit">
+                {formatMessage({
+                  id: getTrad("popup.cookie.form.cta.create"),
+                  defaultMessage: "Add new Cookie"
+                })}
+              </Button>
           )
         }
       />

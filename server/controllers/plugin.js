@@ -2,7 +2,7 @@
 "use strict";
 
 module.exports = {
-  async config( ctx ) {
+  async config(ctx) {
     try {
       return await strapi
         .plugin("cookie-manager")
@@ -12,7 +12,7 @@ module.exports = {
       ctx.throw(500, err)
     }
   },
-  async updateConfig( ctx ) {
+  async updateConfig(ctx) {
     try {
       return await strapi
         .plugin("cookie-manager")
@@ -22,7 +22,7 @@ module.exports = {
       ctx.throw(500, err)
     }
   },
-  async locales( ctx ) {
+  async locales(ctx) {
     try {
       return await strapi
         .plugin("cookie-manager")
