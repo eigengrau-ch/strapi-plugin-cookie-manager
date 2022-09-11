@@ -90,7 +90,9 @@ Now the Cookie Manager should appear inside the Plugins section on the left hand
 
 <img src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-sidebar.jpg" alt="Screenshot of sidebar with Cookie Manager installed" />
 
-You will notice that the plugin generated new content tapes named `cookie` and `cookie-category`. Initially the relation fields are not populated! That means they won't show in your API. In order to get them populated, just edit the following files like below:
+You will notice that the plugin generated new content types named `cookie` and `cookie-category`. Initially the relation fields are not populated! That means they won't show in your API.
+
+In order to get them populated, just edit the following files like below:
 
 `./src/api/cookie/services/cookie.js`
 ```javascript
