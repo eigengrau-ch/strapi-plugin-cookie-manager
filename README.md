@@ -94,29 +94,29 @@ You will notice that the plugin generated new content tapes named `cookie` and `
 
 `./src/api/cookie/services/cookie.js`
 ```javascript
-module.exports = createCoreService('api::cookie.cookie', ({ strapi }) =>  ({
-	async find(params) {
+module.exports = createCoreService('api::cookie.cookie', ({ strapi }) => ({
+  async find(params) {
     const { pagination } = await super.find(params);
-		const results = await strapi.entityService.findMany("api::cookie.cookie", Object.assign(params, {
-			populate: { category: true }
-		}))
+    const results = await strapi.entityService.findMany("api::cookie.cookie", Object.assign(params, {
+      populate: { category: true }
+    }))
 
     return { results, pagination };
-	},
+  },
 }));
 ```
 
 `./src/api/cookie-category/services/cookie-category.js`
 ```javascript
-module.exports = createCoreService('api::cookie-category.cookie-category', ({ strapi }) =>  ({
-	async find(params) {
+module.exports = createCoreService('api::cookie-category.cookie-category', ({ strapi }) => ({
+  async find(params) {
     const { pagination } = await super.find(params);
-		const results = await strapi.entityService.findMany("api::cookie-category.cookie-category", Object.assign(params, {
-			populate: { cookies: true }
-		}))
+    const results = await strapi.entityService.findMany("api::cookie-category.cookie-category", Object.assign(params, {
+      populate: { cookies: true }
+    }))
 
     return { results, pagination }
-	},
+  },
 }));
 ```
 
