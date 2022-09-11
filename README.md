@@ -120,6 +120,8 @@ module.exports = createCoreService('api::cookie-category.cookie-category', ({ st
 }));
 ```
 
+You might wanna check out [API Fields](https://www.npmjs.com/package/strapi-plugin-cookie-manager#-api-fields) to see the JSON response.
+
 
 ## 🔧 Configuration
 
@@ -157,7 +159,26 @@ module.exports = ({ env }) => ({
 {
   "name": "Necessary Cookies",
   "description": "These cookies are required to enable the basic features of this site, such as adjusting your consent preferences. These cookies do not share any personally identifiable data.",
-  "locale": "de"
+  "cookies": {
+    "data": [
+      {
+        "attributes": {
+          "name": "Cookies Necessary",
+          "description": "We set this cookie to remember the consent of users for the use of cookies in the \"Necessary\" category.",
+          "host": "mydomain.com",
+          "party": "First-party",
+          "isVisible": true,
+          "duration": {
+            "days": 365,
+            "hours": 0,
+            "minutes": 0
+          },
+          "locale": "en"
+        }
+      }
+    ]
+  },
+  "locale": "en"
 }
 ```
 **Cookie**
@@ -173,7 +194,16 @@ module.exports = ({ env }) => ({
     "hours": 0,
     "minutes": 0
   },
-  "locale": "de"
+  "category": {
+    "data": {
+      "attributes": {
+        "name": "Necessary Cookies",
+        "description": "These cookies are required to enable the basic features of this site, such as adjusting your consent preferences. These cookies do not share any personally identifiable data.",
+        "locale": "en"
+      }
+    }
+  },
+  "locale": "en"
 }
 ```
 
