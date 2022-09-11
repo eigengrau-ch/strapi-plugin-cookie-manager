@@ -49,6 +49,7 @@
     "strapi",
     "plugin",
     "cookies",
+    "gdpr",
     "dsgvo"
   ],
   "license": "MIT"
