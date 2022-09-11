@@ -90,6 +90,36 @@ Now the Cookie Manager should appear inside the Plugins section on the left hand
 
 <img src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-sidebar.jpg" alt="Screenshot of sidebar with Cookie Manager installed" />
 
+You will notice that the plugin generated new content tapes named `cookie` and `cookie-category`. Initially the relation fields are not populated! That means they won't show in your API. In order to get them populated, just edit the following files like below:
+
+`./src/api/cookie/services/cookie.js`
+```javascript
+module.exports = createCoreService('api::cookie.cookie', ({ strapi }) =>  ({
+	async find(params) {
+    const { pagination } = await super.find(params);
+		const results = await strapi.entityService.findMany("api::cookie.cookie", Object.assign(params, {
+			populate: { category: true }
+		}))
+
+    return { results, pagination };
+	},
+}));
+```
+
+`./src/api/cookie-category/services/cookie-category.js`
+```javascript
+module.exports = createCoreService('api::cookie-category.cookie-category', ({ strapi }) =>  ({
+	async find(params) {
+    const { pagination } = await super.find(params);
+		const results = await strapi.entityService.findMany("api::cookie-category.cookie-category", Object.assign(params, {
+			populate: { cookies: true }
+		}))
+
+    return { results, pagination }
+	},
+}));
+```
+
 
 ## 🔧 Configuration
 
