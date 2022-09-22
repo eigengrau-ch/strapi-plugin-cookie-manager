@@ -12,6 +12,7 @@ import { Button } from "@strapi/design-system/Button"
 import { TFooter } from "@strapi/design-system/Table"
 import { Select, Option } from "@strapi/design-system/Select"
 import { Stack } from "@strapi/design-system/Stack"
+import Cog from "@strapi/icons/Cog"
 import Plus from "@strapi/icons/Plus"
 
 // Components
@@ -157,22 +158,17 @@ const HomePage = () => {
           as="h2"
           primaryAction={
             <Stack horizontal spacing={4}>
-              {(categoryData.length > 0) && (
-                <Button
-                  startIcon={<Plus />}
-                  onClick={() => {
-                    setCurrentCategory(null)
-                    setShowCreateCookieModal(true)
-                  }
-                  }
-                >
-                  {formatMessage({
-                    id: getTrad("header.cta.create"),
-                    defaultMessage: "Create new cookie"
-                  })}
+              <Button
+                startIcon={<Cog />}
+                onClick={() => {
+                }}
+              >
+                {formatMessage({
+                  id: getTrad("header.cta.manage"),
+                  defaultMessage: "Manage popup content"
+                })}
 
-                </Button>
-              )}
+              </Button>
               {(configData.localization) && (
                 <Select
                   id="lang-select"

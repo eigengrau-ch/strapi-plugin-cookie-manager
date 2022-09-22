@@ -3,7 +3,7 @@
 
   "header.title": "Cookie Manager",
   "header.description": "Erstelle und organisiere deine Cookies an einem Ort",
-  "header.cta.create": "Erstelle neuen Cookie",
+  "header.cta.manage": "Verwalte Popup Inhalte",
   "header.cta.locale.label": "Wähle eine Sprache",
 
   "popup.category.form.header.title.update": "Aktualisiere Kategorie",
