@@ -20,7 +20,8 @@ import Illo from "../../components/Illo"
 import CookieTable from "../../components/CookieTable";
 import { CreateCookieModal, UpdateCookieModal, DeleteCookieModal, DeleteAllCookieModal, DuplicateCookieModal } from "../../components/CookieModal"
 import { CreateCategoryModal, UpdateCategoryModal, DeleteCategoryModal } from "../../components/CategoryModal"
-import CategoryAccordion from "../../components/CategoryAccordion";
+import { PopupContentModal } from "../../components/PopupContentModal"
+import CategoryAccordion from "../../components/CategoryAccordion"
 
 // Utils
 import { getTrad } from "../../utils";
@@ -36,6 +37,8 @@ const HomePage = () => {
   const [categoryData, setCategoryData] = useState([])
   const [configData, setConfigData] = useState([])
   const [localeData, setLocaleData] = useState([])
+
+  const [showPopupContentModal, setShowPopupContentModal] = useState(false)
 
   const [showCreateCookieModal, setShowCreateCookieModal] = useState(false)
   const [showUpdateCookieModal, setShowUpdateCookieModal] = useState(false)
@@ -161,6 +164,7 @@ const HomePage = () => {
               <Button
                 startIcon={<Cog />}
                 onClick={() => {
+                  setShowPopupContentModal(true)
                 }}
               >
                 {formatMessage({
@@ -288,6 +292,8 @@ const HomePage = () => {
             </AccordionGroup>
           )}
         </ContentLayout>
+
+        {showPopupContentModal && <PopupContentModal setShowModal={setShowPopupContentModal} />}
 
         {showCreateCategoryModal && <CreateCategoryModal setShowModal={setShowCreateCategoryModal} createCategory={createCategory} locale={currentLocale} />}
         {showUpdateCategoryModal && <UpdateCategoryModal setShowModal={setShowUpdateCategoryModal} updateCategory={updateCategory} category={currentCategory} />}
