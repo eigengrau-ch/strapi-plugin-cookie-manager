@@ -1,12 +1,12 @@
 
 // React
 import React, { memo, useState, useEffect } from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
 import { LoadingIndicatorPage } from "@strapi/helper-plugin"
 import { Layout, BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout"
-import { AccordionGroup } from "@strapi/design-system/Accordion";
+import { AccordionGroup } from "@strapi/design-system/Accordion"
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout"
 import { Button } from "@strapi/design-system/Button"
 import { TFooter } from "@strapi/design-system/Table"
