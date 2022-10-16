@@ -108,11 +108,11 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
         <Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
           {(isUpdate)
             ? formatMessage({
-              id: getTrad("popup.category.form.header.title.update"),
+              id: getTrad("modal.category.form.header.title.update"),
               defaultMessage: "Update Category"
             })
             : formatMessage({
-              id: getTrad("popup.category.form.header.title.create"),
+              id: getTrad("modal.category.form.header.title.create"),
               defaultMessage: "Create new Category"
             })}
         </Typography>
@@ -122,7 +122,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
         <Box>
           <TextInput
             label={formatMessage({
-              id: getTrad("popup.category.form.field.name.label"),
+              id: getTrad("modal.category.form.field.name.label"),
               defaultMessage: "Name"
             })}
             name="name"
@@ -137,7 +137,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
         <Box paddingTop={4}>
           <Textarea
             label={formatMessage({
-              id: getTrad("popup.category.form.field.description.label"),
+              id: getTrad("modal.category.form.field.description.label"),
               defaultMessage: "Description"
             })}
             name="description"
@@ -155,7 +155,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
         startActions={
           <Button onClick={() => setShowModal(false)} variant="tertiary">
             {formatMessage({
-              id: getTrad("popup.category.form.cta.cancel"),
+              id: getTrad("modal.category.form.cta.cancel"),
               defaultMessage: "Cancel"
             })}
           </Button>
@@ -164,13 +164,13 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
           (isUpdate)
             ? <Button type="submit">
               {formatMessage({
-                id: getTrad("popup.category.form.cta.update"),
+                id: getTrad("modal.category.form.cta.update"),
                 defaultMessage: "Update Category"
               })}
             </Button>
             : <Button type="submit">
               {formatMessage({
-                id: getTrad("popup.category.form.cta.create"),
+                id: getTrad("modal.category.form.cta.create"),
                 defaultMessage: "Add new Category"
               })}
             </Button>
@@ -192,7 +192,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
     <Dialog
       onClose={() => setShowModal(false)}
       title={formatMessage({
-        id: getTrad("popup.category.form.header.title.delete"),
+        id: getTrad("modal.category.form.header.title.delete"),
         defaultMessage: "Delete Category"
       })}
       isOpen={showModal}>
@@ -205,7 +205,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
             >
               {formatMessage(
                 {
-                  id: getTrad("popup.category.form.info.delete"),
+                  id: getTrad("modal.category.form.info.delete"),
                   defaultMessage: "Are you sure you want to delete { name }{ moreThanOne, select, true { and all containing cookies} other {} }?"
                 },
                 {
@@ -223,7 +223,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
                     togglePosition="left"
                     title={formatMessage(
                       {
-                        id: getTrad("popup.category.form.cta.showCookies"),
+                        id: getTrad("modal.category.form.cta.showCookies"),
                         defaultMessage: "Show Cookies ({ count })"
                       },
                       { count: cookieCount }
@@ -237,7 +237,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
                           <Th>
                             <Typography variant="sigma">
                               {formatMessage({
-                                id: getTrad("popup.cookie.form.field.name.label"),
+                                id: getTrad("modal.cookie.form.field.name.label"),
                                 defaultMessage: "Name"
                               })
                               }</Typography>
@@ -245,7 +245,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
                           <Th>
                             <Typography variant="sigma">
                               {formatMessage({
-                                id: getTrad("popup.cookie.form.field.description.label"),
+                                id: getTrad("modal.cookie.form.field.description.label"),
                                 defaultMessage: "Description"
                               })}
                             </Typography>
@@ -253,7 +253,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
                           <Th>
                             <Typography variant="sigma">
                               {formatMessage({
-                                id: getTrad("popup.cookie.form.field.host.label"),
+                                id: getTrad("modal.cookie.form.field.host.label"),
                                 defaultMessage: "Host"
                               })}
                             </Typography>
@@ -287,7 +287,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
         startAction={
           <Button onClick={() => setShowModal(false)} variant="tertiary">
             {formatMessage({
-              id: getTrad("popup.category.form.cta.cancel"),
+              id: getTrad("modal.category.form.cta.cancel"),
               defaultMessage: "Cancel"
             })}
           </Button>
@@ -304,7 +304,7 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
           >
             {formatMessage(
               {
-                id: getTrad("popup.category.form.cta.delete"),
+                id: getTrad("modal.category.form.cta.delete"),
                 defaultMessage: "Delete{ count }"
               },
               { count: categoryHasCookies ? ` (${cookieCount})` : "" }
