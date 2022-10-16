@@ -1,0 +1,12 @@
+[
+  {
+    "method": "GET",
+    "path": "/popup/:id",
+    "handler": "cookie-popup.findOne"
+  },
+  {
+    "method": "GET",
+    "path": "/popup",
+    "handler": "cookie-popup.find"
+  }
+]

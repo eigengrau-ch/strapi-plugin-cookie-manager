@@ -3,9 +3,10 @@
 
 const cookie = require("./content-types/cookie.json");
 const cookieCategory = require("./content-types/cookie-category.json");
+const cookiePopup= require("./content-types/cookie-popup.json");
 
 module.exports = ({ strapi }) => {
-  const contentTypeSchemas = [cookie, cookieCategory]
+  const contentTypeSchemas = [cookie, cookieCategory, cookiePopup]
   const contentTypeService = strapi.plugin("content-type-builder").service("content-types");
 
   let isLastIndex = false

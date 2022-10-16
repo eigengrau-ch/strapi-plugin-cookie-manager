@@ -162,17 +162,17 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         <Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
           {(isDuplicate) ? (
             formatMessage({
-              id: getTrad("popup.cookie.form.header.title.duplicate"),
+              id: getTrad("modal.cookie.form.header.title.duplicate"),
               defaultMessage: "Duplicate Cookie"
             })
           ) : (
             (isUpdate)
               ? formatMessage({
-                id: getTrad("popup.cookie.form.header.title.update"),
+                id: getTrad("modal.cookie.form.header.title.update"),
                 defaultMessage: "Update Cookie"
               })
               : formatMessage({
-                id: getTrad("popup.cookie.form.header.title.create"),
+                id: getTrad("modal.cookie.form.header.title.create"),
                 defaultMessage: "Create new Cookie"
               })
           )}
@@ -183,7 +183,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         <Box>
           <TextInput
             label={formatMessage({
-              id: getTrad("popup.cookie.form.field.name.label"),
+              id: getTrad("modal.cookie.form.field.name.label"),
               defaultMessage: "Name"
             })}
             name="name"
@@ -198,7 +198,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         <Box paddingTop={4}>
           <Textarea
             label={formatMessage({
-              id: getTrad("popup.cookie.form.field.description.label"),
+              id: getTrad("modal.cookie.form.field.description.label"),
               defaultMessage: "Description"
             })}
             name="description"
@@ -213,12 +213,12 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         <Box paddingTop={4}>
           <TextInput
             label={formatMessage({
-              id: getTrad("popup.cookie.form.field.host.label"),
+              id: getTrad("modal.cookie.form.field.host.label"),
               defaultMessage: "Host"
             })}
             name="host"
             hint={formatMessage({
-              id: getTrad("popup.cookie.form.field.host.hint"),
+              id: getTrad("modal.cookie.form.field.host.hint"),
               defaultMessage: "e.G domain.com"
             })}
             error={first(hostValidation)}
@@ -232,7 +232,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         <Box paddingTop={4}>
           <Combobox
             label={formatMessage({
-              id: getTrad("popup.cookie.form.field.category.label"),
+              id: getTrad("modal.cookie.form.field.category.label"),
               defaultMessage: "Category"
             })}
             name="category"
@@ -242,7 +242,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               handleCategoryChange(value)
             }}
             placeholder={formatMessage({
-              id: getTrad("popup.cookie.form.field.category.placeholder"),
+              id: getTrad("modal.cookie.form.field.category.placeholder"),
               defaultMessage: "Select or enter a value"
             })}
             value={category.name}
@@ -255,7 +255,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         <Box paddingTop={4}>
           <Combobox
             label={formatMessage({
-              id: getTrad("popup.cookie.form.field.party.label"),
+              id: getTrad("modal.cookie.form.field.party.label"),
               defaultMessage: "Party"
             })}
             name="party"
@@ -265,7 +265,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               handlePartyChange(value)
             }}
             placeholder={formatMessage({
-              id: getTrad("popup.cookie.form.field.party.placeholder"),
+              id: getTrad("modal.cookie.form.field.party.placeholder"),
               defaultMessage: "Select or enter a value"
             })}
             value={party}
@@ -279,14 +279,14 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
           <Flex direction="column" alignItems="flex-start">
             <Typography variant="pi" fontWeight="bold">
               {formatMessage({
-                id: getTrad("popup.cookie.form.field.isVisible.label"),
+                id: getTrad("modal.cookie.form.field.isVisible.label"),
                 defaultMessage: "Is Visible"
               })}
             </Typography>
             <Box paddingTop={1}>
               <Switch
                 label={formatMessage({
-                  id: getTrad("popup.cookie.form.field.isVisible.label"),
+                  id: getTrad("modal.cookie.form.field.isVisible.label"),
                   defaultMessage: "Is Visible"
                 })}
                 name="is-visible"
@@ -299,7 +299,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         <Box paddingTop={4}>
           <Typography variant="pi" fontWeight="bold">
             {formatMessage({
-              id: getTrad("popup.cookie.form.field.duration.label"),
+              id: getTrad("modal.cookie.form.field.duration.label"),
               defaultMessage: "Duration"
             })}
           </Typography>
@@ -307,11 +307,11 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
             <Flex gap={4}>
               <NumberInput
                 aria-label={formatMessage({
-                  id: getTrad("popup.cookie.form.field.duration.days.placeholder"),
+                  id: getTrad("modal.cookie.form.field.duration.days.placeholder"),
                   defaultMessage: "Days"
                 })}
                 hint={formatMessage({
-                  id: getTrad("popup.cookie.form.field.duration.days.placeholder"),
+                  id: getTrad("modal.cookie.form.field.duration.days.placeholder"),
                   defaultMessage: "Days"
                 })}
                 name="days"
@@ -324,11 +324,11 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               />
               <NumberInput
                 aria-label={formatMessage({
-                  id: getTrad("popup.cookie.form.field.duration.hours.placeholder"),
+                  id: getTrad("modal.cookie.form.field.duration.hours.placeholder"),
                   defaultMessage: "Hours"
                 })}
                 hint={formatMessage({
-                  id: getTrad("popup.cookie.form.field.duration.hours.placeholder"),
+                  id: getTrad("modal.cookie.form.field.duration.hours.placeholder"),
                   defaultMessage: "Hours"
                 })}
                 name="hours"
@@ -341,11 +341,11 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               />
               <NumberInput
                 aria-label={formatMessage({
-                  id: getTrad("popup.cookie.form.field.duration.minutes.placeholder"),
+                  id: getTrad("modal.cookie.form.field.duration.minutes.placeholder"),
                   defaultMessage: "Minutes"
                 })}
                 hint={formatMessage({
-                  id: getTrad("popup.cookie.form.field.duration.minutes.placeholder"),
+                  id: getTrad("modal.cookie.form.field.duration.minutes.placeholder"),
                   defaultMessage: "Minutes"
                 })}
                 name="minutes"
@@ -371,7 +371,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
           (isDuplicate) ? (
             <Button type="submit">
               {formatMessage({
-                id: getTrad("popup.cookie.form.cta.duplicate"),
+                id: getTrad("modal.cookie.form.cta.duplicate"),
                 defaultMessage: "Duplicate Cookie"
               })}
             </Button>
@@ -379,13 +379,13 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
             (isUpdate)
               ? <Button type="submit">
                 {formatMessage({
-                  id: getTrad("popup.cookie.form.cta.update"),
+                  id: getTrad("modal.cookie.form.cta.update"),
                   defaultMessage: "Update Cookie"
                 })}
               </Button>
               : <Button type="submit">
                 {formatMessage({
-                  id: getTrad("popup.cookie.form.cta.create"),
+                  id: getTrad("modal.cookie.form.cta.create"),
                   defaultMessage: "Add new Cookie"
                 })}
               </Button>
@@ -409,7 +409,7 @@ const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = fal
     <Dialog
       onClose={() => setShowModal(false)}
       title={formatMessage({
-        id: getTrad("popup.cookie.form.header.title.delete"),
+        id: getTrad("modal.cookie.form.header.title.delete"),
         defaultMessage: "Delete Cookie"
       })}
       isOpen={showModal}
@@ -419,7 +419,7 @@ const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = fal
           <Flex justifyContent="center">
             <Typography id="confirm-description">
               {formatMessage({
-                id: getTrad("popup.cookie.form.info.delete"),
+                id: getTrad("modal.cookie.form.info.delete"),
                 defaultMessage: "Are you sure you want to delete this?"
               })}
             </Typography>
@@ -430,7 +430,7 @@ const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = fal
         startAction={
           <Button onClick={() => setShowModal(false)} variant="tertiary">
             {formatMessage({
-              id: getTrad("popup.cookie.form.cta.cancel"),
+              id: getTrad("modal.cookie.form.cta.cancel"),
               defaultMessage: "Cancel"
             })}
           </Button>
@@ -445,7 +445,7 @@ const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = fal
             startIcon={<Trash />}
           >
             {formatMessage({
-              id: getTrad("popup.cookie.form.cta.delete"),
+              id: getTrad("modal.cookie.form.cta.delete"),
               defaultMessage: "Delete Cookie"
             })}
           </Button>
@@ -465,7 +465,7 @@ const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModa
           <Flex justifyContent="center">
             <Typography id="confirm-description">
               {formatMessage({
-                id: getTrad("popup.cookie.form.info.delete"),
+                id: getTrad("modal.cookie.form.info.delete"),
                 defaultMessage: "Are you sure you want to delete this?"
               })}
             </Typography>
@@ -476,7 +476,7 @@ const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModa
         startAction={
           <Button onClick={() => setShowModal(false)} variant="tertiary">
             {formatMessage({
-              id: getTrad("popup.cookie.form.cta.cancel"),
+              id: getTrad("modal.cookie.form.cta.cancel"),
               defaultMessage: "Cancel"
             })}
           </Button>
@@ -491,7 +491,7 @@ const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModa
             startIcon={<Trash />}
           >
             {formatMessage({
-              id: getTrad("popup.cookie.form.cta.deleteAll"),
+              id: getTrad("modal.cookie.form.cta.deleteAll"),
               defaultMessage: "Delete Cookie"
             })}
           </Button>

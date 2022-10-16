@@ -139,7 +139,7 @@ const CookieTable = ({
       <Th>
         <Typography variant="sigma">
           {formatMessage({
-            id: getTrad("popup.cookie.form.field.name.label"),
+            id: getTrad("modal.cookie.form.field.name.label"),
             defaultMessage: "Name"
           })}
         </Typography>
@@ -147,7 +147,7 @@ const CookieTable = ({
       <Th>
         <Typography variant="sigma">
           {formatMessage({
-            id: getTrad("popup.cookie.form.field.description.label"),
+            id: getTrad("modal.cookie.form.field.description.label"),
             defaultMessage: "Description"
           })}
         </Typography>
@@ -155,7 +155,7 @@ const CookieTable = ({
       <Th>
         <Typography variant="sigma">
           {formatMessage({
-            id: getTrad("popup.cookie.form.field.host.label"),
+            id: getTrad("modal.cookie.form.field.host.label"),
             defaultMessage: "Host"
           })}
         </Typography>
@@ -163,7 +163,7 @@ const CookieTable = ({
       <Th>
         <Typography variant="sigma">
           {formatMessage({
-            id: getTrad("popup.cookie.form.field.isVisible.label"),
+            id: getTrad("modal.cookie.form.field.isVisible.label"),
             defaultMessage: "Is Visible"
           })}
         </Typography>
@@ -207,7 +207,7 @@ const CookieTable = ({
           <Td style={{ justifyContent: "end" }}>
             <Switch
               label={formatMessage({
-                id: getTrad("popup.cookie.form.field.isVisible.hint"),
+                id: getTrad("modal.cookie.form.field.isVisible.hint"),
                 defaultMessage: "Manage visibility"
               })}
               selected={getCurrentSwitchValue(cookie.id)}

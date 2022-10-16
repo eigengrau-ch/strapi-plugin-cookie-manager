@@ -90,7 +90,7 @@ Now the Cookie Manager should appear inside the Plugins section on the left hand
 
 <img src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-sidebar.jpg" alt="Screenshot of sidebar with Cookie Manager installed" />
 
-You will notice that the plugin generated new content types named `cookie` and `cookie-category`. Initially the relation fields are not populated! That means they won't show in your API.
+You will notice that the plugin generated new content types named `cookie`, `cookie-category` and `cookie-popup`. Initially the relation fields are not populated! That means they won't show in your API.
 
 In order to get them populated, just edit the following files like below:
 
@@ -121,6 +121,8 @@ module.exports = createCoreService('api::cookie-category.cookie-category', ({ st
   },
 }));
 ```
+
+This step is not required for the content type `cookie-popup`.
 
 You might wanna check out [API Fields](https://www.npmjs.com/package/strapi-plugin-cookie-manager#-api-fields) to see the JSON response.
 
@@ -205,6 +207,14 @@ module.exports = ({ env }) => ({
       }
     }
   },
+  "locale": "en"
+}
+```
+**Popup**
+```json
+{
+  "title": "We value your privacy",
+  "description": "We use cookies to help you navigate efficiently. You will find detailed information about all cookies under each category below. The cookies that are categorized as \"Necessary\" are stored on your browser as they are essential for enabling the basic functionalities of the site. We also use third-party cookies that help analyze how you use our website in order to provide the content and advertisements that are relevant to you. These cookies will only be stored in your browser with your prior consent. You can choose to enable or disable some or all of these cookies but disabling some of them may affect your browsing experience.",
   "locale": "en"
 }
 ```

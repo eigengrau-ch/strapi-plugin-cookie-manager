@@ -41,7 +41,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
                 setShowCreateCookieModal(true)
               }}
               label={formatMessage({
-                id: getTrad("popup.cookie.form.header.title.create"),
+                id: getTrad("modal.cookie.form.header.title.create"),
                 defaultMessage: "Create new Cookie"
               })}
               icon={<Plus />}
@@ -52,7 +52,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
                 setShowUpdateCategoryModal(true)
               }}
               label={formatMessage({
-                id: getTrad("popup.cookie.form.header.title.update"),
+                id: getTrad("modal.cookie.form.header.title.update"),
                 defaultMessage: "Update Category"
               })}
               icon={<Pencil />}
@@ -64,7 +64,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
                 setShowDeleteCategoryModal(true)
               }}
               label={formatMessage({
-                id: getTrad("popup.cookie.form.header.title.delete"),
+                id: getTrad("modal.cookie.form.header.title.delete"),
                 defaultMessage: "Delete Category"
               })}
               icon={<Trash />}
