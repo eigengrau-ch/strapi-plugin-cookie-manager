@@ -23,6 +23,9 @@ import { CreateCategoryModal, UpdateCategoryModal, DeleteCategoryModal } from ".
 import { PopupContentModal } from "../../components/PopupContentModal"
 import CategoryAccordion from "../../components/CategoryAccordion"
 
+// Lodash
+import { first } from "lodash"
+
 // Utils
 import { getTrad } from "../../utils";
 
@@ -37,8 +40,9 @@ const HomePage = () => {
   const [categoryData, setCategoryData] = useState([])
   const [configData, setConfigData] = useState([])
   const [localeData, setLocaleData] = useState([])
+  const [popupData, setPopupData] = useState([])
 
-  const [showPopupContentModal, setShowPopupContentModal] = useState(false)
+  const [showPopupModal, setShowPopupModal] = useState(false)
 
   const [showCreateCookieModal, setShowCreateCookieModal] = useState(false)
   const [showUpdateCookieModal, setShowUpdateCookieModal] = useState(false)
@@ -54,6 +58,7 @@ const HomePage = () => {
   const [categoryIsLoading, setCategoryIsLoading] = useState(true)
   const [configIsLoading, setConfigIsLoading] = useState(true)
   const [localeIsLoading, setLocaleIsLoading] = useState(true)
+  const [popupIsLoading, setPopupIsLoading] = useState(true)
 
   const [currentCategory, setCurrentCategory] = useState(null)
   const [currentCookie, setCurrentCookie] = useState(null)
@@ -74,6 +79,13 @@ const HomePage = () => {
     const categories = await cookieManagerRequests.getCategories(currentLocale)
     setCategoryData(categories)
     setCategoryIsLoading(false)
+  }
+
+  const setPopups = async () => {
+    setPopupIsLoading(true)
+    const popups = await cookieManagerRequests.getPopups(currentLocale)
+    setPopupData(popups)
+    setPopupIsLoading(false)
   }
 
   const getLocales = async () => {
@@ -100,6 +112,11 @@ const HomePage = () => {
     await setCategories()
   }
 
+  const createPopup = async (data) => {
+    await cookieManagerRequests.createPopup(data)
+    await setPopups()
+  }
+
   const deleteCookie = async (data) => {
     await cookieManagerRequests.deleteCookie(data.id)
     await setCookies()
@@ -117,6 +134,11 @@ const HomePage = () => {
     await setCategories()
   }
 
+  const deletePopup = async (data) => {
+    await cookieManagerRequests.deletePopup(data.id)
+    await setPopups()
+  }
+
   const updateCookie = async (data) => {
     await cookieManagerRequests.updateCookie(data.id, data);
     await setCookies()
@@ -125,6 +147,11 @@ const HomePage = () => {
   const updateCategory = async (data) => {
     await cookieManagerRequests.updateCategory(data.id, data);
     await setCategories()
+  }
+
+  const updatePopup = async (data) => {
+    await cookieManagerRequests.updatePopup(data.id, data);
+    await setPopups()
   }
 
   const createAccordionState = (id, isExpanded = false) => {
@@ -137,14 +164,16 @@ const HomePage = () => {
     await getLocales()
     await setCategories()
     await setCookies()
+    await setPopups()
   }, [])
 
   useEffect(async () => {
     await setCategories()
     await setCookies()
+    await setPopups()
   }, [currentLocale]);
 
-  const isLoading = !(!cookieIsLoading && !categoryIsLoading && !configIsLoading && !localeIsLoading)
+  const isLoading = !(!cookieIsLoading && !categoryIsLoading && !configIsLoading && !localeIsLoading && !popupIsLoading)
 
   return (
     (!isLoading) ? (
@@ -164,7 +193,7 @@ const HomePage = () => {
               <Button
                 startIcon={<Cog />}
                 onClick={() => {
-                  setShowPopupContentModal(true)
+                  setShowPopupModal(true)
                 }}
               >
                 {formatMessage({
@@ -225,7 +254,7 @@ const HomePage = () => {
                 icon={<Plus />}
               >
                 {formatMessage({
-                  id: getTrad("popup.category.form.cta.create"),
+                  id: getTrad("modal.category.form.cta.create"),
                   defaultMessage: "Create new category"
                 })}
               </TFooter>
@@ -277,11 +306,12 @@ const HomePage = () => {
                               setCurrentCategory(category)
                               setShowCreateCookieModal(true)
                             }
-                            }
-                          >{formatMessage({
-                            id: getTrad("empty.cookie.cta"),
-                            defaultMessage: "Add your first cookie"
-                          })}</Button>
+                          }>
+                            {formatMessage({
+                              id: getTrad("empty.cookie.cta"),
+                              defaultMessage: "Add your first cookie"
+                            })}
+                          </Button>
                         }
                         shadow={"none"}
                       />
@@ -293,7 +323,7 @@ const HomePage = () => {
           )}
         </ContentLayout>
 
-        {showPopupContentModal && <PopupContentModal setShowModal={setShowPopupContentModal} />}
+        {showPopupModal && <PopupContentModal setShowModal={setShowPopupModal} createPopup={createPopup} updatePopup={updatePopup} popup={first(popupData)} locale={currentLocale} />}
 
         {showCreateCategoryModal && <CreateCategoryModal setShowModal={setShowCreateCategoryModal} createCategory={createCategory} locale={currentLocale} />}
         {showUpdateCategoryModal && <UpdateCategoryModal setShowModal={setShowUpdateCategoryModal} updateCategory={updateCategory} category={currentCategory} />}
