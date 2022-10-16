@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "singularName": "cookie-popup",
+  "pluralName": "cookie-popups",
+  "displayName": "Cookie Popups",
+  "draftAndPublish": false,
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    },
+    "content-manager": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "title": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "description": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "richtext"
+    }
+  }
+}

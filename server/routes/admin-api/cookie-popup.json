@@ -1,0 +1,34 @@
+[
+  {
+    "method": "POST",
+    "path": "/cookie-popup/create",
+    "handler": "cookie-popup.create",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/cookie-popup/find",
+    "handler": "cookie-popup.find",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "PUT",
+    "path": "/cookie-popup/update/:id",
+    "handler": "cookie-popup.update",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  },
+  {
+    "method": "DELETE",
+    "path": "/cookie-popup/delete/:id",
+    "handler": "cookie-popup.delete",
+    "config": {
+      "policies": ["admin::isAuthenticatedAdmin"]
+    }
+  }
+]
