@@ -66,6 +66,29 @@ const cookieManagerRequests = {
       method: "DELETE",
     });
   },
+
+  getPopups: async (locale = null) => {
+    return await request(`/cookie-manager/cookie-popup/find${(locale) ? `?locale=${locale}` : ""}`, {
+      method: "GET",
+    })
+  },
+  createPopup: async (data) => {
+    return await request(`/cookie-manager/cookie-popup/create`, {
+      method: "POST",
+      body: { data: data },
+    });
+  },
+  updatePopup: async (id, data) => {
+    return await request(`/cookie-manager/cookie-popup/update/${id}`, {
+      method: "PUT",
+      body: { data: data },
+    });
+  },
+  deletePopup: async (id) => {
+    return await request(`/cookie-manager/cookie-popup/delete/${id}`, {
+      method: "DELETE",
+    });
+  },
 }
 
 export default cookieManagerRequests
