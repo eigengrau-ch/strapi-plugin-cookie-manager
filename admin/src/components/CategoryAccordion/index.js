@@ -12,7 +12,7 @@ import Trash from "@strapi/icons/Trash"
 import Plus from "@strapi/icons/Plus"
 
 // Lodash
-import { first } from "lodash"
+import { first, truncate } from "lodash"
 
 // Utils
 import { getTrad } from "../../utils";
@@ -72,7 +72,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
           </Stack>
         }
         title={category.name}
-        description={category.description}
+        description={truncate(category.description, { length: 175 })}
         togglePosition="left"
       />
       <AccordionContent>
