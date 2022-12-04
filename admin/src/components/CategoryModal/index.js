@@ -146,6 +146,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
               handleValidation({ description: e.target.value }, setDescriptionValidation, descriptionValidation)
               setDescription(e.target.value)
             }}
+            style={{ minHeight: "200px", height: "auto" }}
             value={description}
           />
         </Box>
