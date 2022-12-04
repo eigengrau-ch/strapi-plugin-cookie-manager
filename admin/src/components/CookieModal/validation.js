@@ -44,7 +44,7 @@ const ValidationSchema = (formatMessage) => {
 
     description: Yup
       .string()
-      .max(140, msg.string.isMax),
+      .max(2000, msg.string.isMax),
 
     host: Yup
       .string()

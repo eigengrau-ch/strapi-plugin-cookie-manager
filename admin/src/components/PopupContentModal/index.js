@@ -31,7 +31,6 @@ import { getTrad } from "../../utils";
 import validationSchema from "./validation"
 
 const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {}, locale = null }) => {
-  console.log("Popup: ", popup)
 
   const { formatMessage } = useIntl();
   const isUpdate = (Object.keys(popup).length > 0)
@@ -149,6 +148,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                   setDescription(e.target.value)
                 }}
                 value={description}
+                style={{ minHeight: "200px", height: "auto" }}
               />
             </Box>
           </>

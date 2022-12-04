@@ -27,7 +27,7 @@ const ValidationSchema = (formatMessage) => {
 
     description: Yup
       .string()
-      .max(250, msg.string.isMax),
+      .max(2000, msg.string.isMax),
   })
 };
 

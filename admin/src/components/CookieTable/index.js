@@ -18,6 +18,9 @@ import Pencil from "@strapi/icons/Pencil";
 import Trash from "@strapi/icons/Trash";
 import Duplicate from "@strapi/icons/Duplicate";
 
+// Lodash
+import { truncate } from "lodash"
+
 // Utils
 import { getTrad } from "../../utils";
 
@@ -196,13 +199,13 @@ const CookieTable = ({
             />
           </Td>
           <Td>
-            <Typography textColor="neutral800">{cookie.name}</Typography>
+            <Typography textColor="neutral800">{truncate(cookie.name, { length: 20 })}</Typography>
           </Td>
           <Td>
-            <Typography textColor="neutral800">{cookie.description}</Typography>
+            <Typography textColor="neutral800">{truncate(cookie.description, { length: 20 })}</Typography>
           </Td>
           <Td>
-            <Typography textColor="neutral800">{cookie.host}</Typography>
+            <Typography textColor="neutral800">{truncate(cookie.host, { length: 20 })}</Typography>
           </Td>
           <Td style={{ justifyContent: "end" }}>
             <Switch
