@@ -20,6 +20,7 @@ import {
 
 // Components
 import Illo from "../../components/Illo"
+import RepeatableComponent from "../../components/RepeatableComponent"
 
 // Lodash
 import { isNull, first } from "lodash"
@@ -39,6 +40,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
   const [id] = useState(popup.id || null);
   const [title, setTitle] = useState(popup.title || "");
   const [description, setDescription] = useState(popup.description || "");
+  const [buttons, setButtons] = useState(popup.buttons || []);
 
   const [titleValidation, setTitleValidation] = useState([]);
   const [descriptionValidation, setDescriptionValidation] = useState([]);
@@ -150,6 +152,9 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                 }}
                 value={description}
               />
+            </Box>
+            <Box paddingTop={4}>
+              <RepeatableComponent entries={buttons} setEntries={setButtons} />
             </Box>
           </>
         : <EmptyStateLayout
