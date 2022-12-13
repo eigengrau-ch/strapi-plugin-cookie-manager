@@ -1,4 +1,4 @@
 
 export const EntryType = {
-  BUTTON: "button",
+  COMPONENT: "component",
 }

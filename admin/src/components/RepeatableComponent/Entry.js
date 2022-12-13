@@ -1,5 +1,5 @@
 // React
-import React, { useState, useRef, useCallback } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { useDrag, useDrop } from "react-dnd"
 
 // Strapi
@@ -13,6 +13,8 @@ import Trash from "@strapi/icons/Trash"
 
 // Components
 import { EntryType } from "./EntryType"
+import { DragPreview } from "./DragPreview"
+import { Preview } from "./Preview"
 
 // Misc
 import styled from "styled-components"
@@ -52,19 +54,22 @@ const DragButton = styled.span`
   }
 `;
 
-const Entry = ({ id, index, moveEntry, handleToggle, expandedID }) => {
+const Entry = ({ id, index, moveEntry, handleToggle, toggleCollapses, entry, expandedID }) => {
 
-  const ref = useRef(null)
+  const dragRef = useRef(null)
+  const dropRef = useRef(null)
+  const previewRef = useRef(null)
+  const entryRef = useRef(null)
 
-  const [{ handlerId }, drop] = useDrop({
-    accept: EntryType.BUTTON,
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      }
+  const displayedValue = entry.name
+
+  const [, drop] = useDrop({
+    accept: EntryType.COMPONENT,
+    canDrop() {
+      return false;
     },
     hover(item, monitor) {
-      if (!ref.current) {
+      if (!dropRef.current) {
         return
       }
       const dragIndex = item.index
@@ -74,7 +79,7 @@ const Entry = ({ id, index, moveEntry, handleToggle, expandedID }) => {
         return
       }
       // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      const hoverBoundingRect = dropRef.current?.getBoundingClientRect()
       // Get vertical middle
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
@@ -103,54 +108,65 @@ const Entry = ({ id, index, moveEntry, handleToggle, expandedID }) => {
     },
   })
 
-  const [{ isDragging }, drag] = useDrag({
-    type: EntryType.BUTTON,
+  const [{ isDragging }, drag, preview] = useDrag({
+    type: EntryType.COMPONENT,
     item: () => {
       return { id, index }
+    },
+    end() {
+      // Update the errors
+      // triggerFormValidation();
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  })
+  });
 
-  const isExpanded = expandedID === `acc-${index}`
+  const isExpanded = expandedID === id
   const opacity = isDragging ? 0 : 1
 
-  drag(drop(ref))
+  drag(dragRef)
+  drop(dropRef)
+  // preview(entryRef)
 
   return (
-    <div ref={ref} data-handler-id={handlerId}>
-      <Accordion
-        key={index}
-        expanded={isExpanded}
-        onToggle={handleToggle(`acc-${index}`)}
-        id={`acc-${index}`}
-        size="S"
-        style={{ style }}
-      >
-        <AccordionToggle
-          title={`User informations ${index}`}
-          togglePosition="left"
-          action={
-            <Stack horizontal spacing={0}>
-              <IconButtonCustom expanded={isExpanded} noBorder onClick={() => console.log('delete')} label="Delete" icon={<Trash />} />
-              <DragButton
-                role="button"
-                tabIndex={-1}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Drag />
-              </DragButton>
-            </Stack>
-          }
-        />
-        <AccordionContent>
-          <Box padding={3}>
-            <Typography>My name is John Duff</Typography>
-          </Box>
-        </AccordionContent>
-      </Accordion>
-    </div>
+    <Box ref={dropRef}>
+      {/* { isDragging && <DragPreview ref={preview} displayedValue={displayedValue} /> } */}
+      { isDragging && <Preview /> }
+      { !isDragging && (
+        <Accordion
+          key={index}
+          expanded={isExpanded}
+          onToggle={handleToggle(id)}
+          id={id}
+          size="S"
+          style={{ style }}
+        >
+          <AccordionToggle
+            title={displayedValue}
+            togglePosition="left"
+            action={
+              <Stack horizontal spacing={0}>
+                <IconButtonCustom expanded={isExpanded} noBorder onClick={() => console.log('delete')} label="Delete" icon={<Trash />} />
+                <DragButton
+                  ref={dragRef}
+                  role="button"
+                  tabIndex={-1}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Drag />
+                </DragButton>
+              </Stack>
+            }
+          />
+          <AccordionContent>
+            <Box padding={3}>
+              <Typography>My name is John Duff</Typography>
+            </Box>
+          </AccordionContent>
+        </Accordion>
+      )}
+    </Box>
   )
 
 }

@@ -46,6 +46,7 @@ const TextButtonCustom = styled(TextButton)`
 const RepeatableComponent = ({ entries, setEntries }) => {
   console.log("Entries: ", entries)
   const [expandedID, setExpandedID] = useState(null);
+  const [collapseToOpen, setCollapseToOpen] = useState('');
 
   const [entryCount, setEntryCount] = useState(0);
 
@@ -63,6 +64,10 @@ const RepeatableComponent = ({ entries, setEntries }) => {
       })},
     )
   }, [])
+
+  const toggleCollapses = () => {
+    setCollapseToOpen("");
+  };
 
   const createEntry = () => {
     setEntries([ ...entries, { name: `test ${entryCount}` } ])
@@ -88,16 +93,27 @@ const RepeatableComponent = ({ entries, setEntries }) => {
           labelAction={
             <Tooltip description="Content of the tooltip">
               <button aria-label="Information about the email" style={{
-                border: 'none',
+                border: "none",
                 padding: 0,
-                background: 'transparent'
+                background: "transparent"
               }}>
                 <Information aria-hidden />
               </button>
             </Tooltip>
           }
         >
-            {entries.map((entry, index) => <AccordionEntry key={index} index={index} id={index} moveEntry={moveEntry} handleToggle={handleToggle} expandedID={expandedID} />)}
+            {entries.map((entry, index) => (
+              <AccordionEntry
+                key={index}
+                index={index}
+                id={`acc-${index}`}
+                moveEntry={moveEntry}
+                handleToggle={handleToggle}
+                toggleCollapses={toggleCollapses}
+                entry={entry}
+                expandedID={expandedID}
+              />
+            ))}
           {/* <Accordion error="The components contain error(s)" expanded={expandedID === 'acc-1'} onToggle={handleToggle('acc-1')} id="acc-1" size="S">
             <AccordionToggle startIcon={<User aria-hidden />} action={<Stack horizontal spacing={0}>
               <IconButton noBorder onClick={() => console.log('edit')} label="Edit" icon={<Pencil />} />
