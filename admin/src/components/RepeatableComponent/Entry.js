@@ -1,6 +1,7 @@
 // React
 import React, { useState, useRef, useEffect } from "react"
 import { useDrag, useDrop } from "react-dnd"
+import { getEmptyImage } from "react-dnd-html5-backend"
 
 // Strapi
 import { Accordion, AccordionContent, AccordionToggle } from "@strapi/design-system/Accordion"
@@ -13,7 +14,7 @@ import Trash from "@strapi/icons/Trash"
 
 // Components
 import { EntryType } from "./EntryType"
-import { DragPreview } from "./DragPreview"
+import { DraggingSibling } from "./DraggingSibling"
 import { Preview } from "./Preview"
 
 // Misc
@@ -54,19 +55,19 @@ const DragButton = styled.span`
   }
 `;
 
-const Entry = ({ id, index, moveEntry, handleToggle, toggleCollapses, entry, expandedID }) => {
+const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isDraggingSibling, setIsDraggingSibling, toggleCollapses, isOpen }) => {
 
   const dragRef = useRef(null)
   const dropRef = useRef(null)
   const previewRef = useRef(null)
   const entryRef = useRef(null)
 
-  const displayedValue = entry.name
+  const [, forceRerenderAfterDnd] = useState(false);
 
   const [, drop] = useDrop({
     accept: EntryType.COMPONENT,
     canDrop() {
-      return false;
+      return false
     },
     hover(item, monitor) {
       if (!dropRef.current) {
@@ -111,18 +112,37 @@ const Entry = ({ id, index, moveEntry, handleToggle, toggleCollapses, entry, exp
   const [{ isDragging }, drag, preview] = useDrag({
     type: EntryType.COMPONENT,
     item: () => {
-      return { id, index }
+      toggleCollapses(-1);
+
+      return { index }
     },
     end() {
       // Update the errors
       // triggerFormValidation();
+      setIsDraggingSibling(false);
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
-  const isExpanded = expandedID === id
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: false });
+  }, [preview]);
+
+  useEffect(() => {
+    if (isDragging) {
+      setIsDraggingSibling(true);
+    }
+  }, [isDragging, setIsDraggingSibling]);
+
+  useEffect(() => {
+    if (!isDraggingSibling) {
+      forceRerenderAfterDnd((prev) => !prev);
+    }
+  }, [isDraggingSibling]);
+
+  const displayedValue = entry.name
   const opacity = isDragging ? 0 : 1
 
   drag(dragRef)
@@ -133,12 +153,16 @@ const Entry = ({ id, index, moveEntry, handleToggle, toggleCollapses, entry, exp
     <Box ref={dropRef}>
       {/* { isDragging && <DragPreview ref={preview} displayedValue={displayedValue} /> } */}
       { isDragging && <Preview /> }
-      { !isDragging && (
+
+      {!isDragging && isDraggingSibling && (
+        <DraggingSibling displayedValue={displayedValue} />
+      )}
+
+      { !isDragging && !isDraggingSibling && (
         <Accordion
-          key={index}
-          expanded={isExpanded}
-          onToggle={handleToggle(id)}
-          id={id}
+          expanded={isOpen}
+          onToggle={onClickToggle}
+          id={componentFieldName}
           size="S"
           style={{ style }}
         >
@@ -147,7 +171,7 @@ const Entry = ({ id, index, moveEntry, handleToggle, toggleCollapses, entry, exp
             togglePosition="left"
             action={
               <Stack horizontal spacing={0}>
-                <IconButtonCustom expanded={isExpanded} noBorder onClick={() => console.log('delete')} label="Delete" icon={<Trash />} />
+                <IconButtonCustom expanded={isOpen} noBorder onClick={() => console.log('delete')} label="Delete" icon={<Trash />} />
                 <DragButton
                   ref={dragRef}
                   role="button"

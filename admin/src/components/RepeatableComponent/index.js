@@ -43,11 +43,10 @@ const TextButtonCustom = styled(TextButton)`
   }
 `;
 
-const RepeatableComponent = ({ entries, setEntries }) => {
+const RepeatableComponent = ({ name, entries, setEntries }) => {
   console.log("Entries: ", entries)
-  const [expandedID, setExpandedID] = useState(null);
   const [collapseToOpen, setCollapseToOpen] = useState('');
-
+  const [isDraggingSibling, setIsDraggingSibling] = useState(false);
   const [entryCount, setEntryCount] = useState(0);
 
   const numberOfEntries = entries?.length
@@ -70,12 +69,12 @@ const RepeatableComponent = ({ entries, setEntries }) => {
   };
 
   const createEntry = () => {
-    setEntries([ ...entries, { name: `test ${entryCount}` } ])
-    setEntryCount(entryCount + 1)
-  }
+    const key = `${name}.${entryCount}`
 
-  const handleToggle = id => () => {
-    setExpandedID(s => s === id ? null : id);
+    setEntries([ ...entries, { key: key, name: `test ${entryCount}` } ])
+    setCollapseToOpen(key);
+
+    setEntryCount(entryCount + 1)
   }
 
   return (
@@ -84,7 +83,7 @@ const RepeatableComponent = ({ entries, setEntries }) => {
         <AccordionGroup
           footer={
             <Flex justifyContent="center" height="48px" background="neutral10">
-              <TextButtonCustom startIcon={<Plus />} onClick={() => createEntry()}>
+              <TextButtonCustom startIcon={<Plus />} onClick={createEntry}>
                 Add an entry
               </TextButtonCustom>
             </Flex>
@@ -102,18 +101,34 @@ const RepeatableComponent = ({ entries, setEntries }) => {
             </Tooltip>
           }
         >
-            {entries.map((entry, index) => (
-              <AccordionEntry
-                key={index}
-                index={index}
-                id={`acc-${index}`}
-                moveEntry={moveEntry}
-                handleToggle={handleToggle}
-                toggleCollapses={toggleCollapses}
-                entry={entry}
-                expandedID={expandedID}
-              />
-            ))}
+            {entries.map((entry, index) => {
+              const key = entry.key
+              const componentFieldName = `${name}.${index}`
+              const isOpen = collapseToOpen === key
+
+              const onClickToggle = () => {
+                if (isOpen) {
+                  setCollapseToOpen('');
+                } else {
+                  setCollapseToOpen(key);
+                }
+              }
+
+              return (
+                <AccordionEntry
+                  componentFieldName={componentFieldName}
+                  entry={entry}
+                  index={index}
+                  isDraggingSibling={isDraggingSibling}
+                  isOpen={isOpen}
+                  key={key}
+                  moveEntry={moveEntry}
+                  onClickToggle={onClickToggle}
+                  setIsDraggingSibling={setIsDraggingSibling}
+                  toggleCollapses={toggleCollapses}
+                />
+              )
+            })}
           {/* <Accordion error="The components contain error(s)" expanded={expandedID === 'acc-1'} onToggle={handleToggle('acc-1')} id="acc-1" size="S">
             <AccordionToggle startIcon={<User aria-hidden />} action={<Stack horizontal spacing={0}>
               <IconButton noBorder onClick={() => console.log('edit')} label="Edit" icon={<Pencil />} />
@@ -163,7 +178,7 @@ const RepeatableComponent = ({ entries, setEntries }) => {
               {/* {required && <Typography textColor="danger600">*</Typography>} */}
             </Typography>
           </Box>
-          <ComponentInitializer onClick={() => createEntry()} />
+          <ComponentInitializer onClick={createEntry} />
         </>
       )}
     </DndProvider>

@@ -154,7 +154,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
               />
             </Box>
             <Box paddingTop={4}>
-              <RepeatableComponent entries={buttons} setEntries={setButtons} />
+              <RepeatableComponent name="buttons" entries={buttons} setEntries={setButtons} />
             </Box>
           </>
         : <EmptyStateLayout
