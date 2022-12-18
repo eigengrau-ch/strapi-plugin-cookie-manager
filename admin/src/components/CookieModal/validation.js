@@ -3,7 +3,7 @@
 import * as Yup from "yup"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 const ValidationSchema = (formatMessage) => {
   const msg = {

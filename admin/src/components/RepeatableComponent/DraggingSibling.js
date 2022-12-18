@@ -1,20 +1,20 @@
 // React
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 // Strapi
-import { Stack } from '@strapi/design-system/Stack';
-import { Flex } from '@strapi/design-system/Flex';
-import { TextButton } from '@strapi/design-system/TextButton';
-import { IconButton } from '@strapi/design-system/IconButton';
-import { Icon } from '@strapi/design-system/Icon';
-import { Typography } from '@strapi/design-system/Typography';
-import Trash from '@strapi/icons/Trash';
-import Drag from '@strapi/icons/Drag';
-import DropdownIcon from '@strapi/icons/CarretDown';
+import { Stack } from '@strapi/design-system/Stack'
+import { Flex } from '@strapi/design-system/Flex'
+import { TextButton } from '@strapi/design-system/TextButton'
+import { IconButton } from '@strapi/design-system/IconButton'
+import { Icon } from '@strapi/design-system/Icon'
+import { Typography } from '@strapi/design-system/Typography'
+import Trash from '@strapi/icons/Trash'
+import Drag from '@strapi/icons/Drag'
+import DropdownIcon from '@strapi/icons/CarretDown'
 
 // Misc
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const SiblingWrapper = styled.span`
   display: flex;
@@ -23,7 +23,7 @@ const SiblingWrapper = styled.span`
   padding-right: ${({ theme }) => theme.spaces[4]};
   background-color: ${({ theme }) => theme.colors.neutral0};
   height: ${50 / 16}rem;
-`;
+`
 
 const ToggleButton = styled(TextButton)`
   text-align: left;
@@ -37,7 +37,7 @@ const ToggleButton = styled(TextButton)`
         expanded ? theme.colors.primary600 : theme.colors.neutral500};
     }
   }
-`;
+`
 
 const IconButtonSiblingCustom = styled(IconButton)`
   background-color: transparent;
@@ -46,7 +46,7 @@ const IconButtonSiblingCustom = styled(IconButton)`
     fill: ${({ theme, expanded }) =>
       expanded ? theme.colors.primary600 : theme.colors.neutral600};
   }
-`;
+`
 
 const DraggingSibling = ({ displayedValue }) => {
   return (
@@ -81,7 +81,7 @@ const DraggingSibling = ({ displayedValue }) => {
 
 DraggingSibling.propTypes = {
   displayedValue: PropTypes.string.isRequired,
-};
+}
 
 export default DraggingSibling
 

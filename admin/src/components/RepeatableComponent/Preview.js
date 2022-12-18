@@ -1,9 +1,9 @@
 
 // React
-import React from 'react';
+import React from 'react'
 
 // Misc
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Filler = styled.span`
   display: block;
@@ -11,10 +11,10 @@ const Filler = styled.span`
   outline: 1px dashed ${({ theme }) => theme.colors.primary500};
   outline-offset: -1px;
   padding: ${({ theme }) => theme.spaces[6]};
-`;
+`
 
 const Preview = () => {
-  return <Filler padding={6} background="primary100" />;
+  return <Filler padding={6} background="primary100" />
 };
 
 export default Preview

@@ -1,7 +1,7 @@
 
 // React
 import React, { useState } from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout"
@@ -26,7 +26,7 @@ import RepeatableComponent from "../../components/RepeatableComponent"
 import { isNull, first } from "lodash"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 // Validation Schema
 import validationSchema from "./validation"
@@ -34,22 +34,22 @@ import validationSchema from "./validation"
 const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {}, locale = null }) => {
   console.log("Popup: ", popup)
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
   const isUpdate = (Object.keys(popup).length > 0)
 
-  const [id] = useState(popup.id || null);
-  const [title, setTitle] = useState(popup.title || "");
-  const [description, setDescription] = useState(popup.description || "");
-  const [buttons, setButtons] = useState(popup.buttons || []);
+  const [id] = useState(popup.id || null)
+  const [title, setTitle] = useState(popup.title || "")
+  const [description, setDescription] = useState(popup.description || "")
+  const [buttons, setButtons] = useState(popup.buttons || [])
 
-  const [titleValidation, setTitleValidation] = useState([]);
-  const [descriptionValidation, setDescriptionValidation] = useState([]);
+  const [titleValidation, setTitleValidation] = useState([])
+  const [descriptionValidation, setDescriptionValidation] = useState([])
 
   const [isCreating, setIsCreating] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
     if (await validateFields()) {
       const fields = {
@@ -60,9 +60,9 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
 
       try {
         isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
-        setShowModal(false);
+        setShowModal(false)
       } catch (e) {
-        console.log("error", e);
+        console.log("error", e)
       }
     }
   };

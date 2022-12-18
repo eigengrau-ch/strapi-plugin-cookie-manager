@@ -62,7 +62,7 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
   const previewRef = useRef(null)
   const entryRef = useRef(null)
 
-  const [, forceRerenderAfterDnd] = useState(false);
+  const [, forceRerenderAfterDnd] = useState(false)
 
   const [, drop] = useDrop({
     accept: EntryType.COMPONENT,
@@ -112,14 +112,14 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
   const [{ isDragging }, drag, preview] = useDrag({
     type: EntryType.COMPONENT,
     item: () => {
-      toggleCollapses(-1);
+      toggleCollapses();
 
       return { index }
     },
     end() {
       // Update the errors
       // triggerFormValidation();
-      setIsDraggingSibling(false);
+      setIsDraggingSibling(false)
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -128,19 +128,19 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
 
   useEffect(() => {
     preview(getEmptyImage(), { captureDraggingState: false });
-  }, [preview]);
+  }, [preview])
 
   useEffect(() => {
     if (isDragging) {
-      setIsDraggingSibling(true);
+      setIsDraggingSibling(true)
     }
-  }, [isDragging, setIsDraggingSibling]);
+  }, [isDragging, setIsDraggingSibling])
 
   useEffect(() => {
     if (!isDraggingSibling) {
-      forceRerenderAfterDnd((prev) => !prev);
+      forceRerenderAfterDnd((prev) => !prev)
     }
-  }, [isDraggingSibling]);
+  }, [isDraggingSibling])
 
   const displayedValue = entry.name
   const opacity = isDragging ? 0 : 1

@@ -1,17 +1,17 @@
 
 // React
 import React, { useState } from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
-import { Dialog, DialogBody, DialogFooter } from "@strapi/design-system/Dialog";
+import { Dialog, DialogBody, DialogFooter } from "@strapi/design-system/Dialog"
 import { Combobox, ComboboxOption } from "@strapi/design-system/Combobox"
 import { NumberInput } from "@strapi/design-system/NumberInput"
 import { Stack } from "@strapi/design-system/Stack"
 import { Switch } from "@strapi/design-system/Switch"
 import Trash from "@strapi/icons/Trash"
 import { Flex } from "@strapi/design-system/Flex"
-import ExclamationMarkCircle from "@strapi/icons/ExclamationMarkCircle";
+import ExclamationMarkCircle from "@strapi/icons/ExclamationMarkCircle"
 import {
   ModalLayout,
   ModalHeader,
@@ -28,39 +28,39 @@ import {
 import { isNull, omit, first } from "lodash"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 // Validation Schema
 import validationSchema from "./validation"
 
 const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedCategory = null, cookie = {} }) => {
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
   const hasPreservedCategory = (preservedCategory !== null)
   const isUpdate = (cookie["id"] !== undefined)
   const isDuplicate = ((cookie["id"] === undefined) && (Object.keys(cookie).length > 0))
 
-  const [id] = useState(cookie.id || null);
-  const [name, setName] = useState(cookie.name || "");
-  const [description, setDescription] = useState(cookie.description || "");
-  const [host, setHost] = useState(cookie.host || "");
-  const [party, setParty] = useState(cookie.party || "");
-  const [category, setCategory] = useState(cookie.category || (hasPreservedCategory ? preservedCategory : {}));
-  const [duration, setDuration] = useState(cookie.duration || { days: 0, hours: 0, minutes: 0 });
+  const [id] = useState(cookie.id || null)
+  const [name, setName] = useState(cookie.name || "")
+  const [description, setDescription] = useState(cookie.description || "")
+  const [host, setHost] = useState(cookie.host || "")
+  const [party, setParty] = useState(cookie.party || "")
+  const [category, setCategory] = useState(cookie.category || (hasPreservedCategory ? preservedCategory : {}))
+  const [duration, setDuration] = useState(cookie.duration || { days: 0, hours: 0, minutes: 0 })
 
-  const [nameValidation, setNameValidation] = useState([]);
-  const [descriptionValidation, setDescriptionValidation] = useState([]);
-  const [hostValidation, setHostValidation] = useState([]);
-  const [partyValidation, setPartyValidation] = useState([]);
-  const [categoryValidation, setCategoryValidation] = useState([]);
-  const [isVisible, setIsVisible] = useState(cookie.isVisible || true);
-  const [durationDaysValidation, setDurationDaysValidation] = useState(false);
-  const [durationHoursValidation, setDurationHoursValidation] = useState(false);
-  const [durationMinutesValidation, setDurationMinutesValidation] = useState(false);
+  const [nameValidation, setNameValidation] = useState([])
+  const [descriptionValidation, setDescriptionValidation] = useState([])
+  const [hostValidation, setHostValidation] = useState([])
+  const [partyValidation, setPartyValidation] = useState([])
+  const [categoryValidation, setCategoryValidation] = useState([])
+  const [isVisible, setIsVisible] = useState(cookie.isVisible || true)
+  const [durationDaysValidation, setDurationDaysValidation] = useState(false)
+  const [durationHoursValidation, setDurationHoursValidation] = useState(false)
+  const [durationMinutesValidation, setDurationMinutesValidation] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
     if (await validateFields()) {
       const fields = {
@@ -75,10 +75,10 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       }
 
       try {
-        await crudAction((id) ? { id: id, ...fields } : { ...fields });
-        setShowModal(false);
+        await crudAction((id) ? { id: id, ...fields } : { ...fields })
+        setShowModal(false)
       } catch (e) {
-        console.log("error", e);
+        console.log("error", e)
       }
     }
   };
@@ -403,7 +403,7 @@ const UpdateCookieModal = ({ setShowModal, updateCookie, cookie, categories }) =
 const DuplicateCookieModal = ({ setShowModal, createCookie, cookie, categories, locale }) => <Modal setShowModal={setShowModal} crudAction={createCookie} categories={categories} cookie={omit(cookie, "id")} locale={locale} />
 
 const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = false }) => {
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
 
   return (
     <Dialog
@@ -456,7 +456,7 @@ const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = fal
 }
 
 const DeleteAllCookieModal = ({ setShowModal, deleteAllCookie, cookies, showModal = false }) => {
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
 
   return (
     <Dialog onClose={() => setShowModal(false)} title="Confirmation" isOpen={showModal}>

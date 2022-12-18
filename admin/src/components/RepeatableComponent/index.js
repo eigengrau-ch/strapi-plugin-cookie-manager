@@ -20,7 +20,7 @@ import Plus from "@strapi/icons/Plus"
 import Drag from "@strapi/icons/Drag"
 import Trash from "@strapi/icons/Trash"
 import Information from "@strapi/icons/Information"
-import { pxToRem } from "@strapi/helper-plugin";
+import { pxToRem } from "@strapi/helper-plugin"
 
 // Components
 import ComponentInitializer from "../../components/ComponentInitializer"
@@ -45,9 +45,9 @@ const TextButtonCustom = styled(TextButton)`
 
 const RepeatableComponent = ({ name, entries, setEntries }) => {
   console.log("Entries: ", entries)
-  const [collapseToOpen, setCollapseToOpen] = useState('');
-  const [isDraggingSibling, setIsDraggingSibling] = useState(false);
-  const [entryCount, setEntryCount] = useState(0);
+  const [collapseToOpen, setCollapseToOpen] = useState("")
+  const [isDraggingSibling, setIsDraggingSibling] = useState(false)
+  const [entryCount, setEntryCount] = useState(0)
 
   const numberOfEntries = entries?.length
   const hasEntries = (numberOfEntries > 0)
@@ -65,14 +65,14 @@ const RepeatableComponent = ({ name, entries, setEntries }) => {
   }, [])
 
   const toggleCollapses = () => {
-    setCollapseToOpen("");
+    setCollapseToOpen("")
   };
 
   const createEntry = () => {
     const key = `${name}.${entryCount}`
 
     setEntries([ ...entries, { key: key, name: `test ${entryCount}` } ])
-    setCollapseToOpen(key);
+    setCollapseToOpen(key)
 
     setEntryCount(entryCount + 1)
   }
@@ -101,69 +101,34 @@ const RepeatableComponent = ({ name, entries, setEntries }) => {
             </Tooltip>
           }
         >
-            {entries.map((entry, index) => {
-              const key = entry.key
-              const componentFieldName = `${name}.${index}`
-              const isOpen = collapseToOpen === key
+          {entries.map((entry, index) => {
+            const key = entry.key
+            const componentFieldName = `${name}.${index}`
+            const isOpen = collapseToOpen === key
 
-              const onClickToggle = () => {
-                if (isOpen) {
-                  setCollapseToOpen('');
-                } else {
-                  setCollapseToOpen(key);
-                }
+            const onClickToggle = () => {
+              if (isOpen) {
+                setCollapseToOpen('')
+              } else {
+                setCollapseToOpen(key)
               }
+            }
 
-              return (
-                <AccordionEntry
-                  componentFieldName={componentFieldName}
-                  entry={entry}
-                  index={index}
-                  isDraggingSibling={isDraggingSibling}
-                  isOpen={isOpen}
-                  key={key}
-                  moveEntry={moveEntry}
-                  onClickToggle={onClickToggle}
-                  setIsDraggingSibling={setIsDraggingSibling}
-                  toggleCollapses={toggleCollapses}
-                />
-              )
-            })}
-          {/* <Accordion error="The components contain error(s)" expanded={expandedID === 'acc-1'} onToggle={handleToggle('acc-1')} id="acc-1" size="S">
-            <AccordionToggle startIcon={<User aria-hidden />} action={<Stack horizontal spacing={0}>
-              <IconButton noBorder onClick={() => console.log('edit')} label="Edit" icon={<Pencil />} />
-              <IconButton noBorder onClick={() => console.log('delete')} label="Delete" icon={<Trash />} />
-            </Stack>} title="User informations" togglePosition="left" />
-            <AccordionContent>
-              <Box padding={3}>
-                <TextInput label="Name" />
-              </Box>
-            </AccordionContent>
-          </Accordion>
-          <Accordion error="The component contain error(s)" expanded={expandedID === 'acc-2'} onToggle={handleToggle('acc-2')} id="acc-2" size="S">
-            <AccordionToggle title="User informations" togglePosition="left" />
-            <AccordionContent>
-              <Box padding={3}>
-                <Typography>My name is John Duff</Typography>
-              </Box>
-            </AccordionContent>
-          </Accordion>
-          <Accordion expanded={expandedID === 'acc-3'} onToggle={handleToggle('acc-3')} id="acc-3" size="S">
-            <AccordionToggle title="User informations" togglePosition="left" />
-            <AccordionContent>
-              <Box padding={3}>
-                <Typography>My name is Michka</Typography>
-              </Box>
-            </AccordionContent>
-          </Accordion>
-          <Accordion expanded={expandedID === 'acc-4'} onToggle={handleToggle('acc-4')} id="acc-4" size="S">
-            <AccordionToggle startIcon={<User aria-hidden />} title="User informations" togglePosition="left" />
-            <AccordionContent>
-              <Box padding={3}>
-                <Typography>My name is John Duff</Typography>
-              </Box>
-            </AccordionContent>
-          </Accordion> */}
+            return (
+              <AccordionEntry
+                componentFieldName={componentFieldName}
+                entry={entry}
+                index={index}
+                isDraggingSibling={isDraggingSibling}
+                isOpen={isOpen}
+                key={key}
+                moveEntry={moveEntry}
+                onClickToggle={onClickToggle}
+                setIsDraggingSibling={setIsDraggingSibling}
+                toggleCollapses={toggleCollapses}
+              />
+            )
+          })}
         </AccordionGroup>
       ) : (
         <>

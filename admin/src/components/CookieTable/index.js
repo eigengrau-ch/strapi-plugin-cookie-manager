@@ -1,25 +1,25 @@
 
 // React
 import React, { useState } from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
 import { Box } from "@strapi/design-system/Box"
-import { Flex } from "@strapi/design-system/Flex";
-import { Typography } from "@strapi/design-system/Typography";
-import { Button } from "@strapi/design-system/Button";
-import { IconButton } from "@strapi/design-system/IconButton";
-import { BaseCheckbox } from "@strapi/design-system/BaseCheckbox";
-import { Table, Thead, Tbody, TFooter, Tr, Td, Th } from "@strapi/design-system/Table";
-import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
-import { Switch } from "@strapi/design-system/Switch";
-import Plus from "@strapi/icons/Plus";
-import Pencil from "@strapi/icons/Pencil";
-import Trash from "@strapi/icons/Trash";
-import Duplicate from "@strapi/icons/Duplicate";
+import { Flex } from "@strapi/design-system/Flex"
+import { Typography } from "@strapi/design-system/Typography"
+import { Button } from "@strapi/design-system/Button"
+import { IconButton } from "@strapi/design-system/IconButton"
+import { BaseCheckbox } from "@strapi/design-system/BaseCheckbox"
+import { Table, Thead, Tbody, TFooter, Tr, Td, Th } from "@strapi/design-system/Table"
+import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden"
+import { Switch } from "@strapi/design-system/Switch"
+import Plus from "@strapi/icons/Plus"
+import Pencil from "@strapi/icons/Pencil"
+import Trash from "@strapi/icons/Trash"
+import Duplicate from "@strapi/icons/Duplicate"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 const CookieTable = ({
   cookies,
@@ -35,7 +35,7 @@ const CookieTable = ({
   setShowDeleteAllCookieModal
 }) => {
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
 
   const [checkedRowSwitch, setCheckedRowSwitch] = useState([])
   const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
@@ -83,9 +83,9 @@ const CookieTable = ({
     })])
 
     try {
-      await updateCookie(fields);
+      await updateCookie(fields)
     } catch (e) {
-      console.log("error", e);
+      console.log("error", e)
     }
   }
 

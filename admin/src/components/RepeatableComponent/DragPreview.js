@@ -1,23 +1,23 @@
 // React
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
 // Strapi
-import { pxToRem } from "@strapi/helper-plugin";
-import { Box } from "@strapi/design-system/Box";
-import { Flex } from "@strapi/design-system/Flex";
-import { Typography } from "@strapi/design-system/Typography";
-import { IconButton } from "@strapi/design-system/IconButton";
-import Trash from "@strapi/icons/Trash";
-import DragHandle from "@strapi/icons/Drag";
-import CarretDown from "@strapi/icons/CarretDown";
+import { pxToRem } from "@strapi/helper-plugin"
+import { Box } from "@strapi/design-system/Box"
+import { Flex } from "@strapi/design-system/Flex"
+import { Typography } from "@strapi/design-system/Typography"
+import { IconButton } from "@strapi/design-system/IconButton"
+import Trash from "@strapi/icons/Trash"
+import DragHandle from "@strapi/icons/Drag"
+import CarretDown from "@strapi/icons/CarretDown"
 
 // Misc
-import styled from "styled-components";
+import styled from "styled-components"
 
 const DragPreviewBox = styled(Box)`
   border: 1px solid ${({ theme }) => theme.colors.neutral200};
-`;
+`
 
 const DropdownIconWrapper = styled(Box)`
   height: ${32 / 16}rem;
@@ -33,7 +33,7 @@ const DropdownIconWrapper = styled(Box)`
       fill: ${({ theme }) => theme.colors.neutral600};
     }
   }
-`;
+`
 
 const ToggleButton = styled.button`
   border: none;
@@ -42,7 +42,7 @@ const ToggleButton = styled.button`
   width: 100%;
   text-align: unset;
   padding: 0;
-`;
+`
 
 const DragPreview = ({ displayedValue, ...props }) => {
   return (
@@ -84,7 +84,7 @@ const DragPreview = ({ displayedValue, ...props }) => {
 
 DragPreview.propTypes = {
   displayedValue: PropTypes.string.isRequired,
-};
+}
 
 export default DragPreview
 

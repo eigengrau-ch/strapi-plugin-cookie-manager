@@ -1,17 +1,17 @@
 
 // React
 import React, { useState } from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
-import { Dialog, DialogBody, DialogFooter } from "@strapi/design-system/Dialog";
-import { Accordion, AccordionToggle, AccordionContent } from "@strapi/design-system/Accordion";
-import { Table, Thead, Tbody, Tr, Td, Th } from "@strapi/design-system/Table";
-import { Divider } from "@strapi/design-system/Divider";
+import { Dialog, DialogBody, DialogFooter } from "@strapi/design-system/Dialog"
+import { Accordion, AccordionToggle, AccordionContent } from "@strapi/design-system/Accordion"
+import { Table, Thead, Tbody, Tr, Td, Th } from "@strapi/design-system/Table"
+import { Divider } from "@strapi/design-system/Divider"
 import { Stack } from "@strapi/design-system/Stack"
 import Trash from "@strapi/icons/Trash"
 import { Flex } from "@strapi/design-system/Flex"
-import ExclamationMarkCircle from "@strapi/icons/ExclamationMarkCircle";
+import ExclamationMarkCircle from "@strapi/icons/ExclamationMarkCircle"
 import {
   ModalLayout,
   ModalHeader,
@@ -28,26 +28,26 @@ import {
 import { isNull, first } from "lodash"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 // Validation Schema
 import validationSchema from "./validation"
 
 const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
   const isUpdate = (Object.keys(category).length > 0)
 
-  const [id] = useState(category.id || null);
-  const [name, setName] = useState(category.name || "");
-  const [description, setDescription] = useState(category.description || "");
+  const [id] = useState(category.id || null)
+  const [name, setName] = useState(category.name || "")
+  const [description, setDescription] = useState(category.description || "")
 
-  const [nameValidation, setNameValidation] = useState([]);
-  const [descriptionValidation, setDescriptionValidation] = useState([]);
+  const [nameValidation, setNameValidation] = useState([])
+  const [descriptionValidation, setDescriptionValidation] = useState([])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
     if (await validateFields()) {
       const fields = {
@@ -57,10 +57,10 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
       }
 
       try {
-        await crudAction((id) ? { id: id, ...fields } : { ...fields });
-        setShowModal(false);
+        await crudAction((id) ? { id: id, ...fields } : { ...fields })
+        setShowModal(false)
       } catch (e) {
-        console.log("error", e);
+        console.log("error", e)
       }
     }
   };
@@ -183,7 +183,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
 const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, category, cookies, showModal = false }) => {
   const [toggle, setToggle] = useState(false)
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
   const categoryHasCookies = (cookies.length > 0)
   const cookieCount = cookies.length
   const cookieOrCookies = cookieCount > 1 ? "cookies" : "cookie"

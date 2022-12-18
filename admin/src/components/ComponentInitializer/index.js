@@ -1,20 +1,20 @@
 
 // React
-import React from "react";
-import PropTypes from "prop-types";
-import { useIntl } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import { useIntl } from "react-intl"
 
 // Strapi
-import { Box } from "@strapi/design-system/Box";
-import { Stack } from "@strapi/design-system/Stack";
-import { Flex } from "@strapi/design-system/Flex";
-import { Typography } from "@strapi/design-system/Typography";
-import PlusCircle from "@strapi/icons/PlusCircle";
-import { pxToRem } from "@strapi/helper-plugin";
+import { Box } from "@strapi/design-system/Box"
+import { Stack } from "@strapi/design-system/Stack"
+import { Flex } from "@strapi/design-system/Flex"
+import { Typography } from "@strapi/design-system/Typography"
+import PlusCircle from "@strapi/icons/PlusCircle"
+import { pxToRem } from "@strapi/helper-plugin"
 
 // Utils
-// import { getTrad } from "../../utils";
-import styled from "styled-components";
+// import { getTrad } from "../../utils"
+import styled from "styled-components"
 
 const IconWrapper = styled.span`
   > svg {
@@ -30,7 +30,7 @@ const IconWrapper = styled.span`
 `;
 
 const ComponentInitializer = ({ onClick }) => {
-  // const { formatMessage } = useIntl();
+  // const { formatMessage } = useIntl()
 
   return (
     <>
@@ -69,6 +69,6 @@ const ComponentInitializer = ({ onClick }) => {
 
 ComponentInitializer.propTypes = {
   onClick: PropTypes.func.isRequired,
-};
+}
 
-export default ComponentInitializer;
+export default ComponentInitializer
