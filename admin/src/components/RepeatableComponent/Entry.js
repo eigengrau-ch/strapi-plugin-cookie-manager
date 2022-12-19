@@ -15,7 +15,7 @@ import Trash from "@strapi/icons/Trash"
 // Components
 import { EntryType } from "./EntryType"
 import { DraggingSibling } from "./DraggingSibling"
-import { Preview } from "./Preview"
+import { DropPreview } from "./DropPreview"
 
 // Misc
 import styled from "styled-components"
@@ -151,8 +151,7 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
 
   return (
     <Box ref={dropRef}>
-      {/* { isDragging && <DragPreview ref={preview} displayedValue={displayedValue} /> } */}
-      { isDragging && <Preview /> }
+      { isDragging && <DropPreview /> }
 
       {!isDragging && isDraggingSibling && (
         <DraggingSibling displayedValue={displayedValue} />

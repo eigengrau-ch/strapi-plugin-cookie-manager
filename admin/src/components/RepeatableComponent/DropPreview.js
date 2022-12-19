@@ -13,10 +13,10 @@ const Filler = styled.span`
   padding: ${({ theme }) => theme.spaces[6]};
 `
 
-const Preview = () => {
+const DropPreview = () => {
   return <Filler padding={6} background="primary100" />
 };
 
-export default Preview
+export default DropPreview
 
-export { Preview }
+export { DropPreview }
