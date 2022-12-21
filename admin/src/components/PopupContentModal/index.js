@@ -28,8 +28,9 @@ import { isNull, first } from "lodash"
 // Utils
 import { getTrad } from "../../utils"
 
-// Validation Schema
+// Schema
 import validationSchema from "./validation"
+import componentSchema from "../../../../server/components/cookie-button.json"
 
 const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {}, locale = null }) => {
   console.log("Popup: ", popup)
@@ -45,13 +46,17 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
   const [titleValidation, setTitleValidation] = useState([])
   const [descriptionValidation, setDescriptionValidation] = useState([])
 
+  const [dynamicComponentIsValidated, setDynamicComponentIsValidated] = useState(false)
+  const [isSubmit, setIsSubmit] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     e.stopPropagation()
 
-    if (await validateFields()) {
+    setIsSubmit(true)
+
+    if (await validateFields() && validateDynamicComponent()) {
       const fields = {
         title: title,
         description: description,
@@ -59,8 +64,9 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
       }
 
       try {
-        isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
-        setShowModal(false)
+        console.log("Success!")
+        // isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
+        // setShowModal(false)
       } catch (e) {
         console.log("error", e)
       }
@@ -96,6 +102,16 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
     }
 
     return validationSuccess
+  }
+
+  const validateDynamicComponent = () => {
+    console.log("Change 'dynamicComponentIsValid' state")
+    if (buttons.length === 0) {
+      console.log("Should have no buttons: ", buttons)
+      // setDynamicComponentIsValid(state => !state)
+    } else {
+      console.log("It has buttons! ", buttons.length)
+    }
   }
 
 
@@ -154,7 +170,14 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
               />
             </Box>
             <Box paddingTop={4}>
-              <RepeatableComponent name="buttons" entries={buttons} setEntries={setButtons} />
+              <RepeatableComponent
+                name="buttons"
+                entries={buttons}
+                setEntries={setButtons}
+                schema={componentSchema}
+                isValidated={dynamicComponentIsValidated}
+                setIsValidated={setDynamicComponentIsValidated}
+                isSubmit={isSubmit} />
             </Box>
           </>
         : <EmptyStateLayout

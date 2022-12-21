@@ -1,7 +1,8 @@
 
 // React
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import { DndProvider, useDrop } from "react-dnd"
+import { useIntl } from "react-intl"
 
 // Strapi
 import { AccordionGroup, Accordion, AccordionContent, AccordionToggle } from "@strapi/design-system/Accordion"
@@ -11,7 +12,7 @@ import { TextInput } from "@strapi/design-system/TextInput"
 import { TextButton } from "@strapi/design-system/TextButton"
 import { Stack } from "@strapi/design-system/Stack"
 import { Tooltip } from "@strapi/design-system/Tooltip"
-import { IconButton } from "@strapi/design-system/IconButton"
+import { Combobox, ComboboxOption } from "@strapi/design-system/Combobox"
 import { Button } from "@strapi/design-system/Button"
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout"
 import { Box } from "@strapi/design-system/Box"
@@ -26,9 +27,15 @@ import { pxToRem } from "@strapi/helper-plugin"
 import ComponentInitializer from "../../components/ComponentInitializer"
 import AccordionEntry from "./Entry"
 
+// Lodash
+import { isNull, first } from "lodash"
+
 // Misc
 import styled from "styled-components"
 import update from "immutability-helper"
+
+// Schema
+import validationSchema from "./validation"
 
 
 const TextButtonCustom = styled(TextButton)`
@@ -43,8 +50,21 @@ const TextButtonCustom = styled(TextButton)`
   }
 `;
 
-const RepeatableComponent = ({ name, entries, setEntries }) => {
-  console.log("Entries: ", entries)
+const RepeatableComponent = ({ name, entries, setEntries, schema, isValidated, setIsValidated, isSubmit }) => {
+
+  const { formatMessage } = useIntl()
+
+  const [buttonType, setButtonType] = useState("")
+  const [label, setLabel] = useState("")
+
+  // Required to some day make validation dynamic for fields and not hard coded
+  // const validationKeys = Object.keys(schema.attributes).reduce((prev, current) => (prev[current] = [], prev), {})
+  // const [fieldValidation, setfieldValidation] = useState(validationKeys || {})
+
+  const [buttonTypeValidation, setButtonTypeValidation] = useState([])
+  const [labelValidation, setLabelValidation] = useState([])
+
+  const [fields] = useState(schema.attributes || {})
   const [collapseToOpen, setCollapseToOpen] = useState("")
   const [isDraggingSibling, setIsDraggingSibling] = useState(false)
   const [entryCount, setEntryCount] = useState(0)
@@ -52,9 +72,41 @@ const RepeatableComponent = ({ name, entries, setEntries }) => {
   const numberOfEntries = entries?.length
   const hasEntries = (numberOfEntries > 0)
 
+  const handleParentSubmit = async () => { if (!isValidated && isSubmit) if (await validateFields()) setIsValidated(true) }
+
+  const handleValidation = async (field, setValueValidation) => {
+    const key = Object.keys(field)[0]
+    const result = await validateField(field, key)
+    const isValid = isNull(result) ? [] : result
+
+    setValueValidation(isValid)
+  }
+
+  const validateField = async (field, key) => {
+    return await validationSchema(formatMessage)
+      .validateAt(key, field)
+      .then(() => null)
+      .catch((err) => err.errors)
+  }
+  
+  const validateFields = async () => {
+    const fields = {
+      buttonType: buttonType,
+      label: label,
+    }
+
+    const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
+
+    if (!validationSuccess) {
+      setButtonTypeValidation(await validateField({ buttonType: buttonType }, "buttonType"))
+      setLabelValidation(await validateField({ label: label }, "label"))
+    }
+
+    return validationSuccess
+  }
+
   const moveEntry = useCallback((dragIndex, hoverIndex) => {
     setEntries((prevEntries) => {
-      console.log("prevEntries: ", prevEntries)
       return update(prevEntries, {
         $splice: [
           [dragIndex, 1],
@@ -71,11 +123,14 @@ const RepeatableComponent = ({ name, entries, setEntries }) => {
   const createEntry = () => {
     const key = `${name}.${entryCount}`
 
-    setEntries([ ...entries, { key: key, name: `test ${entryCount}` } ])
+    setEntries([ ...entries, { key: key, buttonType: "", label: `test ${entryCount}` } ])
     setCollapseToOpen(key)
-
     setEntryCount(entryCount + 1)
   }
+
+  useEffect(async () => {
+    handleParentSubmit()
+  }, [isSubmit])
 
   return (
     <DndProvider>
@@ -126,7 +181,57 @@ const RepeatableComponent = ({ name, entries, setEntries }) => {
                 onClickToggle={onClickToggle}
                 setIsDraggingSibling={setIsDraggingSibling}
                 toggleCollapses={toggleCollapses}
-              />
+              >
+                  {Object.values(fields).map((field, index) => {
+                    const fieldName = Object.keys(fields)[index]
+                    console.log("Field: ", field)
+                    let renderedField = <></>
+
+                    switch(field.type) {
+                      case "enumeration":
+                        renderedField = (
+                          <Combobox
+                            label="Button Type"
+                            error={first(buttonTypeValidation)}
+                            onChange={(value) => {
+                              handleValidation({ [fieldName]: value }, setButtonTypeValidation, buttonTypeValidation)
+                              setButtonType(value)
+                            }}
+                            value={buttonType}
+                          >
+                            {field.enum.map(option => (
+                              <ComboboxOption value={option}>{option}</ComboboxOption>
+                            ))}
+                          </Combobox>
+                        )
+                        break
+                      case "string":
+                        renderedField = (
+                          <TextInput
+                            // label={formatMessage({
+                            //   id: getTrad("modal.popup.form.field.title.label"),
+                            //   defaultMessage: "Title"
+                            // })}
+                            label="Label"
+                            name="label"
+                            error={first(labelValidation)}
+                            onChange={e => {
+                              handleValidation({ [fieldName]: e.target.value }, setLabelValidation, labelValidation)
+                              setLabel(e.target.value)
+                            }}
+                            value={label}
+                          />
+                        )
+                        break
+                    }
+
+                    return (
+                      <Box padding={4}>
+                        { renderedField }
+                      </Box>
+                    )
+                  })}
+              </AccordionEntry>
             )
           })}
         </AccordionGroup>
