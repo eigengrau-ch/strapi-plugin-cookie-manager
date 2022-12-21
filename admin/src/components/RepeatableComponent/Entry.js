@@ -55,7 +55,7 @@ const DragButton = styled.span`
   }
 `;
 
-const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isDraggingSibling, setIsDraggingSibling, toggleCollapses, isOpen }) => {
+const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isDraggingSibling, setIsDraggingSibling, toggleCollapses, isOpen, children }) => {
 
   const dragRef = useRef(null)
   const dropRef = useRef(null)
@@ -184,7 +184,7 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
           />
           <AccordionContent>
             <Box padding={3}>
-              <Typography>My name is John Duff</Typography>
+              {children}
             </Box>
           </AccordionContent>
         </Accordion>
