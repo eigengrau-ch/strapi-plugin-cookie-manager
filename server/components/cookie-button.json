@@ -10,7 +10,8 @@
       "type": "enumeration",
       "enum": [
         "Primary",
-        "Secondary"
+        "Secondary",
+        "Text"
       ]
     },
     "label": {
