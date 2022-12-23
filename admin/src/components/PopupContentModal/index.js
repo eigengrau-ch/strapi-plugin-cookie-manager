@@ -33,7 +33,7 @@ import validationSchema from "./validation"
 import componentSchema from "../../../../server/components/cookie-button.json"
 
 const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {}, locale = null }) => {
-  console.log("Popup: ", popup)
+  // console.log("Popup: ", popup)
 
   const { formatMessage } = useIntl()
   const isUpdate = (Object.keys(popup).length > 0)
@@ -46,7 +46,8 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
   const [titleValidation, setTitleValidation] = useState([])
   const [descriptionValidation, setDescriptionValidation] = useState([])
 
-  const [dynamicComponentIsValidated, setDynamicComponentIsValidated] = useState(false)
+  const [childrensValidated, setChildrensValidated] = useState([])
+  const [childrenIsValid, setChildrenIsValid] = useState(false)
   const [isSubmit, setIsSubmit] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
 
@@ -56,7 +57,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
 
     setIsSubmit(true)
 
-    if (await validateFields() && validateDynamicComponent()) {
+    if (await validateFields() && childrenIsValid) {
       const fields = {
         title: title,
         description: description,
@@ -65,6 +66,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
 
       try {
         console.log("Success!")
+        console.log("New Fields: ", fields)
         // isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
         // setShowModal(false)
       } catch (e) {
@@ -104,16 +106,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
     return validationSuccess
   }
 
-  const validateDynamicComponent = () => {
-    console.log("Change 'dynamicComponentIsValid' state")
-    if (buttons.length === 0) {
-      console.log("Should have no buttons: ", buttons)
-      // setDynamicComponentIsValid(state => !state)
-    } else {
-      console.log("It has buttons! ", buttons.length)
-    }
-  }
-
+  console.log("childrenIsValid: ", childrenIsValid)
 
   return (
     <ModalLayout
@@ -175,8 +168,10 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                 entries={buttons}
                 setEntries={setButtons}
                 schema={componentSchema}
-                isValidated={dynamicComponentIsValidated}
-                setIsValidated={setDynamicComponentIsValidated}
+                isValid={childrenIsValid}
+                setIsValid={setChildrenIsValid}
+                childrensValidated={childrensValidated}
+                setChildrensValidated={setChildrensValidated}
                 isSubmit={isSubmit} />
             </Box>
           </>

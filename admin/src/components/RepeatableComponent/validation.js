@@ -21,12 +21,14 @@ const ValidationSchema = (formatMessage) => {
 
   return Yup.object().shape({
     buttonType: Yup
-      .number(),
+      .mixed()
+      .oneOf(["Primary", "Secondary", "Text"]),
       // .required(msg.string.isRequired)
       // .max(125, msg.string.isMax),
 
       label: Yup
-      .number(),
+      .string()
+      .required(),
       // .max(250, msg.string.isMax),
   })
 };
