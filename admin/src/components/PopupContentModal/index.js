@@ -1,7 +1,7 @@
 
 // React
 import React, { useState } from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout"
@@ -20,36 +20,44 @@ import {
 
 // Components
 import Illo from "../../components/Illo"
+import RepeatableComponent from "../../components/RepeatableComponent"
 
 // Lodash
 import { isNull, first } from "lodash"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
-// Validation Schema
+// Schema
 import validationSchema from "./validation"
+import componentSchema from "../../../../server/components/cookie-button.json"
 
 const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {}, locale = null }) => {
-  console.log("Popup: ", popup)
+  // console.log("Popup: ", popup)
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
   const isUpdate = (Object.keys(popup).length > 0)
 
-  const [id] = useState(popup.id || null);
-  const [title, setTitle] = useState(popup.title || "");
-  const [description, setDescription] = useState(popup.description || "");
+  const [id] = useState(popup.id || null)
+  const [title, setTitle] = useState(popup.title || "")
+  const [description, setDescription] = useState(popup.description || "")
+  const [buttons, setButtons] = useState(popup.buttons || [])
 
-  const [titleValidation, setTitleValidation] = useState([]);
-  const [descriptionValidation, setDescriptionValidation] = useState([]);
+  const [titleValidation, setTitleValidation] = useState([])
+  const [descriptionValidation, setDescriptionValidation] = useState([])
 
+  const [childrensValidated, setChildrensValidated] = useState([])
+  const [childrenIsValid, setChildrenIsValid] = useState(false)
+  const [isSubmit, setIsSubmit] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
-    if (await validateFields()) {
+    setIsSubmit(true)
+
+    if (await validateFields() && childrenIsValid) {
       const fields = {
         title: title,
         description: description,
@@ -57,10 +65,12 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
       }
 
       try {
-        isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
-        setShowModal(false);
+        console.log("Success!")
+        console.log("New Fields: ", fields)
+        // isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
+        // setShowModal(false)
       } catch (e) {
-        console.log("error", e);
+        console.log("error", e)
       }
     }
   };
@@ -96,6 +106,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
     return validationSuccess
   }
 
+  console.log("childrenIsValid: ", childrenIsValid)
 
   return (
     <ModalLayout
@@ -150,6 +161,18 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                 }}
                 value={description}
               />
+            </Box>
+            <Box paddingTop={4}>
+              <RepeatableComponent
+                name="buttons"
+                entries={buttons}
+                setEntries={setButtons}
+                schema={componentSchema}
+                isValid={childrenIsValid}
+                setIsValid={setChildrenIsValid}
+                childrensValidated={childrensValidated}
+                setChildrensValidated={setChildrensValidated}
+                isSubmit={isSubmit} />
             </Box>
           </>
         : <EmptyStateLayout

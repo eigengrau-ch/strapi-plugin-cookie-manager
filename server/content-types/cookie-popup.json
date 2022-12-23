@@ -28,6 +28,16 @@
         }
       },
       "type": "richtext"
+    },
+    "buttons": {
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "shared.cookie-button"
     }
   }
 }

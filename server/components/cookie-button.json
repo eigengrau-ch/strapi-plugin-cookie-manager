@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_cookie_button",
+  "info": {
+    "displayName": "Cookie Button",
+    "icon": "mouse-pointer"
+  },
+  "options": {},
+  "attributes": {
+    "buttonType": {
+      "type": "enumeration",
+      "enum": [
+        "Primary",
+        "Secondary",
+        "Text"
+      ]
+    },
+    "label": {
+      "type": "string"
+    }
+  }
+}

@@ -1,10 +1,10 @@
 
 // React
 import React from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
-import { Accordion, AccordionToggle, AccordionContent } from "@strapi/design-system/Accordion";
+import { Accordion, AccordionToggle, AccordionContent } from "@strapi/design-system/Accordion"
 import { IconButton } from "@strapi/design-system/IconButton"
 import { Stack } from "@strapi/design-system/Stack"
 import Pencil from "@strapi/icons/Pencil"
@@ -15,11 +15,11 @@ import Plus from "@strapi/icons/Plus"
 import { first } from "lodash"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expandedStates, setExpandedStates, setShowCreateCookieModal, setShowUpdateCategoryModal, setShowDeleteCategoryModal, children }) => {
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
   const isExpanded = first(expandedStates.filter(state => state.id === category.id)).isExpanded
 
   return (
