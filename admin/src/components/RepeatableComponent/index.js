@@ -50,7 +50,7 @@ const TextButtonCustom = styled(TextButton)`
   }
 `;
 
-const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIsValid, childrensValidated, setChildrensValidated, isSubmit }) => {
+const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIsValid, childrensValidated, setChildrensValidated, isSubmit, setIsSubmit }) => {
 
   const { formatMessage } = useIntl()
 
@@ -110,6 +110,8 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
   }
 
   const validateField = async (field, key) => {
+    console.log("Validate: ", key)
+    console.log("field: ", field)
     return await validationSchema(formatMessage)
       .validateAt(key, field)
       .then(() => null)
@@ -120,32 +122,44 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
 
     // Build Object with key from fieldname and value of the field state
     // Need to only loop trough entries
-    const fields = {
-      buttonType: buttonType,
-      label: label,
-    }
-    const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
+    // const fields = {
+    //   buttonType: buttonType,
+    //   label: label,
+    // }
+    // const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
 
-    if (!validationSuccess) {
-      setButtonTypeValidation(state => {
-        entries.forEach((entry, entryCount) => {
-          Object.values(fields).forEach(async (field, fieldCount) => {
-            const fieldName = Object.keys(fields)[fieldCount]
-            const key = `${fieldName}.${entryCount}${fieldCount}`
+    console.log("isValid: ", isValid)
+    if (!isValid) {
 
-            state = handleStateChange(key, state, await validateField({ [fieldName]: findValueByKey(buttonType, key) }, fieldName))
-          // await validateField({ label: label }, "label")
-          })
-        })
+      let newButtonTypeValidation = []
+      let newLabelValidation = []
 
-        return state
-      })
-      setLabelValidation(await validateField({ label: label }, "label"))
+      for(const [entryCount, entry] of entries.entries()) {
+        // for(const [fieldCount, field] of Object.values(fields).entries()) {
+        //   const fieldName = Object.keys(fields)[fieldCount]
+        //   const key = `${fieldName}.${entryCount}${fieldCount}`
+        //   newButtonTypeValidation = handleStateChange(key, newButtonTypeValidation, await validateField({ [fieldName]: findValueByKey(buttonType, key) || [] }, fieldName))
+        //   newLabelValidation = handleStateChange(key, newLabelValidation, await validateField({ [fieldName]: findValueByKey(buttonType, key) || "" }, fieldName))
+        // }
+
+        const fieldName = Object.keys(fields)
+        const buttonTypeKey = `${fieldName[0]}.${entryCount}0`
+        const labelKey = `${fieldName[1]}.${entryCount}1`
+
+        newButtonTypeValidation = handleStateChange(buttonTypeKey, newButtonTypeValidation, await validateField({ [fieldName[0]]: findValueByKey(buttonType, buttonTypeKey) || [] }, fieldName[0]))
+        newLabelValidation = handleStateChange(labelKey, newLabelValidation, await validateField({ [fieldName[1]]: findValueByKey(label, labelKey) || "" }, fieldName[1]))
+      }
+
+      console.log("newButtonTypeValidation: ", newButtonTypeValidation)
+      console.log("newLabelValidation: ", newLabelValidation)
+
+      setButtonTypeValidation(newButtonTypeValidation)
+      setLabelValidation(newLabelValidation)
     } else {
       setIsValid(true)
     }
 
-    return validationSuccess
+    return isValid
   }
 
   const moveEntry = useCallback((dragIndex, hoverIndex) => {
@@ -167,6 +181,8 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
     const key = `${name}.${entryCount}`
     const newEntry = { key: key, buttonType: "", label: `test ${entryCount}` }
 
+    setIsSubmit(false)
+    setIsValid(false)
     setEntries([ ...entries, newEntry ])
     setCollapseToOpen(key)
     setEntryCount(entryCount + 1)
@@ -185,8 +201,10 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
     // Rename to setIsAllValidated
     const numberOfValid = childrensValidated.filter(obj => (obj.valid) ? true : false)
   
-    // console.log("numberOfValid: ", numberOfValid)
-    setIsValid((numberOfValid.length === numberOfFields))
+    console.log("numberOfFields: ", numberOfFields)
+    console.log("numberOfEntries: ", numberOfEntries)
+    console.log("number of valid: ", (numberOfEntries * numberOfFields))
+    setIsValid((numberOfEntries > 0 && numberOfValid.length === (numberOfEntries * numberOfFields)))
 
     // console.log("buttonTypeValidation2 :", buttonTypeValidation)
     // console.log("labelValidation2 :", labelValidation)
@@ -194,11 +212,7 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
     // Is always true initialy since there are no errors, yet..
   }, [childrensValidated])
 
-  useEffect(() => {
-    // Initially set value and validation state for new field
-  }, [fields])
-
-  // console.log("childrensValidated: ", childrensValidated)
+  console.log("childrensValidated: ", childrensValidated)
 
   // console.log("buttonTypeValidation :", buttonTypeValidation)
   console.log("buttonTypeValidation :", buttonTypeValidation)
@@ -259,8 +273,6 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
                   {Object.values(fields).map((field, fieldCount) => {
                     const fieldName = Object.keys(fields)[fieldCount]
                     const key = `${fieldName}.${entryCount}${fieldCount}`
-                    const labelValue = findValueByKey(label, key)
-                    const buttonTypeValue = findValueByKey(buttonType, key)
                     let renderedField = <></>
 
                     switch(field.type) {
@@ -270,8 +282,8 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
                             label="Button Type"
                             error={findValueByKey(buttonTypeValidation, key)}
                             onChange={(value) => {
-                              handleValidation(key, { [fieldName]: value }, setButtonTypeValidation)
                               setButtonType(state => handleStateChange(key, state, value))
+                              handleValidation(key, { [fieldName]: value }, setButtonTypeValidation)
                             }}
                             value={findValueByKey(buttonType, key)}
                           >
@@ -292,8 +304,8 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
                             name="label"
                             error={findValueByKey(labelValidation, key)}
                             onChange={e => {
-                              handleValidation(key, { [fieldName]: e.target.value }, setLabelValidation)
                               setLabel(state => handleStateChange(key, state, e.target.value))
+                              handleValidation(key, { [fieldName]: e.target.value }, setLabelValidation)
                             }}
                             value={findValueByKey(label, key)}
                           />

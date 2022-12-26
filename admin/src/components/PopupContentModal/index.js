@@ -106,8 +106,6 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
     return validationSuccess
   }
 
-  console.log("childrenIsValid: ", childrenIsValid)
-
   return (
     <ModalLayout
       onClose={() => setShowModal(false)}
@@ -172,7 +170,9 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                 setIsValid={setChildrenIsValid}
                 childrensValidated={childrensValidated}
                 setChildrensValidated={setChildrensValidated}
-                isSubmit={isSubmit} />
+                isSubmit={isSubmit}
+                setIsSubmit={setIsSubmit}
+              />
             </Box>
           </>
         : <EmptyStateLayout
