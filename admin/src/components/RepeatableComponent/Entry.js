@@ -6,7 +6,6 @@ import { getEmptyImage } from "react-dnd-html5-backend"
 // Strapi
 import { Accordion, AccordionContent, AccordionToggle } from "@strapi/design-system/Accordion"
 import { IconButton } from "@strapi/design-system/IconButton"
-import { Typography } from "@strapi/design-system/Typography"
 import { Stack } from "@strapi/design-system/Stack"
 import { Box } from "@strapi/design-system/Box"
 import Drag from "@strapi/icons/Drag"
@@ -55,12 +54,10 @@ const DragButton = styled.span`
   }
 `;
 
-const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isDraggingSibling, setIsDraggingSibling, toggleCollapses, isOpen, children }) => {
+const Entry = ({ index, entryKey, componentFieldName, moveEntry, deleteEntry, onClickToggle, entry, isDraggingSibling, setIsDraggingSibling, toggleCollapses, isOpen, children }) => {
 
   const dragRef = useRef(null)
   const dropRef = useRef(null)
-  const previewRef = useRef(null)
-  const entryRef = useRef(null)
 
   const [, forceRerenderAfterDnd] = useState(false)
 
@@ -113,12 +110,9 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
     type: EntryType.COMPONENT,
     item: () => {
       toggleCollapses();
-
       return { index }
     },
     end() {
-      // Update the errors
-      // triggerFormValidation();
       setIsDraggingSibling(false)
     },
     collect: (monitor) => ({
@@ -144,9 +138,10 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
 
   const displayedValue = entry.label
 
+  console.log("Entry: ", entry)
+
   drag(dragRef)
   drop(dropRef)
-  // preview(entryRef)
 
   return (
     <Box ref={dropRef}>
@@ -169,7 +164,7 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
             togglePosition="left"
             action={
               <Stack horizontal spacing={0}>
-                <IconButtonCustom expanded={isOpen} noBorder onClick={() => console.log('delete')} label="Delete" icon={<Trash />} />
+                <IconButtonCustom expanded={isOpen} noBorder onClick={() => deleteEntry(entryKey)} label="Delete" icon={<Trash />} />
                 <DragButton
                   ref={dragRef}
                   role="button"

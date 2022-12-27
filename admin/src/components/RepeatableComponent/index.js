@@ -28,7 +28,7 @@ import ComponentInitializer from "../../components/ComponentInitializer"
 import AccordionEntry from "./Entry"
 
 // Lodash
-import { isNull, find, first, isArray } from "lodash"
+import { isNull, find, first, last, isArray } from "lodash"
 
 // Misc
 import styled from "styled-components"
@@ -95,7 +95,6 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
     })
 
     setValueValidation(state => handleStateChange(key, state, newState))
-    // setValueValidation(isValid ? [] : result)
   }
 
   const handleStateChange = (key, state, value) => {
@@ -110,8 +109,6 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
   }
 
   const validateField = async (field, key) => {
-    console.log("Validate: ", key)
-    console.log("field: ", field)
     return await validationSchema(formatMessage)
       .validateAt(key, field)
       .then(() => null)
@@ -119,29 +116,11 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
   }
   
   const validateFields = async () => {
-
-    // Build Object with key from fieldname and value of the field state
-    // Need to only loop trough entries
-    // const fields = {
-    //   buttonType: buttonType,
-    //   label: label,
-    // }
-    // const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
-
-    console.log("isValid: ", isValid)
     if (!isValid) {
-
       let newButtonTypeValidation = []
       let newLabelValidation = []
 
-      for(const [entryCount, entry] of entries.entries()) {
-        // for(const [fieldCount, field] of Object.values(fields).entries()) {
-        //   const fieldName = Object.keys(fields)[fieldCount]
-        //   const key = `${fieldName}.${entryCount}${fieldCount}`
-        //   newButtonTypeValidation = handleStateChange(key, newButtonTypeValidation, await validateField({ [fieldName]: findValueByKey(buttonType, key) || [] }, fieldName))
-        //   newLabelValidation = handleStateChange(key, newLabelValidation, await validateField({ [fieldName]: findValueByKey(buttonType, key) || "" }, fieldName))
-        // }
-
+      for(const [entryCount, ] of entries.entries()) {
         const fieldName = Object.keys(fields)
         const buttonTypeKey = `${fieldName[0]}.${entryCount}0`
         const labelKey = `${fieldName[1]}.${entryCount}1`
@@ -149,9 +128,6 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
         newButtonTypeValidation = handleStateChange(buttonTypeKey, newButtonTypeValidation, await validateField({ [fieldName[0]]: findValueByKey(buttonType, buttonTypeKey) || [] }, fieldName[0]))
         newLabelValidation = handleStateChange(labelKey, newLabelValidation, await validateField({ [fieldName[1]]: findValueByKey(label, labelKey) || "" }, fieldName[1]))
       }
-
-      console.log("newButtonTypeValidation: ", newButtonTypeValidation)
-      console.log("newLabelValidation: ", newLabelValidation)
 
       setButtonTypeValidation(newButtonTypeValidation)
       setLabelValidation(newLabelValidation)
@@ -179,13 +155,32 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
 
   const createEntry = () => {
     const key = `${name}.${entryCount}`
-    const newEntry = { key: key, buttonType: "", label: `test ${entryCount}` }
+    const newEntry = { key: key, buttonType: "", label: "Test" }
+
+    console.log("key: ", key)
+    console.log("entryCount: ", entryCount)
+    console.log("newEntry: ", newEntry)
 
     setIsSubmit(false)
     setIsValid(false)
     setEntries([ ...entries, newEntry ])
     setCollapseToOpen(key)
     setEntryCount(entryCount + 1)
+  }
+
+  const deleteEntry = (key) => {
+    const updatedEntries = entries.filter(entry => { console.log("Entry: ", entry); return entry.key !== key })
+    const prevKey = last(updatedEntries)?.key
+
+    console.log("key: ", key)
+    console.log("prevKey: ", prevKey)
+    console.log("entryCount: ", entryCount)
+    console.log("updatedEntries: ", updatedEntries)
+
+    setIsSubmit(false)
+    setIsValid(false)
+    setEntries([ ...updatedEntries ])
+    setCollapseToOpen(prevKey)
   }
 
   const findValueByKey = (state, key) => {
@@ -197,28 +192,20 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
     handleParentSubmit()
   }, [isSubmit])
 
+  // useEffect(() => {
+  //   setEntryCount(entryCount + 1)
+  // }, [entries])
+
   useEffect(() => {
-    // Rename to setIsAllValidated
     const numberOfValid = childrensValidated.filter(obj => (obj.valid) ? true : false)
-  
-    console.log("numberOfFields: ", numberOfFields)
-    console.log("numberOfEntries: ", numberOfEntries)
-    console.log("number of valid: ", (numberOfEntries * numberOfFields))
     setIsValid((numberOfEntries > 0 && numberOfValid.length === (numberOfEntries * numberOfFields)))
-
-    // console.log("buttonTypeValidation2 :", buttonTypeValidation)
-    // console.log("labelValidation2 :", labelValidation)
-    // setIsValid((buttonTypeValidation.length === 0 && labelValidation.length === 0))
-    // Is always true initialy since there are no errors, yet..
   }, [childrensValidated])
-
-  console.log("childrensValidated: ", childrensValidated)
-
-  // console.log("buttonTypeValidation :", buttonTypeValidation)
-  console.log("buttonTypeValidation :", buttonTypeValidation)
-  console.log("labelValidation :", labelValidation)
+  
+  console.log("collapseToOpen: ", collapseToOpen)
+  console.log("ButtonType: ", buttonType)
   console.log("Label: ", label)
-  console.log("buttonType: ", buttonType)
+  console.log("Entries: ", entries)
+  console.log("entryCount: ", entryCount)
 
   return (
     <DndProvider>
@@ -231,18 +218,7 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
               </TextButtonCustom>
             </Flex>
           }
-          label="Label"
-          labelAction={
-            <Tooltip description="Content of the tooltip">
-              <button aria-label="Information about the email" style={{
-                border: "none",
-                padding: 0,
-                background: "transparent"
-              }}>
-                <Information aria-hidden />
-              </button>
-            </Tooltip>
-          }
+          label={`Buttons (${numberOfEntries})`}
         >
           {entries.map((entry, entryCount) => {
             const key = entry.key
@@ -261,11 +237,13 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
               <AccordionEntry
                 componentFieldName={componentFieldName}
                 entry={entry}
+                entryKey={key}
                 index={entryCount}
                 isDraggingSibling={isDraggingSibling}
                 isOpen={isOpen}
                 key={key}
                 moveEntry={moveEntry}
+                deleteEntry={deleteEntry}
                 onClickToggle={onClickToggle}
                 setIsDraggingSibling={setIsDraggingSibling}
                 toggleCollapses={toggleCollapses}
@@ -332,7 +310,7 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
               fontWeight="bold"
               as="label"
             >
-              {"Label"}&nbsp;({numberOfEntries})
+              {`Buttons (${numberOfEntries})`}
               {/* {required && <Typography textColor="danger600">*</Typography>} */}
             </Typography>
           </Box>
