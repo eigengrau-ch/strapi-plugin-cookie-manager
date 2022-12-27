@@ -57,6 +57,14 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
   const [buttonType, setButtonType] = useState([])
   const [label, setLabel] = useState([])
 
+  // Rework
+  // The validation, value and entries states need to be reworked as one object
+  // Most of the logic is here and can be used for rework
+  
+  // Bugs
+  // When drag and drop the values don't change properly
+  // Potentially the above could apply to validation aswell
+
   // Required to some day make validation dynamic for fields and not hard coded
   // const validationKeys = Object.keys(schema.attributes).reduce((prev, current) => (prev[current] = [], prev), {})
   // const [fieldValidation, setfieldValidation] = useState(validationKeys || {})
