@@ -287,8 +287,8 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
                             }}
                             value={findValueByKey(buttonType, key)}
                           >
-                            {field.enum.map(option => (
-                              <ComboboxOption value={option}>{option}</ComboboxOption>
+                            {field.enum.map((option, index) => (
+                              <ComboboxOption value={option} key={index}>{option}</ComboboxOption>
                             ))}
                           </Combobox>
                         )
@@ -314,7 +314,7 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
                     }
 
                     return (
-                      <Box padding={4}>
+                      <Box padding={4} key={fieldCount}>
                         { renderedField }
                       </Box>
                     )

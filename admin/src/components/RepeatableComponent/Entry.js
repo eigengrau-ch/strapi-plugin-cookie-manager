@@ -142,8 +142,7 @@ const Entry = ({ index, componentFieldName, moveEntry, onClickToggle, entry, isD
     }
   }, [isDraggingSibling])
 
-  const displayedValue = entry.name
-  const opacity = isDragging ? 0 : 1
+  const displayedValue = entry.label
 
   drag(dragRef)
   drop(dropRef)
