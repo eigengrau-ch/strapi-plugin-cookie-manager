@@ -54,7 +54,7 @@ const DragButton = styled.span`
   }
 `;
 
-const Entry = ({ index, entryKey, componentFieldName, moveEntry, deleteEntry, onClickToggle, entry, isDraggingSibling, setIsDraggingSibling, toggleCollapses, isOpen, children }) => {
+const Entry = ({ index, entry, entryKey, moveEntry, deleteEntry, onClickToggle, isDraggingSibling, setIsDraggingSibling, toggleCollapses, isOpen, error, children }) => {
 
   const dragRef = useRef(null)
   const dropRef = useRef(null)
@@ -138,8 +138,6 @@ const Entry = ({ index, entryKey, componentFieldName, moveEntry, deleteEntry, on
 
   const displayedValue = entry.label
 
-  console.log("Entry: ", entry)
-
   drag(dragRef)
   drop(dropRef)
 
@@ -155,9 +153,10 @@ const Entry = ({ index, entryKey, componentFieldName, moveEntry, deleteEntry, on
         <Accordion
           expanded={isOpen}
           onToggle={onClickToggle}
-          id={componentFieldName}
+          id={entryKey}
           size="S"
           style={{ style }}
+          error={error}
         >
           <AccordionToggle
             title={displayedValue}

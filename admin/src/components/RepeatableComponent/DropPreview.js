@@ -1,9 +1,9 @@
 
 // React
-import React from 'react'
+import React from "react"
 
 // Misc
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const Filler = styled.span`
   display: block;

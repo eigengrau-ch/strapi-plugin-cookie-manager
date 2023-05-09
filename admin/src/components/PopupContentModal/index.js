@@ -20,10 +20,10 @@ import {
 
 // Components
 import Illo from "../../components/Illo"
-import RepeatableComponent from "../../components/RepeatableComponent"
+import RepeatableComponent from "../RepeatableComponent"
 
 // Lodash
-import { isNull, first } from "lodash"
+import { omit, isNull, first } from "lodash"
 
 // Utils
 import { getTrad } from "../../utils"
@@ -33,9 +33,9 @@ import validationSchema from "./validation"
 import componentSchema from "../../../../server/components/cookie-button.json"
 
 const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {}, locale = null }) => {
-  // console.log("Popup: ", popup)
 
   const { formatMessage } = useIntl()
+
   const isUpdate = (Object.keys(popup).length > 0)
 
   const [id] = useState(popup.id || null)
@@ -45,6 +45,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
 
   const [titleValidation, setTitleValidation] = useState([])
   const [descriptionValidation, setDescriptionValidation] = useState([])
+  const [buttonsValidation, setButtonsValidation] = useState([])
 
   const [childrensValidated, setChildrensValidated] = useState([])
   const [childrenIsValid, setChildrenIsValid] = useState(false)
@@ -61,19 +62,23 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
       const fields = {
         title: title,
         description: description,
+        buttons: buttons.map(obj => {
+          if (!popup.buttons.some(o => (o.id === obj.id))) return omit(obj, "id")
+          return obj
+        }),
         locale: locale
       }
 
       try {
         console.log("Success!")
         console.log("New Fields: ", fields)
-        // isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
-        // setShowModal(false)
+        isCreating ? createPopup({ ...fields }) : updatePopup({ id: id, ...fields })
+        setShowModal(false)
       } catch (e) {
         console.log("error", e)
       }
-    }
-  };
+    } else { setIsSubmit(false) }
+  }
 
   const handleValidation = async (field, setValueValidation) => {
     const key = Object.keys(field)[0]
@@ -94,6 +99,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
     const fields = {
       title: title,
       description: description,
+      buttons: buttons,
     }
 
     const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
@@ -101,6 +107,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
     if (!validationSuccess) {
       setTitleValidation(await validateField({ title: title }, "title"))
       setDescriptionValidation(await validateField({ description: description }, "description"))
+      setButtonsValidation(await validateField({ buttons: buttons }, "buttons"))
     }
 
     return validationSuccess
@@ -118,11 +125,11 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
           {(isUpdate)
             ? formatMessage({
               id: getTrad("modal.popup.form.header.title.update"),
-              defaultMessage: "Update Popup Content"
+              defaultMessage: "Update Popup"
             })
             : formatMessage({
               id: getTrad("modal.popup.form.header.title.create"),
-              defaultMessage: "Create new Popup Content"
+              defaultMessage: "Create new Popup"
             })}
         </Typography>
       </ModalHeader>
@@ -136,6 +143,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                   id: getTrad("modal.popup.form.field.title.label"),
                   defaultMessage: "Title"
                 })}
+                required
                 name="title"
                 error={first(titleValidation)}
                 onChange={e => {
@@ -172,6 +180,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                 setChildrensValidated={setChildrensValidated}
                 isSubmit={isSubmit}
                 setIsSubmit={setIsSubmit}
+                error={first(buttonsValidation)}
               />
             </Box>
           </>

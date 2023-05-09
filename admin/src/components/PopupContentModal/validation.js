@@ -28,6 +28,11 @@ const ValidationSchema = (formatMessage) => {
     description: Yup
       .string()
       .max(250, msg.string.isMax),
+
+    buttons: Yup
+      .array()
+      .min(1)
+      .max(3)
   })
 };
 

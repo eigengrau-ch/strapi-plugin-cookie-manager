@@ -1,34 +1,28 @@
 
 // React
 import React, { useState, useCallback, useEffect } from "react"
-import { DndProvider, useDrop } from "react-dnd"
+import { DndProvider } from "react-dnd"
 import { useIntl } from "react-intl"
 
 // Strapi
-import { AccordionGroup, Accordion, AccordionContent, AccordionToggle } from "@strapi/design-system/Accordion"
+import { AccordionGroup } from "@strapi/design-system/Accordion"
 import { Typography } from "@strapi/design-system/Typography"
 import { Flex } from "@strapi/design-system/Flex"
 import { TextInput } from "@strapi/design-system/TextInput"
 import { TextButton } from "@strapi/design-system/TextButton"
-import { Stack } from "@strapi/design-system/Stack"
-import { Tooltip } from "@strapi/design-system/Tooltip"
-import { Combobox, ComboboxOption } from "@strapi/design-system/Combobox"
-import { Button } from "@strapi/design-system/Button"
-import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout"
+import { SingleSelect, SingleSelectOption } from "@strapi/design-system/Select"
 import { Box } from "@strapi/design-system/Box"
-import Pencil from "@strapi/icons/Pencil"
 import Plus from "@strapi/icons/Plus"
-import Drag from "@strapi/icons/Drag"
-import Trash from "@strapi/icons/Trash"
-import Information from "@strapi/icons/Information"
-import { pxToRem } from "@strapi/helper-plugin"
 
 // Components
-import ComponentInitializer from "../../components/ComponentInitializer"
+import ComponentInitializer from "../ComponentInitializer"
 import AccordionEntry from "./Entry"
 
 // Lodash
-import { isNull, find, first, last, isArray } from "lodash"
+import { isEmpty, isNull, find, first, last, isArray } from "lodash"
+
+// Utils
+import { getTrad } from "../../utils"
 
 // Misc
 import styled from "styled-components"
@@ -50,27 +44,13 @@ const TextButtonCustom = styled(TextButton)`
   }
 `;
 
-const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIsValid, childrensValidated, setChildrensValidated, isSubmit, setIsSubmit }) => {
+const RepeatableComponent = ({ label, entries, setEntries, schema, isValid, setIsValid, childrensValidated, setChildrensValidated, isSubmit, setIsSubmit, max, error }) => {
 
   const { formatMessage } = useIntl()
 
-  const [buttonType, setButtonType] = useState([])
-  const [label, setLabel] = useState([])
-
-  // Rework
-  // The validation, value and entries states need to be reworked as one object
-  // Most of the logic is here and can be used for rework
-  
-  // Bugs
-  // When drag and drop the values don't change properly
-  // Potentially the above could apply to validation aswell
-
-  // Required to some day make validation dynamic for fields and not hard coded
-  // const validationKeys = Object.keys(schema.attributes).reduce((prev, current) => (prev[current] = [], prev), {})
-  // const [fieldValidation, setfieldValidation] = useState(validationKeys || {})
-
   const [buttonTypeValidation, setButtonTypeValidation] = useState([])
   const [labelValidation, setLabelValidation] = useState([])
+  const [entryValidation, setEntryValidation] = useState([])
 
   const [fields] = useState(schema.attributes || {})
   const [collapseToOpen, setCollapseToOpen] = useState("")
@@ -78,42 +58,39 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
   const [entryCount, setEntryCount] = useState(0)
 
   const numberOfEntries = entries?.length
-  const numberOfFields = Object.keys(fields).length
   const hasEntries = (numberOfEntries > 0)
 
   const handleParentSubmit = async () => { if (!isValid && isSubmit) await validateFields() }
 
-  const handleValidation = async (key, field, setValueValidation) => {
+  const handleValidation = async (fieldKey, field, setValueValidation) => {
     const fieldName = Object.keys(field)[0]
     const result = await validateField(field, fieldName)
     const isValid = isNull(result)
     const newState = isValid ? [] : result
 
     setChildrensValidated(state => {
-      const foundKey = find(state, obj => obj.key === key)
-
+      const foundKey = find(state, obj => obj.id === fieldKey)
       const newState = state.map(obj => {
-        const hasFound = (obj.key === key)
+        const hasFound = (obj.id === fieldKey)
 
         if (hasFound) obj.valid = isValid
         return obj
       })
 
-      return foundKey ? newState : [ ...state, { key: key, valid: isValid } ]
+      return foundKey ? newState : [ ...state, { id: fieldKey, valid: isValid } ]
     })
 
-    setValueValidation(state => handleStateChange(key, state, newState))
+    setValueValidation(state => handleStateChange(fieldKey, state, newState))
   }
 
   const handleStateChange = (key, state, value) => {
-    const foundKey = find(state, obj => obj.key === key)
-
+    const foundKey = find(state, obj => obj.id === key)
     const newState = state.map(obj => {                          
-      if (obj.key === key) obj.value = value
+      if (obj.id === key) obj.value = value
       return obj
     })
 
-    return foundKey ? newState : [ ...state, { key: key, value: value } ]
+    return foundKey ? newState : [ ...state, { id: key, value: value } ]
   }
 
   const validateField = async (field, key) => {
@@ -124,26 +101,25 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
   }
   
   const validateFields = async () => {
-    if (!isValid) {
+    if (isValid) {
+      setIsValid(true)
+    } else {
       let newButtonTypeValidation = []
       let newLabelValidation = []
 
-      for(const [entryCount, ] of entries.entries()) {
+      for(const entry of entries) {
         const fieldName = Object.keys(fields)
-        const buttonTypeKey = `${fieldName[0]}.${entryCount}0`
-        const labelKey = `${fieldName[1]}.${entryCount}1`
+        const buttonTypeKey = `${entry.id}.${fieldName[0]}.0`
+        const labelKey = `${entry.id}.${fieldName[1]}.1`
 
-        newButtonTypeValidation = handleStateChange(buttonTypeKey, newButtonTypeValidation, await validateField({ [fieldName[0]]: findValueByKey(buttonType, buttonTypeKey) || [] }, fieldName[0]))
-        newLabelValidation = handleStateChange(labelKey, newLabelValidation, await validateField({ [fieldName[1]]: findValueByKey(label, labelKey) || "" }, fieldName[1]))
+        newButtonTypeValidation = handleStateChange(buttonTypeKey, newButtonTypeValidation, await validateField({ [fieldName[0]]: entry.buttonType || [] }, fieldName[0]))
+        newLabelValidation = handleStateChange(labelKey, newLabelValidation, await validateField({ [fieldName[1]]: entry.label || "" }, fieldName[1]))
       }
 
       setButtonTypeValidation(newButtonTypeValidation)
       setLabelValidation(newLabelValidation)
-    } else {
-      setIsValid(true)
+      setEntryValidation([...newButtonTypeValidation, ...newLabelValidation])
     }
-
-    return isValid
   }
 
   const moveEntry = useCallback((dragIndex, hoverIndex) => {
@@ -159,40 +135,53 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
 
   const toggleCollapses = () => {
     setCollapseToOpen("")
-  };
+  }
 
   const createEntry = () => {
-    const key = `${name}.${entryCount}`
-    const newEntry = { key: key, buttonType: "", label: "Test" }
+    const highestId = !isEmpty(entries) ? entries.reduce((accumulator, current) => accumulator.id > current.id ? accumulator : current ).id : 0
+    const entryKey = highestId + 1
+    const fieldNames = Object.keys(fields)
+    const newEntry = { id: entryKey, buttonType: "", label: "" }
 
-    console.log("key: ", key)
-    console.log("entryCount: ", entryCount)
-    console.log("newEntry: ", newEntry)
+    fieldNames.forEach((fieldName, i) => {
+      const fieldKey = `${entryKey}.${fieldName}.${i}`
+      setChildrensValidated(state => [ ...state, { id: fieldKey, valid: false } ])
+    })
+
+    setButtonTypeValidation(state => handleStateChange(`${entryKey}.${fieldNames[0]}.0`, state, []))
+    setLabelValidation(state => handleStateChange(`${entryKey}.${fieldNames[1]}.1`, state, []))
 
     setIsSubmit(false)
     setIsValid(false)
     setEntries([ ...entries, newEntry ])
-    setCollapseToOpen(key)
+    setCollapseToOpen(entryKey)
     setEntryCount(entryCount + 1)
   }
 
   const deleteEntry = (key) => {
-    const updatedEntries = entries.filter(entry => { console.log("Entry: ", entry); return entry.key !== key })
-    const prevKey = last(updatedEntries)?.key
+    const updatedLabelValidation = labelValidation.filter(validation => { return !validation.id.startsWith(key) })
+    const updatedButtonTypeValidation = buttonTypeValidation.filter(validation => { return !validation.id.startsWith(key) })
+    const updatedChildrensValidated = childrensValidated.filter(validation => { return !validation.id.startsWith(key) })
 
-    console.log("key: ", key)
-    console.log("prevKey: ", prevKey)
-    console.log("entryCount: ", entryCount)
-    console.log("updatedEntries: ", updatedEntries)
+    const updatedEntries = entries.filter(entry => { return entry.id !== key })
+    const prevKey = last(updatedEntries)?.id
 
     setIsSubmit(false)
     setIsValid(false)
     setEntries([ ...updatedEntries ])
+    setLabelValidation([ ...updatedLabelValidation ])
+    setButtonTypeValidation([ ...updatedButtonTypeValidation ])
+    setChildrensValidated([ ...updatedChildrensValidated ])
     setCollapseToOpen(prevKey)
   }
 
+  const findEntryError = (key) => {
+    const entryErrors = entryValidation.filter(validation => { return (validation.id.startsWith(key) && !isEmpty(validation.value)) })
+    return !isEmpty(entryErrors)
+  }
+
   const findValueByKey = (state, key) => {
-    const value = find(state, obj => obj.key === key)?.value
+    const value = find(state, obj => obj.id === key)?.value
     return isArray(value) ? first(value) : value
   }
 
@@ -200,100 +189,103 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
     handleParentSubmit()
   }, [isSubmit])
 
-  // useEffect(() => {
-  //   setEntryCount(entryCount + 1)
-  // }, [entries])
-
   useEffect(() => {
     const numberOfValid = childrensValidated.filter(obj => (obj.valid) ? true : false)
-    setIsValid((numberOfEntries > 0 && numberOfValid.length === (numberOfEntries * numberOfFields)))
+    setIsValid((numberOfValid.length === childrensValidated.length))
   }, [childrensValidated])
-  
-  console.log("collapseToOpen: ", collapseToOpen)
-  console.log("ButtonType: ", buttonType)
-  console.log("Label: ", label)
-  console.log("Entries: ", entries)
-  console.log("entryCount: ", entryCount)
+
+  const buttonFieldLabel = <>{label} ({numberOfEntries})<Typography variant="omega" fontWeight="bold" style={{color: "#d02b20"}}>*</Typography></>
 
   return (
     <DndProvider>
       {(hasEntries) ? (
         <AccordionGroup
-          footer={
+          footer={numberOfEntries < max && (
             <Flex justifyContent="center" height="48px" background="neutral10">
               <TextButtonCustom startIcon={<Plus />} onClick={createEntry}>
                 Add an entry
               </TextButtonCustom>
             </Flex>
-          }
-          label={`Buttons (${numberOfEntries})`}
+          )}
+          error={error}
+          label={buttonFieldLabel}
+          required
         >
           {entries.map((entry, entryCount) => {
-            const key = entry.key
-            const componentFieldName = `${name}.${entryCount}`
-            const isOpen = collapseToOpen === key
+            const entryKey = entry.id
+            const isOpen = collapseToOpen === entryKey
 
             const onClickToggle = () => {
               if (isOpen) {
                 setCollapseToOpen('')
               } else {
-                setCollapseToOpen(key)
+                setCollapseToOpen(entryKey)
               }
             }
 
             return (
               <AccordionEntry
-                componentFieldName={componentFieldName}
-                entry={entry}
-                entryKey={key}
+                key={entryKey}
+                entryKey={entryKey}
                 index={entryCount}
                 isDraggingSibling={isDraggingSibling}
                 isOpen={isOpen}
-                key={key}
+                entry={entry}
                 moveEntry={moveEntry}
                 deleteEntry={deleteEntry}
                 onClickToggle={onClickToggle}
                 setIsDraggingSibling={setIsDraggingSibling}
                 toggleCollapses={toggleCollapses}
+                error={findEntryError(entryKey)}
               >
                   {Object.values(fields).map((field, fieldCount) => {
                     const fieldName = Object.keys(fields)[fieldCount]
-                    const key = `${fieldName}.${entryCount}${fieldCount}`
+                    const fieldKey = `${entryKey}.${fieldName}.${fieldCount}`
                     let renderedField = <></>
 
                     switch(field.type) {
                       case "enumeration":
                         renderedField = (
-                          <Combobox
-                            label="Button Type"
-                            error={findValueByKey(buttonTypeValidation, key)}
+                          <SingleSelect
+                            label={formatMessage({
+                              id: getTrad("modal.popup.form.field.buttons.field.buttonType.label"),
+                              defaultMessage: "Type"
+                            })}
+                            required
+                            error={findValueByKey(buttonTypeValidation, fieldKey)}
                             onChange={(value) => {
-                              setButtonType(state => handleStateChange(key, state, value))
-                              handleValidation(key, { [fieldName]: value }, setButtonTypeValidation)
+                              setEntries(state => state.map(entry => {
+                                if (entry.id === entryKey) entry["buttonType"] = value
+                                return entry
+                              }))
+                              handleValidation(fieldKey, { [fieldName]: value }, setButtonTypeValidation)
                             }}
-                            value={findValueByKey(buttonType, key)}
+                            value={entry.buttonType}
                           >
                             {field.enum.map((option, index) => (
-                              <ComboboxOption value={option} key={index}>{option}</ComboboxOption>
+                              <SingleSelectOption value={option} key={index}>{option}</SingleSelectOption>
                             ))}
-                          </Combobox>
+                          </SingleSelect>
                         )
                         break
                       case "string":
                         renderedField = (
                           <TextInput
-                            // label={formatMessage({
-                            //   id: getTrad("modal.popup.form.field.title.label"),
-                            //   defaultMessage: "Title"
-                            // })}
-                            label="Label"
+                            label={formatMessage({
+                              id: getTrad("modal.popup.form.field.buttons.field.label.label"),
+                              defaultMessage: "Label"
+                            })}
+                            required
                             name="label"
-                            error={findValueByKey(labelValidation, key)}
+                            error={findValueByKey(labelValidation, fieldKey)}
                             onChange={e => {
-                              setLabel(state => handleStateChange(key, state, e.target.value))
-                              handleValidation(key, { [fieldName]: e.target.value }, setLabelValidation)
+                              setEntries(state => state.map(entry => {
+                                if (entry.id === entryKey) entry["label"] = e.target.value
+                                return entry
+                              }))
+                              handleValidation(fieldKey, { [fieldName]: e.target.value }, setLabelValidation)
                             }}
-                            value={findValueByKey(label, key)}
+                            value={entry.label}
                           />
                         )
                         break
@@ -318,11 +310,10 @@ const RepeatableComponent = ({ name, entries, setEntries, schema, isValid, setIs
               fontWeight="bold"
               as="label"
             >
-              {`Buttons (${numberOfEntries})`}
-              {/* {required && <Typography textColor="danger600">*</Typography>} */}
+              {buttonFieldLabel}
             </Typography>
           </Box>
-          <ComponentInitializer onClick={createEntry} />
+          <ComponentInitializer onClick={createEntry} error={!hasEntries ? error : ""} />
         </>
       )}
     </DndProvider>

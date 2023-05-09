@@ -1,20 +1,20 @@
 // React
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react"
+import PropTypes from "prop-types"
 
 // Strapi
-import { Stack } from '@strapi/design-system/Stack'
-import { Flex } from '@strapi/design-system/Flex'
-import { TextButton } from '@strapi/design-system/TextButton'
-import { IconButton } from '@strapi/design-system/IconButton'
-import { Icon } from '@strapi/design-system/Icon'
-import { Typography } from '@strapi/design-system/Typography'
-import Trash from '@strapi/icons/Trash'
-import Drag from '@strapi/icons/Drag'
-import DropdownIcon from '@strapi/icons/CarretDown'
+import { Stack } from "@strapi/design-system/Stack"
+import { Flex } from "@strapi/design-system/Flex"
+import { TextButton } from "@strapi/design-system/TextButton"
+import { IconButton } from "@strapi/design-system/IconButton"
+import { Icon } from "@strapi/design-system/Icon"
+import { Typography } from "@strapi/design-system/Typography"
+import Trash from "@strapi/icons/Trash"
+import Drag from "@strapi/icons/Drag"
+import DropdownIcon from "@strapi/icons/CarretDown"
 
 // Misc
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const SiblingWrapper = styled.span`
   display: flex;

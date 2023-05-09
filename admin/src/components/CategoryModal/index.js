@@ -171,7 +171,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
             : <Button type="submit">
               {formatMessage({
                 id: getTrad("modal.category.form.cta.create"),
-                defaultMessage: "Add new Category"
+                defaultMessage: "Create new Category"
               })}
             </Button>
         }
