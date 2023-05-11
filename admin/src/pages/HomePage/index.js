@@ -107,12 +107,12 @@ const HomePage = () => {
             <TabPanels>
               <TabPanel>
                 <Box color="neutral800" padding={6} background="neutral0">
-                  <CookieTab currentLocale={currentLocale} />
+                  <CookieTab locale={currentLocale} />
                 </Box>
               </TabPanel>
               <TabPanel>
                 <Box color="neutral800" padding={6} background="neutral0">
-                  <PopupTab currentLocale={currentLocale} />
+                  <PopupTab locale={currentLocale} />
                 </Box>
               </TabPanel>
             </TabPanels>
