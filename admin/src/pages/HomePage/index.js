@@ -89,7 +89,7 @@ const HomePage = () => {
           }
         />
         <ContentLayout>
-          <TabGroup id="tabs">
+          <TabGroup id="tabs" label={"Overview"}>
             <Tabs>
               <Tab>
                 {formatMessage({
