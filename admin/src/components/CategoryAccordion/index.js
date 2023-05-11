@@ -72,7 +72,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
           </Stack>
         }
         title={category.name}
-        description={truncate(category.description, { length: 175 })}
+        description={truncate(category.description, { length: 120 })}
         togglePosition="left"
       />
       <AccordionContent>

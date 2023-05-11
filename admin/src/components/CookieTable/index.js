@@ -199,13 +199,13 @@ const CookieTable = ({
             />
           </Td>
           <Td>
-            <Typography textColor="neutral800">{truncate(cookie.name, { length: 20 })}</Typography>
+            <Typography textColor="neutral800">{truncate(cookie.name, { length: 50 })}</Typography>
           </Td>
           <Td>
-            <Typography textColor="neutral800">{truncate(cookie.description, { length: 20 })}</Typography>
+            <Typography textColor="neutral800">{truncate(cookie.description, { length: 80 })}</Typography>
           </Td>
           <Td>
-            <Typography textColor="neutral800">{truncate(cookie.host, { length: 20 })}</Typography>
+            <Typography textColor="neutral800">{truncate(cookie.host, { length: 25 })}</Typography>
           </Td>
           <Td style={{ justifyContent: "end" }}>
             <Switch
