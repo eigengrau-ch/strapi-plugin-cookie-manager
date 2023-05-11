@@ -1,21 +1,29 @@
 
-"use strict";
+"use strict"
 
-const cookie = require("./content-types/cookie.json");
-const cookieCategory = require("./content-types/cookie-category.json");
-const cookiePopup = require("./content-types/cookie-popup.json");
-const cookieButton = require('./components/cookie-button.json');
+const cookie = require("./content-types/cookie.json")
+const cookieCategory = require("./content-types/cookie-category.json")
+const cookiePopup = require("./content-types/cookie-popup.json")
+const cookieButton = require('./components/cookie-button.json')
 
 module.exports = ({ strapi }) => {
   const contentTypeSchemas = [cookie, cookieCategory, cookiePopup]
   const contentTypeService = strapi.plugin("content-type-builder").service("content-types")
-  const componentSchema = cookieButton
-  const componentCategory = "shared"
-  const componentName = "cookie-button"
-  const componentReferenceAttribute = "buttons"
-  const componentReferenceContentType = "cookie-popup"
+
+  // Additional field for popup
+  const buttonsFieldSchema = cookieButton
+  const buttonsFieldCategory = "shared"
+  const buttonsFieldName = "cookie-button"
+  const buttonsFieldReferenceAttribute = "buttons"
+  const buttonsFieldReferenceContentType = "cookie-popup"
+
+  // Additional field for cookie
+  const keyFieldReferenceAttribute = "key"
+  const keyFieldReferenceContentType = "cookie"
 
   let isLastIndex = false
+
+  const hasRelation = (attribute) => (attribute.type === "relation")
 
   const getComponent = async (name) => {
     const component = await strapi.components[name]
@@ -64,7 +72,7 @@ module.exports = ({ strapi }) => {
           .plugin('content-type-builder')
           .services.components.createComponent({
             component: {
-              category: componentCategory,
+              category: buttonsFieldCategory,
               displayName: component.info.displayName,
               icon: component.info.icon,
               attributes: component.attributes,
@@ -91,7 +99,7 @@ module.exports = ({ strapi }) => {
     try {
       strapi.reload.isWatching = false
 
-      await contentTypeService.editContentType(uid, { contentType: { ...contentType } })
+      await contentTypeService.editContentType(uid, { contentType: contentType })
       if (isLastIndex) setImmediate(() => strapi.reload())
     } catch (e) {
       console.log("error", e)
@@ -99,7 +107,7 @@ module.exports = ({ strapi }) => {
   }
 
   const setupComponent = async (component) => {
-    const isExistent = await componentExists(`${componentCategory}.${componentName}`);
+    const isExistent = await componentExists(`${buttonsFieldCategory}.${buttonsFieldName}`);
 
     if (!isExistent) {
       await createComponent(component)
@@ -123,8 +131,17 @@ module.exports = ({ strapi }) => {
           await updateContentType(uid, contentType)
         }
 
-        if (contentTypeName === componentReferenceContentType) {
-          if (!await contentTypeHasAttribute(contentTypeName, componentReferenceAttribute)){
+        if (contentTypeName === buttonsFieldReferenceContentType) {
+          if (!await contentTypeHasAttribute(contentTypeName, buttonsFieldReferenceAttribute)){
+            await updateContentType(uid, contentType)
+          }
+        }
+
+        if (contentTypeName === keyFieldReferenceContentType) {
+          for (const attribute of Object.values(contentType.attributes)) {
+            if (hasRelation(attribute)) attribute.targetAttribute = attribute.inversedBy
+          }
+          if (!await contentTypeHasAttribute(contentTypeName, keyFieldReferenceAttribute)){
             await updateContentType(uid, contentType)
           }
         }
@@ -132,6 +149,6 @@ module.exports = ({ strapi }) => {
     }
   }
 
-  setupComponent(componentSchema)
+  setupComponent(buttonsFieldSchema)
   setupContentTypes(contentTypeSchemas)
-};
+}

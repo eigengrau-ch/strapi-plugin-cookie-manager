@@ -60,6 +60,15 @@
     "duration": {
       "type": "json",
       "required": false
+    },
+    "key": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "regex": "^(?!-)(?!.*?-$)[a-z0-9]+(?:-[a-z0-9]+)*$"
     }
   }
 }
