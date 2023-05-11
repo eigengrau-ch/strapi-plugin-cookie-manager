@@ -25,8 +25,8 @@ const HomePage = () => {
 
   const { formatMessage } = useIntl();
 
-  const [configData, setConfigData] = useState([])
-  const [localeData, setLocaleData] = useState([])
+  const [config, setConfig] = useState([])
+  const [locales, setLocales] = useState([])
 
   const [configIsLoading, setConfigIsLoading] = useState(true)
   const [localeIsLoading, setLocaleIsLoading] = useState(true)
@@ -36,14 +36,14 @@ const HomePage = () => {
   const getLocales = async () => {
     const locales = await cookieManagerRequests.getLocales()
     const defaultLocale = locales.filter(locale => locale.isDefault)[0]
-    setLocaleData(locales)
+    setLocales(locales)
     setCurrentLocale(defaultLocale.code)
     setLocaleIsLoading(false)
   }
 
   const getConfig = async () => {
     const config = await cookieManagerRequests.getConfig()
-    setConfigData(config)
+    setConfig(config)
     setConfigIsLoading(false)
   }
 
@@ -69,7 +69,7 @@ const HomePage = () => {
           as="h2"
           primaryAction={
             <Stack horizontal spacing={4}>
-              {(configData.localization) && (
+              {(config.localization) && (
                 <Select
                   id="lang-select"
                   aria-label={formatMessage({
@@ -80,7 +80,7 @@ const HomePage = () => {
                   defaultValue={currentLocale}
                   onChange={setCurrentLocale}
                 >
-                  {localeData.map((locale, index) => (
+                  {locales.map((locale, index) => (
                     <Option key={index} value={locale.code}>{locale.code.toUpperCase()}</Option>
                   ))}
                 </Select>
