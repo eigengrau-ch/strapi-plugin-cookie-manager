@@ -166,6 +166,7 @@ const PopupContentModal = ({ setShowModal, createPopup, updatePopup, popup = {},
                   setDescription(e.target.value)
                 }}
                 value={description}
+                style={{ minHeight: "200px", height: "auto" }}
               />
             </Box>
             <Box paddingTop={4}>
