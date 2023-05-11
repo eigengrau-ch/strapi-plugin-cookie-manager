@@ -20,6 +20,10 @@ const ValidationSchema = (formatMessage) => {
         id: getTrad("form.validation.string.isDomain"),
         defaultMessage: "Text must be a domain e.G example.com"
       }),
+      isKebabCase: formatMessage({
+        id: getTrad("form.validation.string.isKebabCase"),
+        defaultMessage: "Field must be formated like follow e.g my-example-key"
+      }),
     },
     number: {
       isMax: formatMessage({
@@ -77,7 +81,12 @@ const ValidationSchema = (formatMessage) => {
       .min(0, msg.number.isPositiv)
       .integer(msg.number.isInteger)
       .max(60, msg.number.isMax),
+
+    key: Yup
+      .string()
+      .max(250, msg.string.isMax)
+      .matches(/^(?!-)(?!.*?-$)[a-z0-9]*(?:-[a-z0-9]+)*$/i, msg.string.isKebabCase),
   })
-};
+}
 
 export default ValidationSchema

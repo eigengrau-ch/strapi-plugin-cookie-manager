@@ -47,6 +47,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
   const [party, setParty] = useState(cookie.party || "")
   const [category, setCategory] = useState(cookie.category || (hasPreservedCategory ? preservedCategory : {}))
   const [duration, setDuration] = useState(cookie.duration || { days: 0, hours: 0, minutes: 0 })
+  const [key, setKey] = useState(cookie.key || "")
 
   const [nameValidation, setNameValidation] = useState([])
   const [descriptionValidation, setDescriptionValidation] = useState([])
@@ -57,6 +58,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
   const [durationDaysValidation, setDurationDaysValidation] = useState(false)
   const [durationHoursValidation, setDurationHoursValidation] = useState(false)
   const [durationMinutesValidation, setDurationMinutesValidation] = useState(false)
+  const [keyValidation, setKeyValidation] = useState([])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -71,6 +73,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
         party: party,
         isVisible: isVisible,
         duration: duration,
+        key: key,
         locale: locale
       }
 
@@ -109,6 +112,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       durationDays: duration.days,
       durationHours: duration.hours,
       durationMinutes: duration.minutes,
+      key: key,
     }
 
     const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
@@ -122,6 +126,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
       setDurationDaysValidation(await validateField({ durationDays: fields.durationDays }, "durationDays"))
       setDurationHoursValidation(await validateField({ durationHours: fields.durationHours }, "durationHours"))
       setDurationMinutesValidation(await validateField({ durationMinutes: fields.durationMinutes }, "durationMinutes"))
+      setKeyValidation(await validateField({ key: fields.key }, "key"))
     }
 
     return validationSuccess
@@ -187,6 +192,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Name"
             })}
             name="name"
+            required
             error={first(nameValidation)}
             onChange={e => {
               handleValidation({ name: e.target.value }, setNameValidation)
@@ -217,6 +223,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Host"
             })}
             name="host"
+            required
             hint={formatMessage({
               id: getTrad("modal.cookie.form.field.host.hint"),
               defaultMessage: "e.G domain.com"
@@ -236,6 +243,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Category"
             })}
             name="category"
+            required
             error={first(categoryValidation)}
             onChange={(value) => {
               handleValidation({ category: value }, setCategoryValidation)
@@ -259,6 +267,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Party"
             })}
             name="party"
+            required
             error={first(partyValidation)}
             onChange={value => {
               handleValidation({ party: value }, setPartyValidation)
@@ -358,6 +367,21 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               />
             </Flex>
           </Box>
+        </Box>
+        <Box paddingTop={4}>
+          <TextInput
+            label={formatMessage({
+              id: getTrad("modal.cookie.form.field.key.label"),
+              defaultMessage: "Key"
+            })}
+            name="key"
+            error={first(keyValidation)}
+            onChange={e => {
+              handleValidation({ key: e.target.value }, setKeyValidation)
+              setKey(e.target.value)
+            }}
+            value={key}
+          />
         </Box>
       </ModalBody>
 
