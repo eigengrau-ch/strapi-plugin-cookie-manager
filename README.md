@@ -54,7 +54,9 @@
 
 ## ⏳ Installation
 
-Install the plugin with your desired package manager.
+Make sure that the `i18n plugin` is installed within your strapi admin settings.
+
+Then install the plugin with your desired package manager.
 
 (It's recommended to use yarn to install this plugin within your Strapi project. [Install yarn with these docs](https://yarnpkg.com/lang/en/docs/install/))
 
@@ -90,7 +92,7 @@ Now the Cookie Manager should appear inside the Plugins section on the left hand
 
 <img src="https://github.com/eigengrau-ch/strapi-plugin-cookie-manager/blob/main/public/plugin-sidebar.jpg" alt="Screenshot of sidebar with Cookie Manager installed" />
 
-You will notice that the plugin generated new content types named `cookie`, `cookie-category` and `cookie-popup`. Initially the relation fields are not populated! That means they won't show in your API.
+You will notice that the plugin generated new content types named `cookie`, `cookie-category` and `cookie-popup`. Initially the relation fields are not populated for `cookie` and `cookie-category`! That means they won't show in your API.
 
 In order to get them populated, just edit the following files like below:
 
@@ -207,6 +209,7 @@ module.exports = ({ env }) => ({
       }
     }
   },
+  "key": "google-analytics",
   "locale": "en"
 }
 ```
@@ -215,15 +218,19 @@ module.exports = ({ env }) => ({
 {
   "title": "We value your privacy",
   "description": "We use cookies to help you navigate efficiently. You will find detailed information about all cookies under each category below. The cookies that are categorized as \"Necessary\" are stored on your browser as they are essential for enabling the basic functionalities of the site. We also use third-party cookies that help analyze how you use our website in order to provide the content and advertisements that are relevant to you. These cookies will only be stored in your browser with your prior consent. You can choose to enable or disable some or all of these cookies but disabling some of them may affect your browsing experience.",
+  "buttons": [
+    "buttonTyp": "Primary",
+    "label": "Button"
+  ],
   "locale": "en"
 }
 ```
 
 ## 👉 Good to know
 
-Internationalization is enabled per default, even if `disabled`! Disabling it just hides the possibility to edit multiple locales.
+The `i18n plugin` must be installed by default, even if you change the config to `disabled`! Disabling just hides the possibility to edit on multiple locales.
 
-This plugin generates content types `cookies` and `cookie-categories` in your content manager (not plugin content type). Those will be hidden the content manager per default.
+This plugin generates content types `cookies` and `cookie-categories` in your content manager (not plugin content type). Those will be hidden inside the content manager per default.
 
 
 ## 🤝 Contributing
