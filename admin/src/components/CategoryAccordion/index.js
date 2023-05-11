@@ -1,10 +1,10 @@
 
 // React
 import React from "react"
-import { useIntl } from "react-intl";
+import { useIntl } from "react-intl"
 
 // Strapi
-import { Accordion, AccordionToggle, AccordionContent } from "@strapi/design-system/Accordion";
+import { Accordion, AccordionToggle, AccordionContent } from "@strapi/design-system/Accordion"
 import { IconButton } from "@strapi/design-system/IconButton"
 import { Stack } from "@strapi/design-system/Stack"
 import Pencil from "@strapi/icons/Pencil"
@@ -15,11 +15,11 @@ import Plus from "@strapi/icons/Plus"
 import { first, truncate } from "lodash"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expandedStates, setExpandedStates, setShowCreateCookieModal, setShowUpdateCategoryModal, setShowDeleteCategoryModal, children }) => {
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
   const isExpanded = first(expandedStates.filter(state => state.id === category.id)).isExpanded
 
   return (
@@ -52,7 +52,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
                 setShowUpdateCategoryModal(true)
               }}
               label={formatMessage({
-                id: getTrad("modal.cookie.form.header.title.update"),
+                id: getTrad("modal.category.form.header.title.update"),
                 defaultMessage: "Update Category"
               })}
               icon={<Pencil />}
@@ -64,7 +64,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
                 setShowDeleteCategoryModal(true)
               }}
               label={formatMessage({
-                id: getTrad("modal.cookie.form.header.title.delete"),
+                id: getTrad("modal.category.form.header.title.delete"),
                 defaultMessage: "Delete Category"
               })}
               icon={<Trash />}
@@ -72,7 +72,7 @@ const CategoryAccordion = ({ cookies, category, setCategory, setCookies, expande
           </Stack>
         }
         title={category.name}
-        description={truncate(category.description, { length: 175 })}
+        description={truncate(category.description, { length: 120 })}
         togglePosition="left"
       />
       <AccordionContent>

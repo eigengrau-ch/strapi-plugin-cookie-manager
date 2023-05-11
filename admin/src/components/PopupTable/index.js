@@ -12,35 +12,27 @@ import { IconButton } from "@strapi/design-system/IconButton"
 import { BaseCheckbox } from "@strapi/design-system/BaseCheckbox"
 import { Table, Thead, Tbody, TFooter, Tr, Td, Th } from "@strapi/design-system/Table"
 import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden"
-import { Switch } from "@strapi/design-system/Switch"
 import Plus from "@strapi/icons/Plus"
 import Pencil from "@strapi/icons/Pencil"
 import Trash from "@strapi/icons/Trash"
 import Duplicate from "@strapi/icons/Duplicate"
 
-// Lodash
-import { truncate } from "lodash"
-
 // Utils
 import { getTrad } from "../../utils"
 
-const CookieTable = ({
-  cookies,
-  setCookie,
-  setCookies,
-  category,
-  setCategory,
-  updateCookie,
-  setShowCreateCookieModal,
-  setShowUpdateCookieModal,
-  setShowDeleteCookieModel,
-  setShowDuplicateCookieModal,
-  setShowDeleteAllCookieModal
+const PopupTable = ({
+  popups,
+  setPopup,
+  setPopups,
+  setShowCreatePopupModal,
+  setShowUpdatePopupModal,
+  setShowDeletePopupModel,
+  setShowDuplicatePopupModal,
+  setShowDeleteAllPopupModal
 }) => {
 
   const { formatMessage } = useIntl()
 
-  const [checkedRowSwitch, setCheckedRowSwitch] = useState([])
   const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
   const [headCheckboxBoolean, setHeadCheckboxBoolean] = useState(false)
 
@@ -63,33 +55,9 @@ const CookieTable = ({
       return obj
     })]
 
-    setCookies([...newSelectedRowCheckboxes.filter(obj => { if (obj.isSelected) return obj.cookie })])
+    setPopups([...newSelectedRowCheckboxes.filter(obj => { if (obj.isSelected) return obj.popup })])
     setSelectedRowCheckboxes(newSelectedRowCheckboxes)
     setHeadCheckboxBoolean(isAllSelected() ? true : false)
-  }
-
-  const handleRowSwitchToggle = async (cookie) => {
-    const fields = {
-      id: cookie.id,
-      name: cookie.name,
-      description: cookie.description,
-      host: cookie.host,
-      category: cookie.category,
-      party: cookie.party,
-      isVisible: !cookie.isVisible,
-      duration: cookie.duration
-    }
-
-    setCheckedRowSwitch([...checkedRowSwitch.filter(obj => {
-      if (obj.id === cookie.id) obj.isChecked = !cookie.isVisible
-      return obj
-    })])
-
-    try {
-      await updateCookie(fields)
-    } catch (e) {
-      console.log("error", e)
-    }
   }
 
   const getCurrentCheckboxValue = (id) => {
@@ -97,36 +65,22 @@ const CookieTable = ({
     return (currentCheckbox) ? currentCheckbox.isSelected : false
   }
 
-  const getCurrentSwitchValue = (id) => {
-    const currentSwitch = checkedRowSwitch.filter(currentSwitch => (currentSwitch.id === id))[0]
-    return (currentSwitch) ? currentSwitch.isChecked : false
-  }
-
   const updateRowState = (rowStates, setRowStates) => {
-    const validStates = rowStates.filter(obj => (cookies.filter(cookie => cookie.id === obj.cookie.id).length === 1))
+    const validStates = rowStates.filter(obj => (popups.filter(popup => popup.id === obj.popup.id).length === 1))
     const needUpdate = (validStates.length !== rowStates.length)
     if (needUpdate) setRowStates([...validStates])
   }
 
-  const createRowCheckboxState = (cookie) => {
-    const stateExists = (selectedRowCheckboxes.filter(obj => (obj.id === cookie.id)).length > 0)
+  const createRowCheckboxState = (popup) => {
+    const stateExists = (selectedRowCheckboxes.filter(obj => (obj.id === popup.id)).length > 0)
     if (!stateExists) {
-      setSelectedRowCheckboxes([{ id: cookie.id, isSelected: false, cookie: cookie }, ...selectedRowCheckboxes])
+      setSelectedRowCheckboxes([{ id: popup.id, isSelected: false, popup: popup }, ...selectedRowCheckboxes])
     } else {
       updateRowState(selectedRowCheckboxes, setSelectedRowCheckboxes)
     }
   }
 
-  const createRowSwitchState = (cookie) => {
-    const stateExists = (checkedRowSwitch.filter(obj => (obj.id === cookie.id)).length > 0)
-    if (!stateExists) {
-      setCheckedRowSwitch([{ id: cookie.id, isChecked: cookie.isVisible, cookie: cookie }, ...checkedRowSwitch])
-    } else {
-      updateRowState(checkedRowSwitch, setCheckedRowSwitch)
-    }
-  }
-
-  let cookieTable = {
+  let popupTable = {
     columns: <>
       <Th>
         <BaseCheckbox
@@ -134,7 +88,7 @@ const CookieTable = ({
           value={headCheckboxBoolean}
           indeterminate={isIndeterminated}
           aria-label={formatMessage({
-            id: getTrad("table.cookie.actions.select.all"),
+            id: getTrad("table.popup.actions.select.all"),
             defaultMessage: "Select all entries"
           })}
         />
@@ -142,117 +96,83 @@ const CookieTable = ({
       <Th>
         <Typography variant="sigma">
           {formatMessage({
-            id: getTrad("modal.cookie.form.field.name.label"),
-            defaultMessage: "Name"
+            id: getTrad("modal.popup.form.field.name.label"),
+            defaultMessage: "Title"
           })}
         </Typography>
       </Th>
       <Th>
         <Typography variant="sigma">
           {formatMessage({
-            id: getTrad("modal.cookie.form.field.description.label"),
+            id: getTrad("modal.popup.form.field.description.label"),
             defaultMessage: "Description"
           })}
         </Typography>
       </Th>
       <Th>
-        <Typography variant="sigma">
-          {formatMessage({
-            id: getTrad("modal.cookie.form.field.host.label"),
-            defaultMessage: "Host"
-          })}
-        </Typography>
-      </Th>
-      <Th>
-        <Typography variant="sigma">
-          {formatMessage({
-            id: getTrad("modal.cookie.form.field.isVisible.label"),
-            defaultMessage: "Is Visible"
-          })}
-        </Typography>
-      </Th>
-      <Th>
         <VisuallyHidden>{formatMessage({
-          id: getTrad("table.cookie.actions"),
+          id: getTrad("table.popup.actions"),
           defaultMessage: "Actions"
         })}
         </VisuallyHidden>
       </Th>
     </>,
-    rows: cookies.map((cookie) => {
-      createRowCheckboxState(cookie)
-      createRowSwitchState(cookie)
+    rows: popups.map((popup) => {
+      createRowCheckboxState(popup)
 
       return (
-        <Tr key={cookie.id}>
+        <Tr key={popup.id}>
           <Td>
             <BaseCheckbox
-              onValueChange={isSelected => handleRowCheckboxesToggle(cookie.id, isSelected)}
+              onValueChange={isSelected => handleRowCheckboxesToggle(popup.id, isSelected)}
               aria-label={formatMessage(
                 {
-                  id: getTrad("table.cookie.actions.select.cookie"),
-                  defaultMessage: "Select { name }"
+                  id: getTrad("table.popup.actions.select.popup"),
+                  defaultMessage: "Select { title }"
                 },
-                { name: cookie.name }
+                { title: popup.title }
               )}
-              value={getCurrentCheckboxValue(cookie.id)}
+              value={getCurrentCheckboxValue(popup.id)}
             />
           </Td>
           <Td>
-            <Typography textColor="neutral800">{truncate(cookie.name, { length: 50 })}</Typography>
+            <Typography textColor="neutral800">{popup.title}</Typography>
           </Td>
           <Td>
-            <Typography textColor="neutral800">{truncate(cookie.description, { length: 80 })}</Typography>
-          </Td>
-          <Td>
-            <Typography textColor="neutral800">{truncate(cookie.host, { length: 25 })}</Typography>
-          </Td>
-          <Td style={{ justifyContent: "end" }}>
-            <Switch
-              label={formatMessage({
-                id: getTrad("modal.cookie.cookie.form.field.isVisible.hint"),
-                defaultMessage: "Manage visibility"
-              })}
-              selected={getCurrentSwitchValue(cookie.id)}
-              onChange={() => {
-                setCookie(cookie)
-                handleRowSwitchToggle(cookie)
-              }
-              }
-            />
+            <Typography textColor="neutral800">{popup.description}</Typography>
           </Td>
           <Td>
             <Flex gap={4} style={{ justifyContent: "end" }}>
               <IconButton
                 onClick={() => {
-                  setCookie(cookie)
-                  setShowUpdateCookieModal(true)
+                  setPopup(popup)
+                  setShowUpdatePopupModal(true)
                 }}
                 label={formatMessage({
-                  id: getTrad("table.cookie.actions.update"),
-                  defaultMessage: "Update Cookie"
+                  id: getTrad("table.popup.actions.update"),
+                  defaultMessage: "Update Popup"
                 })}
                 icon={<Pencil />}
               />
               <IconButton
                 onClick={() => {
-                  setCookie(cookie)
-                  setShowDuplicateCookieModal(true)
+                  setPopup(popup)
+                  setShowDuplicatePopupModal(true)
                 }}
                 label={formatMessage({
-                  id: getTrad("table.cookie.actions.duplicate"),
-                  defaultMessage: "Duplicate Cookie"
+                  id: getTrad("table.popup.actions.duplicate"),
+                  defaultMessage: "Duplicate Popup"
                 })}
                 icon={<Duplicate />}
               />
               <IconButton
                 onClick={() => {
-                  setCookie(cookie)
-                  setShowDeleteCookieModel(true)
+                  setPopup(popup)
+                  setShowDeletePopupModel(true)
                 }}
                 label={formatMessage({
-                  id: getTrad("table.cookie.actions.delete"),
-                  defaultMessage: "Delete Cookie"
+                  id: getTrad("table.popup.actions.delete"),
+                  defaultMessage: "Delete Popup"
                 })}
                 icon={<Trash />}
               />
@@ -272,19 +192,19 @@ const CookieTable = ({
               <Flex direction="column" gap={1} alignItems="flex-start">
                 <Typography variant="beta" textColor="neutral700">
                   {formatMessage({
-                    id: getTrad("table.cookie.title"),
-                    defaultMessage: "Cookies"
+                    id: getTrad("table.popup.title"),
+                    defaultMessage: "Popups"
                   })}
                 </Typography>
                 <Typography variant="omega" textColor="neutral600">
                   {formatMessage(
                     {
-                      id: getTrad("table.cookie.entries"),
+                      id: getTrad("table.popup.entries"),
                       defaultMessage: "{ amount }{ moreThanOne, select, true { entries } other { entry } found"
                     },
                     {
-                      amount: cookies.length,
-                      moreThanOne: (cookies.length > 1)
+                      amount: popups.length,
+                      moreThanOne: (popups.length > 1)
                     }
                   )}
                 </Typography>
@@ -298,18 +218,18 @@ const CookieTable = ({
                     size="L"
                     startIcon={<Trash />}
                     onClick={() => {
-                      setShowDeleteAllCookieModal(true)
+                      setShowDeleteAllPopupModal(true)
                     }}
                   >
                     {formatMessage({
-                      id: getTrad("table.cookie.actions.seleted.delete"),
+                      id: getTrad("table.popup.actions.seleted.delete"),
                       defaultMessage: "Delete"
                     })}
                   </Button>
                   <Typography variant="epsilon" textColor="neutral600">
                     {formatMessage(
                       {
-                        id: getTrad("table.cookie.actions.seleted.label"),
+                        id: getTrad("table.popup.actions.seleted.label"),
                         defaultMessage: "{ amount } selected { moreThanOne, select, true { entries } other { entry }"
                       },
                       {
@@ -327,23 +247,22 @@ const CookieTable = ({
           colCount={6}
           rowCount={10}
           footer={<TFooter onClick={() => {
-            setCategory(category)
-            setShowCreateCookieModal(true)
+            setShowCreatePopupModal(true)
           }}
             icon={<Plus />}>
             {formatMessage({
-              id: getTrad("table.cookie.actions.create"),
-              defaultMessage: "Create new Cookie"
+              id: getTrad("table.popup.actions.create"),
+              defaultMessage: "Create new Popup"
             })}
           </TFooter>}
         >
           <Thead>
             <Tr>
-              {cookieTable.columns}
+              {popupTable.columns}
             </Tr>
           </Thead>
           <Tbody>
-            {cookieTable.rows}
+            {popupTable.rows}
           </Tbody>
         </Table>
       </Box>
@@ -351,4 +270,4 @@ const CookieTable = ({
   )
 }
 
-export default CookieTable
+export default PopupTable
