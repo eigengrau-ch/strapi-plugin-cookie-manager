@@ -78,6 +78,7 @@ module.exports = ({ strapi }) => {
               attributes: component.attributes,
             },
           });
+          setImmediate(() => strapi.reload())
           
       } catch (error) {
         console.log(error);
@@ -149,6 +150,10 @@ module.exports = ({ strapi }) => {
     }
   }
 
-  setupComponent(buttonsFieldSchema)
-  setupContentTypes(contentTypeSchemas)
+  const initializeSetup = async () => {
+    await setupComponent(buttonsFieldSchema)
+    await setupContentTypes(contentTypeSchemas)
+  }
+
+  initializeSetup()
 }
