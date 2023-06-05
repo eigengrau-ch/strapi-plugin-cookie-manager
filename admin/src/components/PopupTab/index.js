@@ -20,7 +20,7 @@ import { getTrad } from "../../utils"
 // Api
 import cookieManagerRequests from "../../api/cookie-manager"
 
-const PopupTab = ({ currentLocale }) => {
+const PopupTab = ({ locale }) => {
 
   const { formatMessage } = useIntl()
 
@@ -39,7 +39,7 @@ const PopupTab = ({ currentLocale }) => {
 
   const setPopups = async () => {
     setPopupIsLoading(true)
-    const popups = await cookieManagerRequests.getPopups(currentLocale)
+    const popups = await cookieManagerRequests.getPopups(locale)
     setPopupData(popups)
     setPopupIsLoading(false)
   }
@@ -72,7 +72,7 @@ const PopupTab = ({ currentLocale }) => {
 
   useEffect(async () => {
     await setPopups()
-  }, [currentLocale])
+  }, [locale])
 
   const isLoading = !(!popupIsLoading)
 
@@ -116,10 +116,10 @@ const PopupTab = ({ currentLocale }) => {
           />
         }
 
-        {showCreatePopupModal && <CreatePopupModal setShowModal={setShowCreatePopupModal} createPopup={createPopup} locale={currentLocale} />}
+        {showCreatePopupModal && <CreatePopupModal setShowModal={setShowCreatePopupModal} createPopup={createPopup} locale={locale} />}
         {showUpdatePopupModal && <UpdatePopupModal setShowModal={setShowUpdatePopupModal} updatePopup={updatePopup} popup={currentPopup} />}
         {showDeletePopupModal && <DeletePopupModal setShowModal={setShowDeletePopupModal} deletePopup={deletePopup} popup={currentPopup} showModal={showDeletePopupModal} />}
-        {showDuplicatePopupModal && <DuplicatePopupModal setShowModal={setShowDuplicatePopupModal} createPopup={createPopup} popup={currentPopup} locale={currentLocale} />}
+        {showDuplicatePopupModal && <DuplicatePopupModal setShowModal={setShowDuplicatePopupModal} createPopup={createPopup} popup={currentPopup} locale={locale} />}
         {showDeleteAllPopupModal && <DeleteAllPopupModal setShowModal={setShowDeleteAllPopupModal} deleteAllPopup={deleteAllPopup} popups={currentPopups} showModal={showDeleteAllPopupModal} />}
       </>
     ) : (
