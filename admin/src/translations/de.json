@@ -15,6 +15,8 @@
   "modal.popup.form.field.buttons.label": "Buttons",
   "modal.popup.form.field.buttons.field.buttonType.label": "Typ",
   "modal.popup.form.field.buttons.field.label.label": "Label",
+  "modal.cookie.form.field.hasCustomizability.label": "Hat Anpassbarkeit",
+  "modal.cookie.form.field.hasCustomizability.hint": "Aktivieren wenn dieses Popup die Anpassbaren Cookies enthaltet",
   "modal.popup.form.cta.cancel": "Abbrechen",
   "modal.popup.form.cta.create": "Neues Popup erstellen",
   "modal.popup.form.cta.update": "Popup aktualisiere",

@@ -6,6 +6,7 @@ import { useIntl } from "react-intl"
 // Strapi
 import { Dialog, DialogBody, DialogFooter } from "@strapi/design-system/Dialog"
 import { Stack } from "@strapi/design-system/Stack"
+import { Switch } from "@strapi/design-system/Switch"
 import Trash from "@strapi/icons/Trash"
 import { Flex } from "@strapi/design-system/Flex"
 import ExclamationMarkCircle from "@strapi/icons/ExclamationMarkCircle"
@@ -50,6 +51,7 @@ const Modal = ({ setShowModal, crudAction, locale = null, popup = {} }) => {
   const [titleValidation, setTitleValidation] = useState([])
   const [descriptionValidation, setDescriptionValidation] = useState([])
   const [buttonsValidation, setButtonsValidation] = useState([])
+  const [hasCustomizability, setHasCustomizability] = useState(popup.hasCustomizability || false)
 
   const [childrensValidated, setChildrensValidated] = useState([])
   const [childrenIsValid, setChildrenIsValid] = useState(false)
@@ -71,6 +73,7 @@ const Modal = ({ setShowModal, crudAction, locale = null, popup = {} }) => {
           if (!initialButtons.some(o => (o.id === obj.id))) return omit(obj, "id")
           return obj
         }),
+        hasCustomizability: hasCustomizability,
         locale: locale
       }
 
@@ -194,6 +197,35 @@ const Modal = ({ setShowModal, crudAction, locale = null, popup = {} }) => {
             max={buttonMax}
             error={first(buttonsValidation)}
           />
+        </Box>
+        <Box paddingTop={4}>
+          <Flex direction="column" alignItems="flex-start">
+            <Typography variant="pi" fontWeight="bold">
+              {formatMessage({
+                id: getTrad("modal.popup.form.field.hasCustomizability.label"),
+                defaultMessage: "Has Customizability"
+              })}
+            </Typography>
+            <Box paddingTop={1}>
+              <Typography variant="pi" style={{ color: "#666687" }}>
+                {formatMessage({
+                  id: getTrad("modal.popup.form.field.hasCustomizability.hint"),
+                  defaultMessage: "Activate when this popup contains the customizable cookies"
+                })}
+              </Typography>
+            </Box>
+            <Box paddingTop={1}>
+              <Switch
+                label={formatMessage({
+                  id: getTrad("modal.popup.form.field.hasCustomizability.label"),
+                  defaultMessage: "Has Customizability"
+                })}
+                name="has-customizability"
+                selected={hasCustomizability}
+                onChange={() => setHasCustomizability(s => !s)}
+              />
+            </Box>
+          </Flex>
         </Box>
       </ModalBody>
 
