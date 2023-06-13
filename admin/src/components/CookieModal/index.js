@@ -303,6 +303,14 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
                 onChange={() => setIsVisible(s => !s)}
               />
             </Box>
+            <Box paddingTop={1}>
+              <Typography variant="pi" style={{ color: "#666687" }}>
+                {formatMessage({
+                  id: getTrad("modal.cookie.form.field.isVisible.hint"),
+                  defaultMessage: "Manage visibility"
+                })}
+              </Typography>
+            </Box>
           </Flex>
         </Box>
         <Box paddingTop={4}>
