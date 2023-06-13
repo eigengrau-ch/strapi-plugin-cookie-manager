@@ -293,6 +293,14 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               })}
             </Typography>
             <Box paddingTop={1}>
+              <Typography variant="pi" style={{ color: "#666687" }}>
+                {formatMessage({
+                  id: getTrad("modal.cookie.form.field.isVisible.hint"),
+                  defaultMessage: "Manage visibility"
+                })}
+              </Typography>
+            </Box>
+            <Box paddingTop={1}>
               <Switch
                 label={formatMessage({
                   id: getTrad("modal.cookie.form.field.isVisible.label"),
@@ -302,14 +310,6 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
                 selected={isVisible}
                 onChange={() => setIsVisible(s => !s)}
               />
-            </Box>
-            <Box paddingTop={1}>
-              <Typography variant="pi" style={{ color: "#666687" }}>
-                {formatMessage({
-                  id: getTrad("modal.cookie.form.field.isVisible.hint"),
-                  defaultMessage: "Manage visibility"
-                })}
-              </Typography>
             </Box>
           </Flex>
         </Box>
