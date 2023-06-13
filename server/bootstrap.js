@@ -16,6 +16,8 @@ module.exports = ({ strapi }) => {
   const buttonsFieldName = "cookie-button"
   const buttonsFieldReferenceAttribute = "buttons"
   const buttonsFieldReferenceContentType = "cookie-popup"
+  const custimizabilityFieldReferenceAttribute = "hasCustomizability"
+  const custimizabilityFieldReferenceContentType = "cookie-popup"
 
   // Additional field for cookie
   const keyFieldReferenceAttribute = "key"
@@ -134,6 +136,12 @@ module.exports = ({ strapi }) => {
 
         if (contentTypeName === buttonsFieldReferenceContentType) {
           if (!await contentTypeHasAttribute(contentTypeName, buttonsFieldReferenceAttribute)){
+            await updateContentType(uid, contentType)
+          }
+        }
+
+        if (contentTypeName === custimizabilityFieldReferenceContentType) {
+          if (!await contentTypeHasAttribute(contentTypeName, custimizabilityFieldReferenceAttribute)){
             await updateContentType(uid, contentType)
           }
         }
