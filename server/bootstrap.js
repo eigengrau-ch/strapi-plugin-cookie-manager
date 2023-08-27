@@ -23,6 +23,10 @@ module.exports = ({ strapi }) => {
   const keyFieldReferenceAttribute = "key"
   const keyFieldReferenceContentType = "cookie"
 
+  // Additional field for cookie category
+  const necessaryFieldReferenceAttribute = "isNecessary"
+  const necessaryFieldReferenceContentType = "cookie-category"
+
   let isLastIndex = false
 
   const hasRelation = (attribute) => (attribute.type === "relation")
@@ -98,12 +102,12 @@ module.exports = ({ strapi }) => {
     }
   }
 
-  const updateContentType = async (uid, contentType) => {
+  const updateContentType = async (uid, contentType, forceReload = false) => {
     try {
       strapi.reload.isWatching = false
 
       await contentTypeService.editContentType(uid, { contentType: contentType })
-      if (isLastIndex) setImmediate(() => strapi.reload())
+      if (isLastIndex || forceReload) setImmediate(() => strapi.reload())
     } catch (e) {
       console.log("error", e)
     }
@@ -152,6 +156,15 @@ module.exports = ({ strapi }) => {
           }
           if (!await contentTypeHasAttribute(contentTypeName, keyFieldReferenceAttribute)){
             await updateContentType(uid, contentType)
+          }
+        }
+
+        if (contentTypeName === necessaryFieldReferenceContentType) {
+          for (const attribute of Object.values(contentType.attributes)) {
+            if (hasRelation(attribute)) attribute.targetAttribute = attribute.mappedBy
+          }
+          if (!await contentTypeHasAttribute(contentTypeName, necessaryFieldReferenceAttribute)){
+            await updateContentType(uid, contentType, true)
           }
         }
       }

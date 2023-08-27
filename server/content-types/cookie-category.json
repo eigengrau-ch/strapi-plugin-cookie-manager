@@ -31,6 +31,16 @@
       "type": "text",
       "required": true
     },
+    "isNecessary": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
     "cookies": {
       "type": "relation",
       "relation": "oneToMany",

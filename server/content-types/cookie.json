@@ -39,8 +39,7 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::cookie-category.cookie-category",
-      "inversedBy": "cookies",
-      "required": true
+      "inversedBy": "cookies"
     },
     "party": {
       "type": "enumeration",
