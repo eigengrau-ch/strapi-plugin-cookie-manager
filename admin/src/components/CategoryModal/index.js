@@ -9,6 +9,7 @@ import { Accordion, AccordionToggle, AccordionContent } from "@strapi/design-sys
 import { Table, Thead, Tbody, Tr, Td, Th } from "@strapi/design-system/Table"
 import { Divider } from "@strapi/design-system/Divider"
 import { Stack } from "@strapi/design-system/Stack"
+import { Switch } from "@strapi/design-system/Switch"
 import Trash from "@strapi/icons/Trash"
 import { Flex } from "@strapi/design-system/Flex"
 import ExclamationMarkCircle from "@strapi/icons/ExclamationMarkCircle"
@@ -41,6 +42,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
   const [id] = useState(category.id || null)
   const [name, setName] = useState(category.name || "")
   const [description, setDescription] = useState(category.description || "")
+  const [isNecessary, setIsNecessary] = useState(category.isNecessary || false)
 
   const [nameValidation, setNameValidation] = useState([])
   const [descriptionValidation, setDescriptionValidation] = useState([])
@@ -53,6 +55,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
       const fields = {
         name: name,
         description: description,
+        isNecessary: isNecessary,
         locale: locale
       }
 
@@ -84,6 +87,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
     const fields = {
       name: name,
       description: description,
+      isNecessary: isNecessary,
     }
 
     const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
@@ -149,6 +153,27 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
             style={{ minHeight: "200px", height: "auto" }}
             value={description}
           />
+        </Box>
+        <Box paddingTop={4}>
+          <Flex direction="column" alignItems="flex-start">
+            <Typography variant="pi" fontWeight="bold">
+              {formatMessage({
+                id: getTrad("modal.category.form.field.isNecessary.label"),
+                defaultMessage: "Is Necessary"
+              })}
+            </Typography>
+            <Box paddingTop={1}>
+              <Switch
+                label={formatMessage({
+                  id: getTrad("modal.category.form.field.isNecessary.label"),
+                  defaultMessage: "Is Necessary"
+                })}
+                name="is-necessary"
+                selected={isNecessary}
+                onChange={() => setIsNecessary(s => !s)}
+              />
+            </Box>
+          </Flex>
         </Box>
       </ModalBody>
 

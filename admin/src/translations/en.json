@@ -30,6 +30,7 @@
   "modal.category.form.info.delete": "Are you sure you want to delete the category \"{ name }\"{ moreThanOne, select, true { and all containing cookies } other {} }?",
   "modal.category.form.field.name.label": "Name",
   "modal.category.form.field.description.label": "Description",
+  "modal.category.form.field.isNecessary.label": "Is Necessary",
   "modal.category.form.cta.cancel": "Cancel",
   "modal.category.form.cta.create": "Create new Category",
   "modal.category.form.cta.update": "Update Category",
