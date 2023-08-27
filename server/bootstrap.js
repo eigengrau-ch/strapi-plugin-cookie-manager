@@ -14,8 +14,6 @@ module.exports = ({ strapi }) => {
   const buttonsFieldSchema = cookieButton
   const buttonsFieldCategory = "shared"
   const buttonsFieldName = "cookie-button"
-  const buttonsFieldReferenceAttribute = "buttons"
-  const buttonsFieldReferenceContentType = "cookie-popup"
   const custimizabilityFieldReferenceAttribute = "hasCustomizability"
   const custimizabilityFieldReferenceContentType = "cookie-popup"
 
@@ -136,12 +134,6 @@ module.exports = ({ strapi }) => {
       } else {
         if (!await contentTypeHasAttributes(contentTypeName)) {
           await updateContentType(uid, contentType)
-        }
-
-        if (contentTypeName === buttonsFieldReferenceContentType) {
-          if (!await contentTypeHasAttribute(contentTypeName, buttonsFieldReferenceAttribute)){
-            await updateContentType(uid, contentType)
-          }
         }
 
         if (contentTypeName === custimizabilityFieldReferenceContentType) {
