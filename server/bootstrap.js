@@ -10,10 +10,9 @@ module.exports = ({ strapi }) => {
   const contentTypeSchemas = [cookie, cookieCategory, cookiePopup]
   const contentTypeService = strapi.plugin("content-type-builder").service("content-types")
 
-  // Additional field for popup
-  const buttonsFieldSchema = cookieButton
-  const buttonsFieldCategory = "shared"
-  const buttonsFieldName = "cookie-button"
+  const buttonsComponentSchema = cookieButton
+  const buttonsComponentCategory = "shared"
+  const buttonsComponentName = "cookie-button"
 
   // Additional field for cookie
   const keyFieldReferenceAttribute = "key"
@@ -74,7 +73,7 @@ module.exports = ({ strapi }) => {
           .plugin('content-type-builder')
           .services.components.createComponent({
             component: {
-              category: buttonsFieldCategory,
+              category: buttonsComponentCategory,
               displayName: component.info.displayName,
               icon: component.info.icon,
               attributes: component.attributes,
@@ -110,7 +109,7 @@ module.exports = ({ strapi }) => {
   }
 
   const setupComponent = async (component) => {
-    const isExistent = await componentExists(`${buttonsFieldCategory}.${buttonsFieldName}`);
+    const isExistent = await componentExists(`${buttonsComponentCategory}.${buttonsComponentName}`);
 
     if (!isExistent) {
       await createComponent(component)
@@ -156,7 +155,7 @@ module.exports = ({ strapi }) => {
   }
 
   const initializeSetup = async () => {
-    await setupComponent(buttonsFieldSchema)
+    await setupComponent(buttonsComponentSchema)
     await setupContentTypes(contentTypeSchemas)
   }
 
