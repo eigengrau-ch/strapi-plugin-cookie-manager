@@ -67,8 +67,8 @@ const SettingsPage = () => {
     }
   }
 
-  useEffect(async () => {
-    await getConfigData()
+  useEffect(() => {
+    getConfigData()
   }, [])
 
   return (

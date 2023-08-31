@@ -106,14 +106,12 @@ const CookieTab = ({ locale }) => {
     if (!stateExists) setExpandedStates([{ id: id, isExpanded: isExpanded }, ...expandedStates])
   }
 
-  useEffect(async () => {
-    await setCategories()
-    await setCookies()
+  useEffect(() => {
+    setCategories().then(setCookies)
   }, [])
 
-  useEffect(async () => {
-    await setCategories()
-    await setCookies()
+  useEffect(() => {
+    setCategories().then(setCookies)
   }, [locale])
 
   const isLoading = !(!cookieIsLoading && !categoryIsLoading)
