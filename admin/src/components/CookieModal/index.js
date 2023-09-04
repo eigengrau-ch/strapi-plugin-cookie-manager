@@ -192,7 +192,6 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Name"
             })}
             name="name"
-            required
             error={first(nameValidation)}
             onChange={e => {
               handleValidation({ name: e.target.value }, setNameValidation)
@@ -223,7 +222,6 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Host"
             })}
             name="host"
-            required
             hint={formatMessage({
               id: getTrad("modal.cookie.form.field.host.hint"),
               defaultMessage: "e.G domain.com"
