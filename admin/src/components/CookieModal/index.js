@@ -243,6 +243,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Category"
             })}
             name="category"
+            required
             error={first(categoryValidation)}
             onChange={(value) => {
               handleValidation({ category: value }, setCategoryValidation)
@@ -266,6 +267,7 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
               defaultMessage: "Party"
             })}
             name="party"
+            required
             error={first(partyValidation)}
             onChange={value => {
               handleValidation({ party: value }, setPartyValidation)
