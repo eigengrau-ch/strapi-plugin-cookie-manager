@@ -16,14 +16,14 @@ import CookieTab from "../../components/CookieTab"
 import PopupTab from "../../components/PopupTab"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 // Api
 import cookieManagerRequests from "../../api/cookie-manager"
 
 const HomePage = () => {
 
-  const { formatMessage } = useIntl();
+  const { formatMessage } = useIntl()
 
   const [config, setConfig] = useState([])
   const [locales, setLocales] = useState([])

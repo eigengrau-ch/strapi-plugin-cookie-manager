@@ -1,13 +1,13 @@
 
 // Strapi
-import { prefixPluginTranslations } from "@strapi/helper-plugin";
+import { prefixPluginTranslations } from "@strapi/helper-plugin"
 
 // Components
-import { PluginIcon, Initializer } from "./components";
+import { PluginIcon, Initializer } from "./components"
 
 // Utils
-import { pluginId, pluginName } from "./utils";
-import { getTrad } from "./utils";
+import { pluginId, pluginName } from "./utils"
+import { getTrad } from "./utils"
 
 export default {
   register(app) {
@@ -34,7 +34,7 @@ export default {
           permissions: []
         }
       ]
-    );
+    )
     app.addMenuLink({
       to: `/plugins/${pluginId}`,
       icon: PluginIcon,
@@ -43,7 +43,7 @@ export default {
         defaultMessage: pluginName,
       },
       Component: async () => {
-        const component = await import(/* webpackChunkName: "[request]" */ "./pages/App");
+        const component = await import(/* webpackChunkName: "[request]" */ "./pages/App")
 
         return component;
       },
@@ -54,13 +54,13 @@ export default {
         //   subject: null,
         // },
       ],
-    });
+    })
     app.registerPlugin({
       id: pluginId,
       name: pluginName,
       initializer: Initializer,
       isReady: false,
-    });
+    })
   },
 
   bootstrap(app) { },
@@ -72,17 +72,17 @@ export default {
             return {
               data: prefixPluginTranslations(data, pluginId),
               locale,
-            };
+            }
           })
           .catch(() => {
             return {
               data: {},
               locale,
-            };
-          });
+            }
+          })
       })
-    );
+    )
 
-    return Promise.resolve(importedTrads);
+    return Promise.resolve(importedTrads)
   },
-};
+}

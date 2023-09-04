@@ -1,39 +1,39 @@
 
 // React
-import React, { useState, useEffect } from "react";
-import { useIntl } from "react-intl";
+import React, { useState, useEffect } from "react"
+import { useIntl } from "react-intl"
 
 // Formik
-import { Formik } from "formik";
+import { Formik } from "formik"
 
 // Strapi
 import { HeaderLayout, ContentLayout } from "@strapi/design-system/Layout"
-import { Main } from "@strapi/design-system/Main";
+import { Main } from "@strapi/design-system/Main"
 import { Form, useNotification, useOverlayBlocker } from "@strapi/helper-plugin"
-import { Stack } from "@strapi/design-system/Stack";
-import { ToggleInput } from "@strapi/design-system/ToggleInput";
+import { Stack } from "@strapi/design-system/Stack"
+import { ToggleInput } from "@strapi/design-system/ToggleInput"
 import { Box } from "@strapi/design-system/Box"
-import { Typography } from "@strapi/design-system/Typography";
+import { Typography } from "@strapi/design-system/Typography"
 import { LoadingIndicatorPage } from "@strapi/helper-plugin"
 import Check from "@strapi/icons/Check";
 import { Button } from "@strapi/design-system/Button"
 
 // Utils
-import { getTrad, pluginName } from "../../utils";
+import { getTrad, pluginName } from "../../utils"
 
 // Api
 import cookieManagerRequests from "../../api/cookie-manager"
 
 // Validation Schema
-import schema from "./form-validation";
+import schema from "./form-validation"
 
 const SettingsPage = () => {
   const [config, setConfig] = useState({})
   const [configIsLoading, setConfigIsLoading] = useState(true)
 
-  const { formatMessage } = useIntl();
-  const { lockApp, unlockApp } = useOverlayBlocker();
-  const toggleNotification = useNotification();
+  const { formatMessage } = useIntl()
+  const { lockApp, unlockApp } = useOverlayBlocker()
+  const toggleNotification = useNotification()
 
   const getConfigData = async () => {
     const config = await cookieManagerRequests.getConfig()
@@ -43,7 +43,7 @@ const SettingsPage = () => {
   }
 
   const updateConfig = async (data) => {
-    await cookieManagerRequests.updateConfig(data);
+    await cookieManagerRequests.updateConfig(data)
   }
 
   const handleSubmit = (body, form) => {
@@ -148,7 +148,7 @@ const SettingsPage = () => {
         )}
       </Formik>
     </Main>
-  );
-};
+  )
+}
 
-export default SettingsPage;
+export default SettingsPage

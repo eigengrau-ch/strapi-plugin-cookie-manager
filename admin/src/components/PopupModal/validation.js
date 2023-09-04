@@ -3,7 +3,7 @@
 import * as Yup from "yup"
 
 // Utils
-import { getTrad } from "../../utils";
+import { getTrad } from "../../utils"
 
 const ValidationSchema = (formatMessage, min, max, moreThanOne) => {
   const msg = {
@@ -50,6 +50,6 @@ const ValidationSchema = (formatMessage, min, max, moreThanOne) => {
       .min(1, msg.array.isMin)
       .max(3, msg.array.isMax)
   })
-};
+}
 
 export default ValidationSchema

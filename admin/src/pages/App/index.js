@@ -1,9 +1,9 @@
 
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import { NotFound } from "@strapi/helper-plugin";
-import { pluginId } from "../../utils";
-import HomePage from "../HomePage";
+import React from "react"
+import { Switch, Route } from "react-router-dom"
+import { NotFound } from "@strapi/helper-plugin"
+import { pluginId } from "../../utils"
+import HomePage from "../HomePage"
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
         <Route component={NotFound} />
       </Switch>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
