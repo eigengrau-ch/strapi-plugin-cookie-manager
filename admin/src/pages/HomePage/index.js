@@ -47,9 +47,9 @@ const HomePage = () => {
     setConfigIsLoading(false)
   }
 
-  useEffect(async () => {
-    await getConfig()
-    await getLocales()
+  useEffect(() => {
+    getConfig()
+    getLocales()
   }, [])
 
   const isLoading = !(!configIsLoading && !localeIsLoading)

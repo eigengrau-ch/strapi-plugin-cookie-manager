@@ -66,12 +66,12 @@ const PopupTab = ({ locale }) => {
     await setPopups()
   }
 
-  useEffect(async () => {
-    await setPopups()
+  useEffect(() => {
+    setPopups()
   }, [])
 
-  useEffect(async () => {
-    await setPopups()
+  useEffect(() => {
+    setPopups()
   }, [locale])
 
   const isLoading = !(!popupIsLoading)
