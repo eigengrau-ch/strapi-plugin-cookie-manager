@@ -33,7 +33,7 @@ import { getTrad } from "../../utils"
 // Validation Schema
 import validationSchema from "./validation"
 
-const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedCategory = null, cookie = {} }) => {
+const Modal = ({ setShowModal, crudAction, categories, isMultiLocale, locale = null, preservedCategory = null, cookie = {} }) => {
 
   const { formatMessage } = useIntl()
   const hasPreservedCategory = (preservedCategory !== null)
@@ -372,21 +372,23 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
             </Flex>
           </Box>
         </Box>
-        <Box paddingTop={4}>
-          <TextInput
-            label={formatMessage({
-              id: getTrad("modal.cookie.form.field.key.label"),
-              defaultMessage: "Key"
-            })}
-            name="key"
-            error={first(keyValidation)}
-            onChange={e => {
-              handleValidation({ key: e.target.value }, setKeyValidation)
-              setKey(e.target.value)
-            }}
-            value={key}
-          />
-        </Box>
+        {isMultiLocale && (
+          <Box paddingTop={4}>
+            <TextInput
+              label={formatMessage({
+                id: getTrad("modal.cookie.form.field.key.label"),
+                defaultMessage: "Key"
+              })}
+              name="key"
+              error={first(keyValidation)}
+              onChange={e => {
+                handleValidation({ key: e.target.value }, setKeyValidation)
+                setKey(e.target.value)
+              }}
+              value={key}
+            />
+          </Box>
+        )}
       </ModalBody>
 
       <ModalFooter
@@ -424,11 +426,11 @@ const Modal = ({ setShowModal, crudAction, categories, locale = null, preservedC
   )
 }
 
-const CreateCookieModal = ({ setShowModal, createCookie, categories, locale, preservedCategory }) => <Modal setShowModal={setShowModal} crudAction={createCookie} categories={categories} locale={locale} preservedCategory={preservedCategory} />
+const CreateCookieModal = ({ setShowModal, createCookie, categories, locale, isMultiLocale, preservedCategory }) => <Modal setShowModal={setShowModal} crudAction={createCookie} categories={categories} locale={locale} isMultiLocale={isMultiLocale} preservedCategory={preservedCategory} />
 
-const UpdateCookieModal = ({ setShowModal, updateCookie, cookie, categories }) => <Modal setShowModal={setShowModal} crudAction={updateCookie} categories={categories} cookie={cookie} />
+const UpdateCookieModal = ({ setShowModal, updateCookie, cookie, categories, isMultiLocale }) => <Modal setShowModal={setShowModal} crudAction={updateCookie} categories={categories} cookie={cookie} isMultiLocale={isMultiLocale} />
 
-const DuplicateCookieModal = ({ setShowModal, createCookie, cookie, categories, locale }) => <Modal setShowModal={setShowModal} crudAction={createCookie} categories={categories} cookie={omit(cookie, "id")} locale={locale} />
+const DuplicateCookieModal = ({ setShowModal, createCookie, cookie, categories, locale, isMultiLocale }) => <Modal setShowModal={setShowModal} crudAction={createCookie} categories={categories} cookie={omit(cookie, "id")} locale={locale} isMultiLocale={isMultiLocale} />
 
 const DeleteCookieModal = ({ setShowModal, deleteCookie, cookie, showModal = false }) => {
   const { formatMessage } = useIntl()

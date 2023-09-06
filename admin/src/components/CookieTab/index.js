@@ -24,7 +24,7 @@ import { getTrad } from "../../utils"
 // Api
 import cookieManagerRequests from "../../api/cookie-manager"
 
-const CookieTab = ({ locale }) => {
+const CookieTab = ({ locale, isMultiLocale }) => {
 
   const { formatMessage } = useIntl()
 
@@ -221,13 +221,13 @@ const CookieTab = ({ locale }) => {
           </AccordionGroup>
         )}
 
-        {showCreateCategoryModal && <CreateCategoryModal setShowModal={setShowCreateCategoryModal} createCategory={createCategory} locale={locale} />}
-        {showUpdateCategoryModal && <UpdateCategoryModal setShowModal={setShowUpdateCategoryModal} updateCategory={updateCategory} category={currentCategory} />}
+        {showCreateCategoryModal && <CreateCategoryModal setShowModal={setShowCreateCategoryModal} createCategory={createCategory} locale={locale} isMultiLocale={isMultiLocale} />}
+        {showUpdateCategoryModal && <UpdateCategoryModal setShowModal={setShowUpdateCategoryModal} updateCategory={updateCategory} category={currentCategory} isMultiLocale={isMultiLocale} />}
         {showDeleteCategoryModal && <DeleteCategoryModal setShowModal={setShowDeleteCategoryModal} deleteCategory={deleteCategory} deleteAllCookie={deleteAllCookie} category={currentCategory} cookies={currentCookies} showModal={showDeleteCategoryModal} />}
 
-        {showCreateCookieModal && <CreateCookieModal setShowModal={setShowCreateCookieModal} createCookie={createCookie} categories={categoryData} locale={locale} preservedCategory={currentCategory} />}
-        {showUpdateCookieModal && <UpdateCookieModal setShowModal={setShowUpdateCookieModal} updateCookie={updateCookie} categories={categoryData} cookie={currentCookie} />}
-        {showDeleteCookieModal && <DeleteCookieModal setShowModal={setShowDeleteCookieModal} deleteCookie={deleteCookie} cookie={currentCookie} showModal={showDeleteCookieModal} />}
+        {showCreateCookieModal && <CreateCookieModal setShowModal={setShowCreateCookieModal} createCookie={createCookie} categories={categoryData} locale={locale} isMultiLocale={isMultiLocale} preservedCategory={currentCategory} />}
+        {showUpdateCookieModal && <UpdateCookieModal setShowModal={setShowUpdateCookieModal} updateCookie={updateCookie} categories={categoryData} cookie={currentCookie} isMultiLocale={isMultiLocale} />}
+        {showDeleteCookieModal && <DeleteCookieModal setShowModal={setShowDeleteCookieModal} deleteCookie={deleteCookie} cookie={currentCookie} showModal={showDeleteCookieModal} isMultiLocale={isMultiLocale} />}
         {showDuplicateCookieModal && <DuplicateCookieModal setShowModal={setShowDuplicateCookieModal} createCookie={createCookie} categories={categoryData} cookie={currentCookie} locale={locale} />}
         {showDeleteAllCookieModal && <DeleteAllCookieModal setShowModal={setShowDeleteAllCookieModal} deleteAllCookie={deleteAllCookie} cookies={currentCookies} showModal={showDeleteAllCookieModal} />}
       </>

@@ -69,7 +69,7 @@ const HomePage = () => {
           as="h2"
           primaryAction={
             <Stack horizontal spacing={4}>
-              {(config.localization) && (
+              {config.localization && (
                 <Select
                   id="lang-select"
                   aria-label={formatMessage({
@@ -107,7 +107,7 @@ const HomePage = () => {
             <TabPanels>
               <TabPanel>
                 <Box color="neutral800" padding={6} background="neutral0">
-                  <CookieTab locale={currentLocale} />
+                  <CookieTab locale={currentLocale} isMultiLocale={config.localization} />
                 </Box>
               </TabPanel>
               <TabPanel>
