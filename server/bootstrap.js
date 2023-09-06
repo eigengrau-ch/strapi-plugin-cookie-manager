@@ -14,13 +14,11 @@ module.exports = ({ strapi }) => {
   const buttonsComponentCategory = "shared"
   const buttonsComponentName = "cookie-button"
 
-  // Additional field for cookie
-  const keyFieldReferenceAttribute = "key"
-  const keyFieldReferenceContentType = "cookie"
-
   // Additional field for cookie category
   const necessaryFieldReferenceAttribute = "isNecessary"
   const necessaryFieldReferenceContentType = "cookie-category"
+  const keyFieldReferenceAttribute = "key"
+  const keyFieldReferenceContentType = "cookie-category"
 
   let isLastIndex = false
 
@@ -133,20 +131,20 @@ module.exports = ({ strapi }) => {
           await updateContentType(uid, contentType)
         }
 
-        if (contentTypeName === keyFieldReferenceContentType) {
-          for (const attribute of Object.values(contentType.attributes)) {
-            if (hasRelation(attribute)) attribute.targetAttribute = attribute.inversedBy
-          }
-          if (!await contentTypeHasAttribute(contentTypeName, keyFieldReferenceAttribute)){
-            await updateContentType(uid, contentType)
-          }
-        }
-
         if (contentTypeName === necessaryFieldReferenceContentType) {
           for (const attribute of Object.values(contentType.attributes)) {
             if (hasRelation(attribute)) attribute.targetAttribute = attribute.mappedBy
           }
           if (!await contentTypeHasAttribute(contentTypeName, necessaryFieldReferenceAttribute)){
+            await updateContentType(uid, contentType, true)
+          }
+        }
+
+        if (contentTypeName === keyFieldReferenceContentType) {
+          for (const attribute of Object.values(contentType.attributes)) {
+            if (hasRelation(attribute)) attribute.targetAttribute = attribute.mappedBy
+          }
+          if (!await contentTypeHasAttribute(contentTypeName, keyFieldReferenceAttribute)){
             await updateContentType(uid, contentType, true)
           }
         }

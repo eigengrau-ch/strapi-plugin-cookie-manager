@@ -28,6 +28,11 @@ const ValidationSchema = (formatMessage) => {
     description: Yup
       .string()
       .max(2000, msg.string.isMax),
+
+    key: Yup
+      .string()
+      .max(250, msg.string.isMax)
+      .matches(/^(?!-)(?!.*?-$)[a-z0-9]*(?:-[a-z0-9]+)*$/i, msg.string.isKebabCase),
   })
 };
 

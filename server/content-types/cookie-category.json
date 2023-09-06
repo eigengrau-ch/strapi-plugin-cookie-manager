@@ -41,6 +41,15 @@
       "default": false,
       "required": true
     },
+    "key": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string",
+      "regex": "^(?!-)(?!.*?-$)[a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
     "cookies": {
       "type": "relation",
       "relation": "oneToMany",

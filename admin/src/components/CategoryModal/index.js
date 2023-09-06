@@ -34,7 +34,7 @@ import { getTrad } from "../../utils"
 // Validation Schema
 import validationSchema from "./validation"
 
-const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
+const Modal = ({ setShowModal, crudAction, isMultiLocale, category = {}, locale = null }) => {
 
   const { formatMessage } = useIntl()
   const isUpdate = (Object.keys(category).length > 0)
@@ -43,9 +43,11 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
   const [name, setName] = useState(category.name || "")
   const [description, setDescription] = useState(category.description || "")
   const [isNecessary, setIsNecessary] = useState(category.isNecessary || false)
+  const [key, setKey] = useState(category.key || "")
 
   const [nameValidation, setNameValidation] = useState([])
   const [descriptionValidation, setDescriptionValidation] = useState([])
+  const [keyValidation, setKeyValidation] = useState([])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -56,6 +58,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
         name: name,
         description: description,
         isNecessary: isNecessary,
+        key: key,
         locale: locale
       }
 
@@ -88,6 +91,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
       name: name,
       description: description,
       isNecessary: isNecessary,
+      key: key,
     }
 
     const validationSuccess = await validationSchema(formatMessage).isValid(fields).then((valid) => valid)
@@ -95,6 +99,7 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
     if (!validationSuccess) {
       setNameValidation(await validateField({ name: name }, "name"))
       setDescriptionValidation(await validateField({ description: description }, "description"))
+      setKeyValidation(await validateField({ key: fields.key }, "key"))
     }
 
     return validationSuccess
@@ -175,6 +180,23 @@ const Modal = ({ setShowModal, crudAction, category = {}, locale = null }) => {
             </Box>
           </Flex>
         </Box>
+        {isMultiLocale && (
+          <Box paddingTop={4}>
+            <TextInput
+              label={formatMessage({
+                id: getTrad("modal.cookie.form.field.key.label"),
+                defaultMessage: "Key"
+              })}
+              name="key"
+              error={first(keyValidation)}
+              onChange={e => {
+                handleValidation({ key: e.target.value }, setKeyValidation)
+                setKey(e.target.value)
+              }}
+              value={key}
+            />
+          </Box>
+        )}
       </ModalBody>
 
       <ModalFooter
@@ -342,8 +364,8 @@ const DeleteCategoryModal = ({ setShowModal, deleteCategory, deleteAllCookie, ca
   )
 }
 
-const CreateCategoryModal = ({ setShowModal, createCategory, locale }) => <Modal setShowModal={setShowModal} crudAction={createCategory} locale={locale} />
+const CreateCategoryModal = ({ setShowModal, createCategory, locale, isMultiLocale }) => <Modal setShowModal={setShowModal} crudAction={createCategory} locale={locale} isMultiLocale={isMultiLocale} />
 
-const UpdateCategoryModal = ({ setShowModal, updateCategory, category }) => <Modal setShowModal={setShowModal} crudAction={updateCategory} category={category} />
+const UpdateCategoryModal = ({ setShowModal, updateCategory, category, isMultiLocale }) => <Modal setShowModal={setShowModal} crudAction={updateCategory} category={category} isMultiLocale={isMultiLocale} />
 
 export { CreateCategoryModal, UpdateCategoryModal, DeleteCategoryModal }
