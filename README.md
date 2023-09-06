@@ -165,6 +165,8 @@ module.exports = ({ env }) => ({
 {
   "name": "Necessary Cookies",
   "description": "These cookies are required to enable the basic features of this site, such as adjusting your consent preferences. These cookies do not share any personally identifiable data.",
+  "isNecessary": true,
+  "key": "necessary-cookies",
   "cookies": {
     "data": [
       {
@@ -209,7 +211,7 @@ module.exports = ({ env }) => ({
       }
     }
   },
-  "key": "google-analytics",
+  "key": "necessary-cookies",
   "locale": "en"
 }
 ```
@@ -242,9 +244,9 @@ If you like to enhance, fix or just helping improving the quality or security of
 
 If this plugin was helpful, dont hesitate giving a ⭐️.
 
-## ✨ Special Thanks
+## ✨ Special Thanks for contributing
 
-@Daedalus, @Eventyret
+@Daedalus, @Eventyret, @derrickmehaffy, @kirdk, @dimitribarbot
 
 ## 🔗 Links
 - [NPM Package](https://www.npmjs.com/package/strapi-plugin-cookie-manager)
