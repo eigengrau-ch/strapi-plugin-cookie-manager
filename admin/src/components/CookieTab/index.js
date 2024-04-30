@@ -187,7 +187,7 @@ const CookieTab = ({ locale, isMultiLocale }) => {
                       updateCookie={updateCookie}
                       setShowCreateCookieModal={setShowCreateCookieModal}
                       setShowUpdateCookieModal={setShowUpdateCookieModal}
-                      setShowDeleteCookieModel={setShowDeleteCookieModal}
+                      setShowDeleteCookieModal={setShowDeleteCookieModal}
                       setShowDuplicateCookieModal={setShowDuplicateCookieModal}
                       setShowDeleteAllCookieModal={setShowDeleteAllCookieModal}
                     />

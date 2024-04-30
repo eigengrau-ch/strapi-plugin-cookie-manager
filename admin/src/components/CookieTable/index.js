@@ -210,7 +210,7 @@ const CookieTable = ({
           <Td style={{ justifyContent: "end" }}>
             <Switch
               label={formatMessage({
-                id: getTrad("modal.cookie.cookie.form.field.isVisible.hint"),
+                id: getTrad("modal.cookie.form.field.isVisible.hint"),
                 defaultMessage: "Manage visibility"
               })}
               selected={getCurrentSwitchValue(cookie.id)}
