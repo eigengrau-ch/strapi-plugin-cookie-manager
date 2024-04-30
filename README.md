@@ -221,8 +221,10 @@ module.exports = ({ env }) => ({
   "title": "We value your privacy",
   "description": "We use cookies to help you navigate efficiently. You will find detailed information about all cookies under each category below. The cookies that are categorized as \"Necessary\" are stored on your browser as they are essential for enabling the basic functionalities of the site. We also use third-party cookies that help analyze how you use our website in order to provide the content and advertisements that are relevant to you. These cookies will only be stored in your browser with your prior consent. You can choose to enable or disable some or all of these cookies but disabling some of them may affect your browsing experience.",
   "buttons": [
-    "buttonTyp": "Primary",
-    "label": "Button"
+    {
+      "buttonTyp": "Primary",
+      "label": "Button"
+    }
   ],
   "locale": "en"
 }
