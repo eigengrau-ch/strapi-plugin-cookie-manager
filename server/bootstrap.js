@@ -14,12 +14,6 @@ module.exports = ({ strapi }) => {
   const buttonsComponentCategory = "shared"
   const buttonsComponentName = "cookie-button"
 
-  // Additional field for cookie category
-  const necessaryFieldReferenceAttribute = "isNecessary"
-  const necessaryFieldReferenceContentType = "cookie-category"
-  const keyFieldReferenceAttribute = "key"
-  const keyFieldReferenceContentType = "cookie-category"
-
   let isLastIndex = false
 
   const hasRelation = (attribute) => (attribute.type === "relation")
@@ -127,27 +121,7 @@ module.exports = ({ strapi }) => {
       if (!isExistent) {
         await createContentType(withEmptyAttributes)
       } else {
-        if (!await contentTypeHasAttributes(contentTypeName)) {
-          await updateContentType(uid, contentType)
-        }
-
-        if (contentTypeName === necessaryFieldReferenceContentType) {
-          for (const attribute of Object.values(contentType.attributes)) {
-            if (hasRelation(attribute)) attribute.targetAttribute = attribute.mappedBy
-          }
-          if (!await contentTypeHasAttribute(contentTypeName, necessaryFieldReferenceAttribute)){
-            await updateContentType(uid, contentType, true)
-          }
-        }
-
-        if (contentTypeName === keyFieldReferenceContentType) {
-          for (const attribute of Object.values(contentType.attributes)) {
-            if (hasRelation(attribute)) attribute.targetAttribute = attribute.mappedBy
-          }
-          if (!await contentTypeHasAttribute(contentTypeName, keyFieldReferenceAttribute)){
-            await updateContentType(uid, contentType, true)
-          }
-        }
+        if (!await contentTypeHasAttributes(contentTypeName)) await updateContentType(uid, contentType)
       }
     }
   }
