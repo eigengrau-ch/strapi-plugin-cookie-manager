@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-cookie-manager",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Strapi - Cookie Manager",
   "strapi": {
     "displayName": "Cookie Manager",
