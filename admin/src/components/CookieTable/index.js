@@ -33,7 +33,7 @@ const CookieTable = ({
   updateCookie,
   setShowCreateCookieModal,
   setShowUpdateCookieModal,
-  setShowDeleteCookieModel,
+  setShowDeleteCookieModal,
   setShowDuplicateCookieModal,
   setShowDeleteAllCookieModal
 }) => {
@@ -248,7 +248,7 @@ const CookieTable = ({
               <IconButton
                 onClick={() => {
                   setCookie(cookie)
-                  setShowDeleteCookieModel(true)
+                  setShowDeleteCookieModal(true)
                 }}
                 label={formatMessage({
                   id: getTrad("table.cookie.actions.delete"),
