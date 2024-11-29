@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-cookie-manager",
-  "version": "1.2.6",
+  "version": "1.3.0",
   "description": "Strapi - Cookie Manager",
   "strapi": {
     "displayName": "Cookie Manager",
@@ -9,21 +9,19 @@
     "kind": "plugin"
   },
   "dependencies": {
-    "@strapi/admin": "4.21.0",
-    "@strapi/design-system": "^1.16.0",
-    "@strapi/helper-plugin": "^4.21.0",
-    "@strapi/icons": "^1.16.0",
+    "@strapi/design-system": "^1.19.0",
+    "@strapi/helper-plugin": "^4.25.12",
+    "@strapi/icons": "^1.19.0",
     "immutability-helper": "^3.1.1",
     "lodash": "^4.17.21",
-    "react": "^17.0.2",
-    "react-dnd": "^15.1.2",
-    "react-dnd-html5-backend": "^15.1.3",
-    "react-intl": "6.3.2",
-    "styled-components": "^5.3.3"
+    "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-intl": "^7.0.1",
+    "styled-components": "^6.1.13",
+    "formik": "^2.4.6"
   },
-  "devDependencies": {
-    "formik": "^2.2.9"
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "@strapi/strapi": "4.x"
   },
@@ -32,7 +30,7 @@
     "url": "https://eigengrau.ch"
   },
   "engines": {
-    "node": ">=16.x.x <=20.x.x",
+    "node": ">=18.x.x <=20.x.x",
     "npm": ">=6.0.0"
   },
   "bugs": {
